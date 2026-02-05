@@ -233,7 +233,7 @@ function performSearch(term) {
     const cardsHtml = randomRelated
       .map(
         (post) => `
-        <a href="viewer.html?slug=${post.slug || post.id}&trackingid=${generateTrackingId()}" class="post-card fade-in">
+        <a href="/pulse/${post.slug || post.id}?trackingid=${generateTrackingId()}" class="post-card fade-in">
           <div class="post-image" style="background: ${
             post.image_url
               ? `url('${post.image_url}')`
@@ -500,7 +500,7 @@ async function loadLatestPosts() {
     grid.innerHTML = posts
       .map(
         (post) => `
-          <a href="viewer.html?slug=${post.slug || post.id}&trackingid=${generateTrackingId()}" class="post-card fade-in">
+          <a href="/pulse/${post.slug || post.id}?trackingid=${generateTrackingId()}" class="post-card fade-in">
             <div class="post-image" style="background: ${
               post.image_url
                 ? `url('${post.image_url}')`
@@ -561,7 +561,7 @@ function renderBlogGrid(posts, gridElement) {
   gridElement.innerHTML = posts
     .map(
       (post) => `
-        <a href="viewer.html?slug=${post.slug || post.id}&trackingid=${generateTrackingId()}" class="post-card fade-in">
+        <a href="/pulse/${post.slug || post.id}?trackingid=${generateTrackingId()}" class="post-card fade-in">
           <div class="post-image" style="background: ${
             post.image_url
               ? `url('${post.image_url}')`

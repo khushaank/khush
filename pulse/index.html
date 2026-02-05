@@ -63,6 +63,7 @@
     />
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/reading.css" />
+    <link rel="stylesheet" href="/assets/css/interactions.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   </head>
@@ -167,6 +168,23 @@
         </div>
 
         <div id="article-body" class="article-content"></div>
+
+        <!-- Clap Interaction -->
+        <div class="clap-container">
+          <div class="clap-btn" id="clap-btn">
+            <div class="clap-bubble" id="clap-bubble">+1</div>
+            <i data-lucide="hands-clapping" size="24"></i>
+          </div>
+          <span class="clap-count" id="clap-count">0</span>
+          <span
+            style="
+              font-size: 0.9rem;
+              color: var(--text-muted);
+              margin-left: 0.5rem;
+            "
+            >Claps</span
+          >
+        </div>
 
         <!-- Comments Section -->
         <hr
@@ -299,6 +317,38 @@
         </span>
       </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button
+      id="scroll-top-btn"
+      class="scroll-top-btn"
+      aria-label="Scroll to top"
+    >
+      <i data-lucide="arrow-up" size="24"></i>
+    </button>
+
+    <!-- Newsletter Slide-in -->
+    <div id="newsletter-slidein" class="newsletter-slidein">
+      <span id="nl-close" class="nl-close"
+        ><i data-lucide="x" size="18"></i
+      ></span>
+      <div class="ns-content">
+        <h4>Stay updated</h4>
+        <p>
+          Get the latest financial insights and strategies delivered to your
+          inbox.
+        </p>
+        <form class="ns-form" id="newsletter-form-slidein">
+          <input
+            type="email"
+            placeholder="Email address"
+            required
+            class="ns-input"
+          />
+          <button type="submit" class="ns-btn">Subscribe</button>
+        </form>
+      </div>
+    </div>
 
     <!-- Cookie Consent Banner -->
     <div id="cookie-banner" class="cookie-banner">

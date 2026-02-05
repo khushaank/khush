@@ -1,0 +1,185 @@
+/* --- Interactions & Animations --- */
+
+/* 1. Page Transitions */
+body {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+}
+body.fade-out {
+  opacity: 0;
+}
+
+/* 2. Scroll to Top Button */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  background: var(--text-main);
+  color: #fff;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 900;
+}
+.scroll-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+.scroll-top-btn:hover {
+  transform: translateY(-3px);
+  background: var(--accent);
+}
+
+/* 3. Clap Interaction (Medium style) */
+.clap-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem 0;
+  padding: 1.5rem;
+  background: var(--bg-surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  justify-content: center;
+}
+.clap-btn {
+  background: #fff;
+  border: 1px solid var(--border);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  user-select: none;
+}
+.clap-btn:active {
+  transform: scale(0.9);
+}
+.clap-btn.clapped {
+  border-color: var(--accent);
+  background: rgba(37, 99, 235, 0.1);
+}
+.clap-btn svg {
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.clap-btn.clapped svg {
+  color: var(--accent);
+  fill: var(--accent);
+}
+.clap-count {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--text-main);
+  min-width: 30px;
+}
+.clap-bubble {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-main);
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease-out;
+}
+.clap-bubble.animating {
+  animation: floatUp 0.8s forwards;
+}
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    top: -40px;
+  }
+  100% {
+    opacity: 0;
+    top: -80px;
+  }
+}
+
+/* 4. Newsletter Slide-in "Pulse" */
+.newsletter-slidein {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #fff;
+  width: 320px;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  transform: translateX(120%);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1000;
+}
+.newsletter-slidein.active {
+  transform: translateX(0);
+}
+.nl-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.nl-close:hover {
+  color: var(--text-main);
+}
+.ns-content h4 {
+  font-family: var(--font-heading);
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+.ns-content p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+.ns-form {
+  display: flex;
+  gap: 0.5rem;
+}
+.ns-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.ns-btn {
+  padding: 0.5rem 1rem;
+  background: var(--text-main);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .newsletter-slidein {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    width: auto;
+  }
+}

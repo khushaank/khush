@@ -62,10 +62,16 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/reading.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   </head>
   <body>
+    <!-- Reading Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="reading-progress"></div>
+    </div>
+
     <!-- Navigation -->
     <header class="navbar">
       <div class="container nav-container">
@@ -134,7 +140,15 @@
             <span id="article-date"></span> &bull;
             <span id="article-views"></span> Views
           </div>
+
           <h1 id="article-title"></h1>
+
+          <div class="meta-stats">
+            <div class="meta-item">
+              <i data-lucide="clock" size="14"></i>
+              <span id="reading-time"></span>
+            </div>
+          </div>
 
           <div class="article-actions">
             <button id="btn-copy-link" class="action-btn">
@@ -145,6 +159,12 @@
             </button>
           </div>
         </header>
+
+        <!-- Table of Contents Container -->
+        <div id="toc-container" class="toc-box">
+          <div class="toc-title">Table of Contents</div>
+          <ul id="toc-list" class="toc-list"></ul>
+        </div>
 
         <div id="article-body" class="article-content"></div>
 

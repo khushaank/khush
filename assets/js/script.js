@@ -895,9 +895,114 @@ async function loadArticle(slug) {
 
     // Increment View
     window.supabaseClient.rpc("increment_views", { post_id: data.id });
+
+    // --- New Features Initialization ---
+    calculateReadingTime(data.content);
+    generateTOC();
+    initReadingProgress();
+
+    // Re-run icons for new elements
+    lucide.createIcons();
+
     // Load Comments
     loadComments(data.id);
   }
+}
+
+/* --- Feature Helpers --- */
+
+function calculateReadingTime(contentHTML) {
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = contentHTML;
+  const text = tempDiv.textContent || tempDiv.innerText || "";
+  const wordCount = text.trim().split(/\s+/).length;
+  const readingTime = Math.ceil(wordCount / 200); // Average 200 wpm
+
+  const timeElement = document.getElementById("reading-time");
+  if (timeElement) {
+    timeElement.textContent = `${readingTime} min read`;
+  }
+}
+
+function generateTOC() {
+  const articleBody = document.getElementById("article-body");
+  const tocList = document.getElementById("toc-list");
+  const tocContainer = document.getElementById("toc-container");
+
+  if (!articleBody || !tocList || !tocContainer) return;
+
+  tocList.innerHTML = ""; // Clear existing
+
+  const headers = articleBody.querySelectorAll("h2, h3");
+
+  if (headers.length < 2) {
+    tocContainer.style.display = "none";
+    return;
+  }
+
+  tocContainer.style.display = "block";
+
+  headers.forEach((header, index) => {
+    // Generate ID if missing
+    if (!header.id) {
+      const slug = header.textContent
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)+/g, "");
+      header.id = slug || `section-${index}`;
+    }
+
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = `#${header.id}`;
+    a.textContent = header.textContent;
+    a.className = `toc-link toc-${header.tagName.toLowerCase()}`;
+
+    // Smooth scroll
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById(header.id).scrollIntoView({
+        behavior: "smooth",
+      });
+      // Update URL hash without jump
+      history.pushState(null, null, `#${header.id}`);
+    });
+
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+
+  // TOC Scroll Spy
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const activeId = entry.target.id;
+          document.querySelectorAll(".toc-link").forEach((link) => {
+            link.classList.toggle(
+              "active",
+              link.getAttribute("href") === `#${activeId}`,
+            );
+          });
+        }
+      });
+    },
+    { rootMargin: "-100px 0px -60% 0px" },
+  );
+
+  headers.forEach((header) => observer.observe(header));
+}
+
+function initReadingProgress() {
+  const progressBar = document.getElementById("reading-progress");
+  if (!progressBar) return;
+
+  window.addEventListener("scroll", () => {
+    const totalHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / totalHeight) * 100;
+    progressBar.style.width = `${progress}%`;
+  });
 }
 
 async function loadComments(postId) {

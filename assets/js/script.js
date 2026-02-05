@@ -538,26 +538,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Index Page: Load Latest Posts
-  // We need to be careful not to match /pulse/index.html
-  if (
-    (path.endsWith("/index.html") && !path.includes("/pulse/")) ||
-    (path.endsWith("/") && !path.includes("/pulse/")) ||
-    path === "/" ||
-    (path.includes("/Khushaank/") &&
-      !path.includes(".html") &&
-      !path.includes("/pulse/"))
-  ) {
+  // robust check: if #latest-posts-grid exists, we are on home/index
+  if (document.getElementById("latest-posts-grid")) {
     loadLatestPosts();
   }
 
   // Blog Page: Load All Posts
-  if (path.includes("blog.html")) {
+  // robust check: if #posts-grid exists, we are on blog page
+  if (document.getElementById("posts-grid")) {
     loadPosts();
   }
 
   // Viewer Page: Load Article & Comments
-  // Now serving from /pulse/index.html or /pulse/
-  if (path.includes("/pulse/") || path.includes("viewer.html")) {
+  // robust check: we look for the article container
+  if (document.getElementById("article-display") || path.includes("/pulse/")) {
     initViewerPage();
   }
 

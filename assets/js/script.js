@@ -946,11 +946,11 @@ function initInteractions(data) {
     });
   }
 
-  // 4. Newsletter Slide-in (One-Time: Dismiss OR Subscribe)
+  // 4. Newsletter Slide-in (One-Time: Dismiss OR Follow on LinkedIn)
   const NEWSLETTER_KEY = "newsletter_interacted";
   const nlSlidein = document.getElementById("newsletter-slidein");
   const nlClose = document.getElementById("nl-close");
-  const nlForm = nlSlidein?.querySelector("form");
+  const linkedinBtn = document.getElementById("linkedin-follow-btn");
 
   if (nlSlidein && !localStorage.getItem(NEWSLETTER_KEY)) {
     let hasShown = false;
@@ -976,15 +976,13 @@ function initInteractions(data) {
       });
     }
 
-    // Form submission
-    if (nlForm) {
-      nlForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+    // LinkedIn follow button
+    if (linkedinBtn) {
+      linkedinBtn.addEventListener("click", () => {
         // Mark as interacted
-        localStorage.setItem(NEWSLETTER_KEY, "subscribed");
+        localStorage.setItem(NEWSLETTER_KEY, "followed");
         nlSlidein.classList.remove("active");
-        // You can add actual newsletter subscription logic here
-        alert("Thank you for subscribing!");
+        // Link will open in new tab automatically
       });
     }
   }
@@ -1157,44 +1155,38 @@ function generateTOC() {
 
   headers.forEach((header) => observer.observe(header));
 
-  // Show TOC on scroll (desktop only) - improved behavior
-  let scrollTimeout;
-  let lastScrollY = window.scrollY;
+  // Simple TOC visibility: always on hover, auto-show on scroll
+  let tocTimeout;
 
+  // Show on scroll (past 300px, hide after 2s)
   window.addEventListener("scroll", () => {
-    if (window.innerWidth <= 1280) return; // Don't show on mobile/tablet
-
-    const currentScrollY = window.scrollY;
-
-    // Only show if scrolling and past 300px
-    if (currentScrollY > 300) {
-      clearTimeout(scrollTimeout);
-      tocContainer.classList.add("visible");
-
-      // Hide after 2.5s of no scrolling
-      scrollTimeout = setTimeout(() => {
-        tocContainer.classList.remove("visible");
-      }, 2500);
-    } else {
-      // Hide if at top
-      tocContainer.classList.remove("visible");
-    }
-
-    lastScrollY = currentScrollY;
-  });
-
-  // Also show on mouse movement near right edge
-  document.addEventListener("mousemove", (e) => {
     if (window.innerWidth <= 1280) return;
 
-    const windowWidth = window.innerWidth;
-    const distanceFromRight = windowWidth - e.clientX;
-
-    // Show when mouse is within 100px of right edge
-    if (distanceFromRight < 100 && window.scrollY > 300) {
-      clearTimeout(scrollTimeout);
+    if (window.scrollY > 300) {
+      clearTimeout(tocTimeout);
       tocContainer.classList.add("visible");
+
+      tocTimeout = setTimeout(() => {
+        // Only hide if not hovering
+        if (!tocContainer.matches(":hover")) {
+          tocContainer.classList.remove("visible");
+        }
+      }, 2000);
+    } else {
+      tocContainer.classList.remove("visible");
     }
+  });
+
+  // Keep visible on hover
+  tocContainer.addEventListener("mouseenter", () => {
+    clearTimeout(tocTimeout);
+    tocContainer.classList.add("visible");
+  });
+
+  tocContainer.addEventListener("mouseleave", () => {
+    tocTimeout = setTimeout(() => {
+      tocContainer.classList.remove("visible");
+    }, 500);
   });
 }
 

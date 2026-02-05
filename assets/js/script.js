@@ -1,3 +1,73 @@
+// --- Active Navigation Link ---
+document.addEventListener("DOMContentLoaded", () => {
+  const currentPath = window.location.pathname;
+  const currentHash = window.location.hash;
+
+  // Get all nav links (desktop and mobile)
+  const navLinks = document.querySelectorAll(".nav-link, .mobile-link");
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+
+    // Remove any existing active class
+    link.classList.remove("active");
+
+    // Check if link matches current page
+    if (href) {
+      // Handle hash links on index page
+      if (currentPath.includes("index.html") || currentPath === "/") {
+        if (href.startsWith("#") && href === currentHash) {
+          link.classList.add("active");
+        } else if (
+          href === "/index.html" ||
+          href === "index.html" ||
+          href === "/"
+        ) {
+          link.classList.add("active");
+        }
+      }
+      // Handle blog page
+      else if (
+        currentPath.includes("blog.html") &&
+        (href.includes("blog.html") || href === "#")
+      ) {
+        link.classList.add("active");
+      }
+      // Handle pulse/article pages
+      else if (currentPath.includes("pulse") && href.includes("blog.html")) {
+        link.classList.add("active");
+      }
+      // Handle tools page
+      else if (
+        currentPath.includes("tools.html") &&
+        href.includes("tools.html")
+      ) {
+        link.classList.add("active");
+      }
+      // Handle privacy page
+      else if (
+        currentPath.includes("privacy.html") &&
+        href.includes("privacy.html")
+      ) {
+        link.classList.add("active");
+      }
+      // Handle terms page
+      else if (
+        currentPath.includes("terms.html") &&
+        href.includes("terms.html")
+      ) {
+        link.classList.add("active");
+      }
+    }
+  });
+
+  // Update year in footer
+  const yearSpan = document.getElementById("current-year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});
+
 // --- Mobile Menu ---
 const mobileToggles = document.querySelectorAll(".mobile-toggle");
 const mobileMenu = document.querySelector(".mobile-menu");

@@ -1412,3 +1412,24 @@ async function handleCommentSubmit(e) {
   btn.textContent = originalText;
   btn.disabled = false;
 }
+
+// Initialize article page features
+if (document.getElementById("article-body")) {
+  // Wait for DOM to be fully loaded
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      generateTOC();
+      initReadingProgress();
+    });
+  } else {
+    // DOM already loaded
+    generateTOC();
+    initReadingProgress();
+  }
+
+  // Also try after a short delay in case content loads dynamically
+  setTimeout(() => {
+    generateTOC();
+    initReadingProgress();
+  }, 500);
+}

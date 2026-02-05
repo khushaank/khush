@@ -15,63 +15,138 @@
   transition: width 0.1s linear;
 }
 
-.toc-box {
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin: 2rem 0;
-  display: none; /* Hidden by default if empty */
+/* Notion-Style Floating TOC */
+.floating-toc {
+  position: fixed;
+  top: 120px;
+  right: -280px;
+  width: 260px;
+  max-height: calc(100vh - 200px);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
 }
 
-.toc-title {
-  font-family: var(--font-heading);
+.floating-toc:hover,
+.floating-toc.visible {
+  right: 24px;
+}
+
+.floating-toc-header {
+  font-size: 0.75rem;
   font-weight: 600;
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-main);
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
 }
 
-.toc-list {
+.floating-toc-list {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.toc-list li {
-  margin-bottom: 0.5rem;
+.floating-toc-list li {
+  margin: 0;
 }
 
-.toc-link {
+.floating-toc-link {
+  display: block;
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: color 0.2s;
-  display: block;
-  padding: 0.2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
   border-left: 2px solid transparent;
-  padding-left: 0.8rem;
+  margin-bottom: 2px;
 }
 
-.toc-link:hover {
-  color: var(--accent);
+.floating-toc-link:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-main);
+  transform: translateX(2px);
 }
 
-.toc-link.active {
+.floating-toc-link.active {
   color: var(--accent);
+  background: rgba(59, 130, 246, 0.08);
   border-left-color: var(--accent);
   font-weight: 500;
 }
 
-.toc-h2 {
+.floating-toc-h2 {
   margin-left: 0;
 }
 
-.toc-h3 {
+.floating-toc-h3 {
   margin-left: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.8125rem;
+  opacity: 0.85;
 }
 
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .floating-toc {
+    background: rgba(30, 30, 30, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .floating-toc-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* Hide on tablet and mobile */
+@media (max-width: 1280px) {
+  .floating-toc {
+    display: none;
+  }
+}
+
+/* Clap Button in Header */
+.clap-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.clap-action:hover {
+  transform: scale(1.05);
+}
+
+.clap-action.clapped {
+  animation: clapPulse 0.6s ease-out;
+}
+
+.clap-action #clap-count {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+@keyframes clapPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* Meta Stats */
 .meta-stats {
   display: flex;
   flex-wrap: wrap;

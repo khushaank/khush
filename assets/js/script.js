@@ -865,25 +865,55 @@ function initInteractions(data) {
   script.text = JSON.stringify(schema);
   document.head.appendChild(script);
 
-  // 2. Claps Logic
+  // 2. Claps Logic (Auth Required + One Clap Per User)
   const clapBtn = document.getElementById("clap-btn");
   const clapCount = document.getElementById("clap-count");
-  const clapBubble = document.getElementById("clap-bubble");
   let claps = data.claps || 0;
 
   if (clapCount) clapCount.textContent = claps;
 
   if (clapBtn) {
+    // Check if user already clapped this post
+    const clapKey = `clapped_${data.id}`;
+    const hasClapped = localStorage.getItem(clapKey);
+
+    if (hasClapped) {
+      clapBtn.classList.add("clapped");
+      clapBtn.disabled = true;
+      clapBtn.title = "You've already liked this article";
+    }
+
     clapBtn.addEventListener("click", async () => {
+      // Check auth first
+      const {
+        data: { session },
+      } = await window.supabaseClient.auth.getSession();
+
+      if (!session) {
+        // Show login prompt
+        alert("Please sign in to like this article");
+        const loginBtn = document.getElementById("google-login-btn");
+        if (loginBtn) {
+          loginBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+          loginBtn.focus();
+        }
+        return;
+      }
+
+      // Check if already clapped
+      if (hasClapped) {
+        return;
+      }
+
       // Optimistic UI
       claps++;
       clapCount.textContent = claps;
       clapBtn.classList.add("clapped");
+      clapBtn.disabled = true;
+      clapBtn.title = "You've already liked this article";
 
-      // Animation
-      clapBubble.classList.remove("animating");
-      void clapBubble.offsetWidth; // Trigger reflow
-      clapBubble.classList.add("animating");
+      // Save to localStorage
+      localStorage.setItem(clapKey, "true");
 
       try {
         await window.supabaseClient.rpc("increment_claps", {
@@ -891,6 +921,12 @@ function initInteractions(data) {
         });
       } catch (err) {
         console.error("Error clapping:", err);
+        // Rollback on error
+        claps--;
+        clapCount.textContent = claps;
+        clapBtn.classList.remove("clapped");
+        clapBtn.disabled = false;
+        localStorage.removeItem(clapKey);
       }
     });
   }
@@ -910,25 +946,47 @@ function initInteractions(data) {
     });
   }
 
-  // 4. Newsletter Slide-in
+  // 4. Newsletter Slide-in (One-Time: Dismiss OR Subscribe)
+  const NEWSLETTER_KEY = "newsletter_interacted";
   const nlSlidein = document.getElementById("newsletter-slidein");
   const nlClose = document.getElementById("nl-close");
+  const nlForm = nlSlidein?.querySelector("form");
 
-  if (nlSlidein && !localStorage.getItem("newsletter_dismissed")) {
+  if (nlSlidein && !localStorage.getItem(NEWSLETTER_KEY)) {
+    let hasShown = false;
+
     window.addEventListener("scroll", () => {
+      if (hasShown) return;
+
       const scrollPercent =
         (window.scrollY /
           (document.documentElement.scrollHeight - window.innerHeight)) *
         100;
       if (scrollPercent > 50 && !nlSlidein.classList.contains("active")) {
         nlSlidein.classList.add("active");
+        hasShown = true;
       }
     });
 
-    nlClose.addEventListener("click", () => {
-      nlSlidein.classList.remove("active");
-      localStorage.setItem("newsletter_dismissed", "true");
-    });
+    // Close button
+    if (nlClose) {
+      nlClose.addEventListener("click", () => {
+        nlSlidein.classList.remove("active");
+        localStorage.setItem(NEWSLETTER_KEY, "dismissed");
+      });
+    }
+
+    // Form submission
+    if (nlForm) {
+      nlForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // Mark as interacted
+        localStorage.setItem(NEWSLETTER_KEY, "subscribed");
+        nlSlidein.classList.remove("active");
+        // You can add actual newsletter subscription logic here
+        alert("Thank you for subscribing!");
+      });
+    }
   }
 }
 
@@ -1033,8 +1091,8 @@ function calculateReadingTime(contentHTML) {
 
 function generateTOC() {
   const articleBody = document.getElementById("article-body");
-  const tocList = document.getElementById("toc-list");
-  const tocContainer = document.getElementById("toc-container");
+  const tocList = document.getElementById("floating-toc-list");
+  const tocContainer = document.getElementById("floating-toc");
 
   if (!articleBody || !tocList || !tocContainer) return;
 
@@ -1063,7 +1121,7 @@ function generateTOC() {
     const a = document.createElement("a");
     a.href = `#${header.id}`;
     a.textContent = header.textContent;
-    a.className = `toc-link toc-${header.tagName.toLowerCase()}`;
+    a.className = `floating-toc-link floating-toc-${header.tagName.toLowerCase()}`;
 
     // Smooth scroll
     a.addEventListener("click", (e) => {
@@ -1085,7 +1143,7 @@ function generateTOC() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const activeId = entry.target.id;
-          document.querySelectorAll(".toc-link").forEach((link) => {
+          document.querySelectorAll(".floating-toc-link").forEach((link) => {
             link.classList.toggle(
               "active",
               link.getAttribute("href") === `#${activeId}`,
@@ -1098,6 +1156,19 @@ function generateTOC() {
   );
 
   headers.forEach((header) => observer.observe(header));
+
+  // Show TOC on scroll (desktop only)
+  let scrollTimeout;
+  window.addEventListener("scroll", () => {
+    if (window.innerWidth <= 1280) return; // Don't show on mobile/tablet
+
+    clearTimeout(scrollTimeout);
+    tocContainer.classList.add("visible");
+
+    scrollTimeout = setTimeout(() => {
+      tocContainer.classList.remove("visible");
+    }, 3000); // Hide after 3s of no scrolling
+  });
 }
 
 function initReadingProgress() {
@@ -1113,7 +1184,6 @@ function initReadingProgress() {
 }
 
 // 5. Page Transitions (Global) - DISABLED due to conflicts
-// TODO: Re-enable after fixing opacity issues
 /*
 document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("fade-in");

@@ -51,70 +51,7 @@ body.fade-in {
   background: var(--accent);
 }
 
-/* 3. Clap Interaction (Medium style) */
-.clap-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 3rem 0;
-  padding: 1.5rem;
-  background: var(--bg-surface);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  justify-content: center;
-}
-.clap-btn {
-  background: #fff;
-  border: 1px solid var(--border);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  user-select: none;
-}
-.clap-btn:active {
-  transform: scale(0.9);
-}
-.clap-btn.clapped {
-  border-color: var(--accent);
-  background: rgba(37, 99, 235, 0.1);
-}
-.clap-btn svg {
-  color: var(--text-muted);
-  transition: color 0.2s;
-}
-.clap-btn.clapped svg {
-  color: var(--accent);
-  fill: var(--accent);
-}
-.clap-count {
-  font-family: var(--font-heading);
-  font-size: 1.2rem;
-  color: var(--text-main);
-  min-width: 30px;
-}
-.clap-bubble {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--text-main);
-  color: #fff;
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.5s ease-out;
-}
-.clap-bubble.animating {
-  animation: floatUp 0.8s forwards;
-}
+/* 3. Clap styles moved to reading.css */
 @keyframes floatUp {
   0% {
     opacity: 1;

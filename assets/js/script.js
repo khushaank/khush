@@ -826,6 +826,95 @@ async function initViewerPage() {
   }
 }
 
+function initInteractions(data) {
+  // 1. JSON-LD Schema
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: data.title,
+    image: [data.image_url || "https://khushaank.com/assets/images/hero.png"],
+    datePublished: data.created_at,
+    dateModified: data.created_at,
+    author: [
+      {
+        "@type": "Person",
+        name: "Khushaank Gupta",
+        url: "https://khushaank.com",
+      },
+    ],
+  };
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.text = JSON.stringify(schema);
+  document.head.appendChild(script);
+
+  // 2. Claps Logic
+  const clapBtn = document.getElementById("clap-btn");
+  const clapCount = document.getElementById("clap-count");
+  const clapBubble = document.getElementById("clap-bubble");
+  let claps = data.claps || 0;
+
+  if (clapCount) clapCount.textContent = claps;
+
+  if (clapBtn) {
+    clapBtn.addEventListener("click", async () => {
+      // Optimistic UI
+      claps++;
+      clapCount.textContent = claps;
+      clapBtn.classList.add("clapped");
+
+      // Animation
+      clapBubble.classList.remove("animating");
+      void clapBubble.offsetWidth; // Trigger reflow
+      clapBubble.classList.add("animating");
+
+      try {
+        await window.supabaseClient.rpc("increment_claps", {
+          post_id: data.id,
+        });
+      } catch (err) {
+        console.error("Error clapping:", err);
+      }
+    });
+  }
+
+  // 3. Scroll to Top
+  const scrollTopBtn = document.getElementById("scroll-top-btn");
+  if (scrollTopBtn) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 500) {
+        scrollTopBtn.classList.add("visible");
+      } else {
+        scrollTopBtn.classList.remove("visible");
+      }
+    });
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // 4. Newsletter Slide-in
+  const nlSlidein = document.getElementById("newsletter-slidein");
+  const nlClose = document.getElementById("nl-close");
+
+  if (nlSlidein && !localStorage.getItem("newsletter_dismissed")) {
+    window.addEventListener("scroll", () => {
+      const scrollPercent =
+        (window.scrollY /
+          (document.documentElement.scrollHeight - window.innerHeight)) *
+        100;
+      if (scrollPercent > 50 && !nlSlidein.classList.contains("active")) {
+        nlSlidein.classList.add("active");
+      }
+    });
+
+    nlClose.addEventListener("click", () => {
+      nlSlidein.classList.remove("active");
+      localStorage.setItem("newsletter_dismissed", "true");
+    });
+  }
+}
+
 async function loadArticle(slug) {
   if (!window.supabaseClient) return;
 
@@ -1004,95 +1093,6 @@ function initReadingProgress() {
     const progress = (window.scrollY / totalHeight) * 100;
     progressBar.style.width = `${progress}%`;
   });
-}
-
-function initInteractions(data) {
-  // 1. JSON-LD Schema
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: data.title,
-    image: [data.image_url || "https://khushaank.com/assets/images/hero.png"],
-    datePublished: data.created_at,
-    dateModified: data.created_at,
-    author: [
-      {
-        "@type": "Person",
-        name: "Khushaank Gupta",
-        url: "https://khushaank.com",
-      },
-    ],
-  };
-  const script = document.createElement("script");
-  script.type = "application/ld+json";
-  script.text = JSON.stringify(schema);
-  document.head.appendChild(script);
-
-  // 2. Claps Logic
-  const clapBtn = document.getElementById("clap-btn");
-  const clapCount = document.getElementById("clap-count");
-  const clapBubble = document.getElementById("clap-bubble");
-  let claps = data.claps || 0;
-
-  if (clapCount) clapCount.textContent = claps;
-
-  if (clapBtn) {
-    clapBtn.addEventListener("click", async () => {
-      // Optimistic UI
-      claps++;
-      clapCount.textContent = claps;
-      clapBtn.classList.add("clapped");
-
-      // Animation
-      clapBubble.classList.remove("animating");
-      void clapBubble.offsetWidth; // Trigger reflow
-      clapBubble.classList.add("animating");
-
-      try {
-        await window.supabaseClient.rpc("increment_claps", {
-          post_id: data.id,
-        });
-      } catch (err) {
-        console.error("Error clapping:", err);
-      }
-    });
-  }
-
-  // 3. Scroll to Top
-  const scrollTopBtn = document.getElementById("scroll-top-btn");
-  if (scrollTopBtn) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 500) {
-        scrollTopBtn.classList.add("visible");
-      } else {
-        scrollTopBtn.classList.remove("visible");
-      }
-    });
-    scrollTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
-  // 4. Newsletter Slide-in
-  const nlSlidein = document.getElementById("newsletter-slidein");
-  const nlClose = document.getElementById("nl-close");
-
-  if (nlSlidein && !localStorage.getItem("newsletter_dismissed")) {
-    window.addEventListener("scroll", () => {
-      const scrollPercent =
-        (window.scrollY /
-          (document.documentElement.scrollHeight - window.innerHeight)) *
-        100;
-      if (scrollPercent > 50 && !nlSlidein.classList.contains("active")) {
-        nlSlidein.classList.add("active");
-      }
-    });
-
-    nlClose.addEventListener("click", () => {
-      nlSlidein.classList.remove("active");
-      localStorage.setItem("newsletter_dismissed", "true");
-    });
-  }
 }
 
 // 5. Page Transitions (Global)

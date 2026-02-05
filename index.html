@@ -250,8 +250,39 @@
           id="latest-posts-grid"
           style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))"
         >
-          <div style="grid-column: 1/-1; text-align: center; color: #999">
-            Loading insights...
+          <!-- Skeleton Loaders -->
+          <div class="skeleton-card">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-date"></div>
+              <div class="skeleton-title"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-button"></div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-date"></div>
+              <div class="skeleton-title"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-button"></div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-date"></div>
+              <div class="skeleton-title"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-excerpt"></div>
+              <div class="skeleton-button"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -332,5 +363,11 @@
     </div>
 
     <script src="assets/js/script.js"></script>
+    <script>
+      // Load latest posts on the homepage
+      if (document.getElementById('latest-posts-grid')) {
+        loadLatestPosts();
+      }
+    </script>
   </body>
 </html>

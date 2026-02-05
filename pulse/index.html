@@ -4,12 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Article - Khushaank Gupta</title>
-    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
-    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+    <meta name="robots" content="index, follow" />
     <meta
       name="description"
-      content="Read this article on Khushaank Gupta's blog."
+      content="Read insightful articles on finance, economy, and strategy by Khushaank Gupta."
     />
+    <meta
+      name="keywords"
+      content="Khushaank Gupta, Blog, Finance, Economy, Strategy, Articles"
+    />
+    <meta name="author" content="Khushaank Gupta" />
     <script>
       // Redirect if no ID or slug is present
       const params = new URLSearchParams(window.location.search);
@@ -17,23 +22,38 @@
       const isPulsePath = window.location.pathname.includes("/pulse/");
 
       if (!hasIdOrSlug && !isPulsePath) {
-        window.location.href = "blog.html";
+        window.location.href = "/blog.html";
       }
     </script>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="" />
-    <meta property="og:title" content="" />
-    <meta property="og:description" content="" />
-    <meta property="og:image" content="" />
+    <meta property="og:url" content="https://khushaank.netlify.app/blog.html" />
+    <meta property="og:title" content="Article - Khushaank Gupta" />
+    <meta
+      property="og:description"
+      content="Read insightful articles on finance, economy, and strategy by Khushaank Gupta."
+    />
+    <meta
+      property="og:image"
+      content="https://khushaank.netlify.app/assets/images/hero.png"
+    />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="" />
-    <meta property="twitter:title" content="" />
-    <meta property="twitter:description" content="" />
-    <meta property="twitter:image" content="" />
+    <meta
+      property="twitter:url"
+      content="https://khushaank.netlify.app/blog.html"
+    />
+    <meta property="twitter:title" content="Article - Khushaank Gupta" />
+    <meta
+      property="twitter:description"
+      content="Read insightful articles on finance, economy, and strategy by Khushaank Gupta."
+    />
+    <meta
+      property="twitter:image"
+      content="https://khushaank.com/assets/images/hero.png"
+    />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -41,7 +61,7 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   </head>
@@ -83,8 +103,29 @@
         ><i data-lucide="arrow-left" size="16"></i> Back to Insights</a
       >
 
-      <div id="article-loading" style="text-align: center; margin-top: 4rem">
-        Loading article...
+      <div
+        id="article-loading"
+        style="
+          text-align: center;
+          margin-top: 6rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+        "
+      >
+        <div
+          class="loader-bar"
+          style="
+            width: 40px;
+            height: 4px;
+            background: var(--text-main);
+            animation: pulse 1s infinite alternate;
+          "
+        ></div>
+        <p style="color: var(--text-muted); font-size: 0.9rem">
+          Loading article...
+        </p>
       </div>
 
       <article id="article-display" style="display: none">
@@ -93,11 +134,18 @@
             <span id="article-date"></span> &bull;
             <span id="article-views"></span> Views
           </div>
-          <h1
-            id="article-title"
-            style="font-size: 2.5rem; line-height: 1.2"
-          ></h1>
+          <h1 id="article-title"></h1>
+
+          <div class="article-actions">
+            <button id="btn-copy-link" class="action-btn">
+              <i data-lucide="link" size="16"></i> Copy Link
+            </button>
+            <button id="btn-share-linkedin" class="action-btn">
+              <i data-lucide="linkedin" size="16"></i> Share
+            </button>
+          </div>
         </header>
+
         <div id="article-body" class="article-content"></div>
 
         <!-- Comments Section -->
@@ -256,7 +304,7 @@
       </div>
     </div>
 
-    <script src="assets/js/script.js"></script>
+    <script src="/assets/js/script.js"></script>
     <script>
       lucide.createIcons();
       document.getElementById("current-year").textContent =

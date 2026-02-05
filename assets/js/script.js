@@ -233,7 +233,7 @@ function performSearch(term) {
     const cardsHtml = randomRelated
       .map(
         (post) => `
-        <a href="/pulse/${post.slug || post.id}?trackingid=${generateTrackingId()}" class="post-card fade-in">
+        <a href="/pulse/?slug=${post.slug || post.id}&trackingid=${generateTrackingId()}" class="post-card fade-in">
           <div class="post-image" style="background: ${
             post.image_url
               ? `url('${post.image_url}')`
@@ -399,24 +399,133 @@ function calculateSIP() {
   }
 }
 
-function syncInputs(input, range) {
+function syncInputs(input, range, callback) {
   if (!input || !range) return;
   input.addEventListener("input", () => {
     range.value = input.value;
-    calculateSIP();
+    if (callback) callback();
   });
   range.addEventListener("input", () => {
     input.value = range.value;
-    calculateSIP();
+    if (callback) callback();
   });
 }
 
-// Initial Setup
+// Initial Setup - SIP
 if (sipAmount) {
-  syncInputs(sipAmount, sipAmountRange);
-  syncInputs(sipRate, sipRateRange);
-  syncInputs(sipYears, sipYearsRange);
+  syncInputs(sipAmount, sipAmountRange, calculateSIP);
+  syncInputs(sipRate, sipRateRange, calculateSIP);
+  syncInputs(sipYears, sipYearsRange, calculateSIP);
   calculateSIP();
+}
+
+// --- Lumpsum Calculator Logic ---
+const lumpAmount = document.getElementById("lump-amount");
+const lumpAmountRange = document.getElementById("lump-amount-range");
+const lumpRate = document.getElementById("lump-rate");
+const lumpRateRange = document.getElementById("lump-rate-range");
+const lumpYears = document.getElementById("lump-years");
+const lumpYearsRange = document.getElementById("lump-years-range");
+
+const resLumpInvested = document.getElementById("res-lump-invested");
+const resLumpReturns = document.getElementById("res-lump-returns");
+const resLumpTotal = document.getElementById("res-lump-total");
+
+const barLumpInvested = document.getElementById("bar-lump-invested");
+const barLumpReturns = document.getElementById("bar-lump-returns");
+
+function calculateLumpsum() {
+  if (!lumpAmount) return;
+
+  const P = parseFloat(lumpAmount.value);
+  const r = parseFloat(lumpRate.value);
+  const n = parseFloat(lumpYears.value);
+
+  // Lumpsum Formula: P * (1 + r/100)^n
+  const totalValue = P * Math.pow(1 + r / 100, n);
+  const investedAmount = P;
+  const estReturns = totalValue - investedAmount;
+
+  if (resLumpInvested)
+    resLumpInvested.textContent = formatCurrency(investedAmount);
+  if (resLumpReturns) resLumpReturns.textContent = formatCurrency(estReturns);
+  if (resLumpTotal) resLumpTotal.textContent = formatCurrency(totalValue);
+
+  // Update Chart bars
+  if (totalValue > 0) {
+    const pInv = (investedAmount / totalValue) * 100;
+    const pRet = (estReturns / totalValue) * 100;
+    if (barLumpInvested) barLumpInvested.style.width = `${pInv}%`;
+    if (barLumpReturns) barLumpReturns.style.width = `${pRet}%`;
+  }
+}
+
+if (lumpAmount) {
+  syncInputs(lumpAmount, lumpAmountRange, calculateLumpsum);
+  syncInputs(lumpRate, lumpRateRange, calculateLumpsum);
+  syncInputs(lumpYears, lumpYearsRange, calculateLumpsum);
+  calculateLumpsum();
+}
+
+// --- GST Calculator Logic ---
+const gstAmount = document.getElementById("gst-amount");
+const gstRateInput = document.getElementById("gst-rate");
+const gstTypeRadios = document.querySelectorAll('input[name="gst-type"]');
+const gstRateBtns = document.querySelectorAll(".gst-rate-btn");
+
+const resGstNet = document.getElementById("res-gst-net");
+const resGstVal = document.getElementById("res-gst-val");
+const resGstTotal = document.getElementById("res-gst-total");
+
+function calculateGST() {
+  if (!gstAmount) return;
+
+  const amount = parseFloat(gstAmount.value) || 0;
+  const rate = parseFloat(gstRateInput.value) || 0;
+  let type = "exclusive";
+  gstTypeRadios.forEach((r) => {
+    if (r.checked) type = r.value;
+  });
+
+  let net = 0,
+    gst = 0,
+    total = 0;
+
+  if (type === "exclusive") {
+    // Input is Net
+    net = amount;
+    gst = amount * (rate / 100);
+    total = net + gst;
+  } else {
+    // Input is Total (Inclusive)
+    // Formula: Net = Total / (1 + Rate/100)
+    total = amount;
+    net = total / (1 + rate / 100);
+    gst = total - net;
+  }
+
+  if (resGstNet) resGstNet.textContent = formatCurrency(net);
+  if (resGstVal) resGstVal.textContent = formatCurrency(gst);
+  if (resGstTotal) resGstTotal.textContent = formatCurrency(total);
+}
+
+if (gstAmount) {
+  gstAmount.addEventListener("input", calculateGST);
+
+  gstRateBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      gstRateBtns.forEach((b) => b.classList.remove("active"));
+      e.target.classList.add("active");
+      gstRateInput.value = e.target.getAttribute("data-rate");
+      calculateGST();
+    });
+  });
+
+  gstTypeRadios.forEach((radio) => {
+    radio.addEventListener("change", calculateGST);
+  });
+
+  calculateGST();
 }
 
 // --- Page Specific Logic & Routing ---
@@ -429,10 +538,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Index Page: Load Latest Posts
+  // We need to be careful not to match /pulse/index.html
   if (
-    path.endsWith("index.html") ||
-    path.endsWith("/") ||
-    (path.includes("/Khushaank/") && !path.includes(".html"))
+    (path.endsWith("/index.html") && !path.includes("/pulse/")) ||
+    (path.endsWith("/") && !path.includes("/pulse/")) ||
+    path === "/" ||
+    (path.includes("/Khushaank/") &&
+      !path.includes(".html") &&
+      !path.includes("/pulse/"))
   ) {
     loadLatestPosts();
   }
@@ -443,7 +556,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Viewer Page: Load Article & Comments
-  if (path.includes("viewer.html")) {
+  // Now serving from /pulse/index.html or /pulse/
+  if (path.includes("/pulse/") || path.includes("viewer.html")) {
     initViewerPage();
   }
 
@@ -500,7 +614,7 @@ async function loadLatestPosts() {
     grid.innerHTML = posts
       .map(
         (post) => `
-          <a href="/pulse/${post.slug || post.id}?trackingid=${generateTrackingId()}" class="post-card fade-in">
+          <a href="/pulse/?slug=${post.slug || post.id}&trackingid=${generateTrackingId()}" class="post-card fade-in">
             <div class="post-image" style="background: ${
               post.image_url
                 ? `url('${post.image_url}')`
@@ -554,14 +668,14 @@ async function loadPosts() {
 
 function renderBlogGrid(posts, gridElement) {
   if (posts.length === 0) {
-    gridElement.innerHTML = "<p>No articles found.</p>";
+    gridElement.innerHTML = "<div class='no-results'>No articles found.</div>";
     return;
   }
 
   gridElement.innerHTML = posts
     .map(
       (post) => `
-        <a href="/pulse/${post.slug || post.id}?trackingid=${generateTrackingId()}" class="post-card fade-in">
+        <a href="/pulse/?slug=${post.slug || post.id}&trackingid=${generateTrackingId()}" class="post-card fade-in">
           <div class="post-image" style="background: ${
             post.image_url
               ? `url('${post.image_url}')`
@@ -604,15 +718,38 @@ async function initViewerPage() {
   }
 
   if (!slug) {
-    // Check if we are literally on "viewer.html" directly with no params
-    if (window.location.pathname.includes("viewer.html")) {
-      window.location.href = "blog.html";
+    // Check if we are physically on pulse index
+    if (
+      window.location.pathname.endsWith("/pulse/index.html") ||
+      window.location.pathname.endsWith("/pulse/")
+    ) {
+      // Allow for direct navigation if we want a gallery there?
+      // For now, if no slug, redirect to main blog
+      window.location.href = "/blog.html";
       return;
     }
-    // If we are on a rewritten path that failed to match, maybe 404?
-    // But for now, redirecting to blog is safe
-    window.location.href = "blog.html";
+    window.location.href = "/blog.html";
     return;
+  }
+
+  // --- Url Beautification (SPA-like) ---
+  // If we have a slug and are on the pulse page, rewrite URL to /pulse/slug
+  // CRITICAL: We only do this if NOT on localhost.
+  // Localhost servers generally cannot handle virtual paths like /pulse/slug on reload.
+  const isLocal = ["localhost", "127.0.0.1", "::1"].includes(
+    window.location.hostname,
+  );
+
+  if (!isLocal && slug && window.location.pathname.includes("/pulse/")) {
+    const trackingId = params.get("trackingid");
+    let newUrl = `/pulse/${slug}`;
+    if (trackingId) {
+      newUrl += `?trackingid=${trackingId}`;
+    }
+    // Check if we are already on the correct URL to prevent loop/redundancy
+    if (!window.location.pathname.endsWith(slug)) {
+      window.history.replaceState({ path: newUrl }, "", newUrl);
+    }
   }
 
   checkAuth();
@@ -621,10 +758,25 @@ async function initViewerPage() {
   const loginBtn = document.getElementById("google-login-btn");
   if (loginBtn) {
     loginBtn.addEventListener("click", async () => {
+      // Determine the safe redirect URL.
+      // On localhost, we MUST return to the physical file (index.html) with query params.
+      // On production, we can return to the clean URL.
+      let redirectUrl = window.location.href;
+
+      if (isLocal) {
+        // Force construct the safe URL
+        const url = new URL(window.location.href);
+        // e.g. http://127.0.0.1:5500/pulse/index.html
+        // Ensure we have the search params
+        if (!url.searchParams.has("slug") && slug)
+          url.searchParams.set("slug", slug);
+        redirectUrl = url.toString();
+      }
+
       await window.supabaseClient.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: window.location.href,
+          redirectTo: redirectUrl,
         },
       });
     });
@@ -644,6 +796,39 @@ async function initViewerPage() {
   const commentForm = document.getElementById("comment-form");
   if (commentForm) {
     commentForm.addEventListener("submit", handleCommentSubmit);
+  }
+
+  // --- Actions ---
+  const copyBtn = document.getElementById("btn-copy-link");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      // Remove tracking ID for clean copy if desired? Or keep it?
+      // User asked for tracking ID in URL "must come out like this".
+      // But usually user wants to copy a CLEAN link or the current link?
+      // "but url must comeout like this with a tracking id" -> This likely refers to generated links.
+      // When copying, maybe a clean link is better? Or just the current URL.
+      // Let's copy current URL, but maybe regen tracking ID? No, just copy current.
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<i data-lucide="check" size="16"></i> Copied`;
+        lucide.createIcons();
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+          lucide.createIcons();
+        }, 2000);
+      });
+    });
+  }
+
+  const shareBtn = document.getElementById("btn-share-linkedin");
+  if (shareBtn) {
+    shareBtn.addEventListener("click", () => {
+      const url = encodeURIComponent(window.location.href);
+      window.open(
+        `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+        "_blank",
+      );
+    });
   }
 }
 
@@ -672,6 +857,36 @@ async function loadArticle(slug) {
 
     // SEO & Content
     document.title = `${data.title} - Khushaank Gupta`;
+
+    // Update Meta Description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.content = data.excerpt || data.title;
+
+    // Update Open Graph Tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.content = data.title;
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.content = data.excerpt || "";
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.content = window.location.href;
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage && data.image_url) ogImage.content = data.image_url;
+
+    // Update Twitter Tags
+    const twTitle = document.querySelector('meta[property="twitter:title"]');
+    if (twTitle) twTitle.content = data.title;
+
+    const twDesc = document.querySelector(
+      'meta[property="twitter:description"]',
+    );
+    if (twDesc) twDesc.content = data.excerpt || "";
+
+    const twImage = document.querySelector('meta[property="twitter:image"]');
+    if (twImage && data.image_url) twImage.content = data.image_url;
+
     document.getElementById("article-title").textContent = data.title;
     document.getElementById("article-date").textContent = new Date(
       data.created_at,

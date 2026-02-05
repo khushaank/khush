@@ -7,7 +7,48 @@
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <meta
       name="description"
-      content="Free financial calculators for SIP and investment planning."
+      content="Free financial calculators for SIP, Lumpsum, and GST. Plan your investments and financial growth with precision."
+    />
+    <meta
+      name="keywords"
+      content="SIP Calculator, Lumpsum Calculator, GST Calculator, Financial Tools, Investment Planning, Khushaank Gupta, Finance, Wealth Check"
+    />
+    <meta name="author" content="Khushaank Gupta" />
+    <link rel="canonical" href="https://khushaank.netlify.app/tools.html" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://khushaank.netlify.app/tools.html"
+    />
+    <meta property="og:title" content="Financial Tools - Khushaank Gupta" />
+    <meta
+      property="og:description"
+      content="Free financial calculators for SIP, Lumpsum, and GST. Plan your investments and financial growth with precision."
+    />
+    <meta
+      property="og:image"
+      content="https://khushaank.netlify.app/assets/images/hero.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://khushaank.netlify.app/tools.html"
+    />
+    <meta
+      property="twitter:title"
+      content="Financial Tools - Khushaank Gupta"
+    />
+    <meta
+      property="twitter:description"
+      content="Free financial calculators for SIP, Lumpsum, and GST. Plan your investments and financial growth with precision."
+    />
+    <meta
+      property="twitter:image"
+      content="https://khushaank.com/assets/images/hero.png"
     />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -75,133 +116,345 @@
           </p>
         </div>
 
-        <!-- SIP Calculator -->
-        <div class="tool-container fade-in">
-          <h2
-            style="
-              font-family: var(&quot;font-heading&quot;);
-              margin-bottom: 2rem;
-              text-align: center;
-            "
-          >
-            SIP Calculator
-          </h2>
-
-          <div class="calc-group">
-            <label class="calc-label">Monthly Investment (₹)</label>
-            <div class="range-container">
+        <div class="tools-grid">
+          <!-- SIP Calculator -->
+          <div class="tool-container fade-in">
+            <h2>SIP Calculator</h2>
+            <div class="calc-group">
+              <label class="calc-label">Monthly Investment (₹)</label>
+              <div class="range-container">
+                <input
+                  type="number"
+                  id="sip-amount"
+                  class="calc-input"
+                  value="5000"
+                  min="500"
+                />
+              </div>
               <input
-                type="number"
-                id="sip-amount"
-                class="calc-input"
-                value="5000"
+                type="range"
+                id="sip-amount-range"
+                class="calc-range"
                 min="500"
+                max="100000"
+                step="500"
+                value="5000"
+                style="width: 100%; margin-top: 10px"
               />
             </div>
-            <input
-              type="range"
-              id="sip-amount-range"
-              class="calc-range"
-              min="500"
-              max="100000"
-              step="500"
-              value="5000"
-              style="width: 100%; margin-top: 10px"
-            />
-          </div>
 
-          <div class="calc-group">
-            <label class="calc-label">Expected Return Rate (p.a) %</label>
-            <div class="range-container">
+            <div class="calc-group">
+              <label class="calc-label">Expected Return Rate (p.a) %</label>
+              <div class="range-container">
+                <input
+                  type="number"
+                  id="sip-rate"
+                  class="calc-input"
+                  value="12"
+                  min="1"
+                  max="30"
+                />
+              </div>
               <input
-                type="number"
-                id="sip-rate"
-                class="calc-input"
-                value="12"
+                type="range"
+                id="sip-rate-range"
+                class="calc-range"
                 min="1"
                 max="30"
+                step="0.5"
+                value="12"
+                style="width: 100%; margin-top: 10px"
               />
             </div>
-            <input
-              type="range"
-              id="sip-rate-range"
-              class="calc-range"
-              min="1"
-              max="30"
-              step="0.5"
-              value="12"
-              style="width: 100%; margin-top: 10px"
-            />
-          </div>
 
-          <div class="calc-group">
-            <label class="calc-label">Time Period (Years)</label>
-            <div class="range-container">
+            <div class="calc-group">
+              <label class="calc-label">Time Period (Years)</label>
+              <div class="range-container">
+                <input
+                  type="number"
+                  id="sip-years"
+                  class="calc-input"
+                  value="10"
+                  min="1"
+                  max="50"
+                />
+              </div>
               <input
-                type="number"
-                id="sip-years"
-                class="calc-input"
-                value="10"
+                type="range"
+                id="sip-years-range"
+                class="calc-range"
                 min="1"
                 max="50"
+                step="1"
+                value="10"
+                style="width: 100%; margin-top: 10px"
               />
             </div>
-            <input
-              type="range"
-              id="sip-years-range"
-              class="calc-range"
-              min="1"
-              max="50"
-              step="1"
-              value="10"
-              style="width: 100%; margin-top: 10px"
-            />
-          </div>
 
-          <div class="calc-results">
-            <div class="result-item">
-              <h4>Invested Amount</h4>
-              <div class="result-val" id="res-invested">₹6,00,000</div>
+            <div class="calc-results">
+              <div class="result-item">
+                <h4>Invested Amount</h4>
+                <div class="result-val" id="res-invested">₹6,00,000</div>
+              </div>
+              <div class="result-item">
+                <h4>Est. Returns</h4>
+                <div class="result-val" id="res-returns">₹5,61,695</div>
+              </div>
+              <div
+                class="result-item"
+                style="
+                  grid-column: span 2;
+                  text-align: center;
+                  margin-top: 1rem;
+                "
+              >
+                <h4>Total Value</h4>
+                <div class="result-val highlight-val" id="res-total">
+                  ₹11,61,695
+                </div>
+              </div>
             </div>
-            <div class="result-item">
-              <h4>Est. Returns</h4>
-              <div class="result-val" id="res-returns">₹5,61,695</div>
-            </div>
-            <div
-              class="result-item"
-              style="grid-column: span 2; text-align: center; margin-top: 1rem"
-            >
-              <h4>Total Value</h4>
-              <div class="result-val highlight-val" id="res-total">
-                ₹11,61,695
+
+            <!-- Chart -->
+            <div style="margin-top: 1.5rem">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  font-size: 0.8rem;
+                  color: var(--text-muted);
+                  margin-bottom: 0.5rem;
+                "
+              >
+                <span>Invested (Gray)</span>
+                <span>Returns (Blue)</span>
+              </div>
+              <div class="chart-wrapper">
+                <div
+                  class="chart-invested"
+                  id="bar-invested"
+                  style="width: 50%"
+                ></div>
+                <div
+                  class="chart-returns"
+                  id="bar-returns"
+                  style="width: 50%"
+                ></div>
               </div>
             </div>
           </div>
 
-          <!-- Simple CSS Chart -->
-          <div
-            style="
-              margin-top: 1.5rem;
-              display: flex;
-              justify-content: space-between;
-              font-size: 0.8rem;
-              color: var(--text-muted);
-            "
-          >
-            <span>Invested (Gray)</span>
-            <span>Returns (Blue)</span>
+          <!-- Lumpsum Calculator -->
+          <div class="tool-container fade-in">
+            <h2>Lumpsum Calculator</h2>
+            <div class="calc-group">
+              <label class="calc-label">Total Investment (₹)</label>
+              <div class="range-container">
+                <input
+                  type="number"
+                  id="lump-amount"
+                  class="calc-input"
+                  value="50000"
+                  min="5000"
+                />
+              </div>
+              <input
+                type="range"
+                id="lump-amount-range"
+                class="calc-range"
+                min="5000"
+                max="1000000"
+                step="5000"
+                value="50000"
+                style="width: 100%; margin-top: 10px"
+              />
+            </div>
+
+            <div class="calc-group">
+              <label class="calc-label">Expected Return Rate (p.a) %</label>
+              <div class="range-container">
+                <input
+                  type="number"
+                  id="lump-rate"
+                  class="calc-input"
+                  value="12"
+                  min="1"
+                  max="30"
+                />
+              </div>
+              <input
+                type="range"
+                id="lump-rate-range"
+                class="calc-range"
+                min="1"
+                max="30"
+                step="0.5"
+                value="12"
+                style="width: 100%; margin-top: 10px"
+              />
+            </div>
+
+            <div class="calc-group">
+              <label class="calc-label">Time Period (Years)</label>
+              <div class="range-container">
+                <input
+                  type="number"
+                  id="lump-years"
+                  class="calc-input"
+                  value="10"
+                  min="1"
+                  max="50"
+                />
+              </div>
+              <input
+                type="range"
+                id="lump-years-range"
+                class="calc-range"
+                min="1"
+                max="50"
+                step="1"
+                value="10"
+                style="width: 100%; margin-top: 10px"
+              />
+            </div>
+
+            <div class="calc-results">
+              <div class="result-item">
+                <h4>Invested Amount</h4>
+                <div class="result-val" id="res-lump-invested">₹50,000</div>
+              </div>
+              <div class="result-item">
+                <h4>Est. Returns</h4>
+                <div class="result-val" id="res-lump-returns">₹1,05,292</div>
+              </div>
+              <div
+                class="result-item"
+                style="
+                  grid-column: span 2;
+                  text-align: center;
+                  margin-top: 1rem;
+                "
+              >
+                <h4>Total Value</h4>
+                <div class="result-val highlight-val" id="res-lump-total">
+                  ₹1,55,292
+                </div>
+              </div>
+            </div>
+            <!-- Chart -->
+            <div style="margin-top: 1.5rem">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  font-size: 0.8rem;
+                  color: var(--text-muted);
+                  margin-bottom: 0.5rem;
+                "
+              >
+                <span>Invested (Gray)</span>
+                <span>Returns (Blue)</span>
+              </div>
+              <div class="chart-wrapper">
+                <div
+                  class="chart-invested"
+                  id="bar-lump-invested"
+                  style="width: 32%"
+                ></div>
+                <div
+                  class="chart-returns"
+                  id="bar-lump-returns"
+                  style="width: 68%"
+                ></div>
+              </div>
+            </div>
           </div>
-          <div class="chart-wrapper">
+
+          <!-- GST Calculator -->
+          <div class="tool-container fade-in">
+            <h2>GST Calculator</h2>
+            <div class="calc-group">
+              <label class="calc-label">Amount (₹)</label>
+              <input
+                type="number"
+                id="gst-amount"
+                class="calc-input"
+                value="1000"
+                min="0"
+              />
+            </div>
+
+            <div class="calc-group" style="flex-grow: 1">
+              <label class="calc-label">GST Rate (%)</label>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+                <button class="gst-rate-btn active" data-rate="5">5%</button>
+                <button class="gst-rate-btn" data-rate="12">12%</button>
+                <button class="gst-rate-btn" data-rate="18">18%</button>
+                <button class="gst-rate-btn" data-rate="28">28%</button>
+              </div>
+              <!-- Hidden input to store selected rate -->
+              <input type="hidden" id="gst-rate" value="5" />
+            </div>
+
+            <div class="calc-group">
+              <label class="calc-label">Tax Type</label>
+              <div style="display: flex; gap: 1rem">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="radio"
+                    name="gst-type"
+                    value="exclusive"
+                    checked
+                  />
+                  Exclusive
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    cursor: pointer;
+                  "
+                >
+                  <input type="radio" name="gst-type" value="inclusive" />
+                  Inclusive
+                </label>
+              </div>
+            </div>
+
             <div
-              class="chart-invested"
-              id="bar-invested"
-              style="width: 50%"
-            ></div>
-            <div
-              class="chart-returns"
-              id="bar-returns"
-              style="width: 50%"
-            ></div>
+              class="calc-results"
+              style="grid-template-columns: 1fr 1fr; margin-top: auto"
+            >
+              <div class="result-item">
+                <h4>Net Amount</h4>
+                <div class="result-val" id="res-gst-net">₹1,000</div>
+              </div>
+              <div class="result-item">
+                <h4>GST Amount</h4>
+                <div class="result-val" id="res-gst-val">₹50</div>
+              </div>
+              <div
+                class="result-item"
+                style="
+                  grid-column: span 2;
+                  text-align: center;
+                  margin-top: 1rem;
+                "
+              >
+                <h4>Total Amount</h4>
+                <div class="result-val highlight-val" id="res-gst-total">
+                  ₹1,050
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

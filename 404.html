@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>404 - Page Not Found | Khushaank Gupta</title>
-    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
     <meta name="robots" content="noindex, nofollow" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,8 +13,28 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      // Attempt to handle client-side routing fallback
+      (function () {
+        const path = window.location.pathname;
+        if (path.includes("/pulse/")) {
+          // Extract slug
+          const parts = path.split("/pulse/");
+          if (parts.length > 1) {
+            const slugPart = parts[1].split("/")[0]; // Take segment after pulse
+            const search = window.location.search;
+            // Redirect to pulse index
+            window.location.replace(
+              "/pulse/?slug=" +
+                slugPart +
+                (search ? "&" + search.substring(1) : ""),
+            );
+          }
+        }
+      })();
+    </script>
   </head>
   <body>
     <!-- Abstract Background -->
@@ -30,6 +50,6 @@
         </a>
       </div>
     </div>
-    <script src="assets/js/script.js"></script>
+    <script src="/assets/js/script.js"></script>
   </body>
 </html>

@@ -3,13 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Database Seeder</title>
+    <title>Database Seeder - Massive Content</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
       body {
         font-family: system-ui, sans-serif;
         padding: 2rem;
         line-height: 1.5;
+        max-width: 800px;
+        margin: 0 auto;
       }
       .log {
         background: #f4f4f4;
@@ -17,26 +19,48 @@
         border-radius: 8px;
         font-family: monospace;
         white-space: pre-wrap;
-        height: 300px;
+        height: 400px;
         overflow-y: auto;
+        border: 1px solid #ddd;
       }
       .success {
         color: green;
       }
       .error {
         color: red;
+        font-weight: bold;
+      }
+      .btn {
+        padding: 10px 20px;
+        background: #000;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+      .btn:disabled {
+        opacity: 0.5;
       }
     </style>
   </head>
   <body>
-    <h1>Seeding Database...</h1>
-    <div id="log" class="log">Initializing...</div>
+    <h1>Database Content Reset & Seed</h1>
+    <p>
+      This will <strong>DELETE ALL</strong> existing posts and comments, then
+      insert 6 massive, "4-page" style articles with YouTube embeds and images.
+    </p>
+
+    <button id="seedBtn" class="btn" onclick="runSeeder()">Run Seeder</button>
+
+    <div id="log" class="log">Ready to seed...</div>
 
     <script>
       const log = document.getElementById("log");
       function print(msg, type = "info") {
         const div = document.createElement("div");
-        div.textContent = msg;
+        div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
         if (type === "error") div.className = "error";
         if (type === "success") div.className = "success";
         log.appendChild(div);
@@ -47,139 +71,186 @@
       const SUPABASE_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6eHdxeG1sZGxuY3JocXhsbmxxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxODIwMDEsImV4cCI6MjA4NTc1ODAwMX0.pP3i8KquZmqhiUkaTw3ROi86mslTyzK5ysD2va1JI10";
 
-      // Renamed to avoid usage of global 'supabase' variable from library
       const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-      const articles = [
-        {
-          title: "The Impact of GST on Small Businesses",
-          excerpt:
-            "An in-depth analysis of how Goods and Services Tax affects the operational capabilities and compliance costs of MSMEs in India.",
-          content:
-            "<p>The Goods and Services Tax (GST) has been a watershed moment in India's taxation history. For small businesses, it brought both opportunities and challenges...</p><p>Key areas of impact include input tax credit, compliance burden, and the shift to digital record-keeping.</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=2936&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Auditing in the Age of AI",
-          excerpt:
-            "How Artificial Intelligence is transforming the auditing landscape, from automated data extraction to predictive risk assessment.",
-          content:
-            "<p>Artificial Intelligence is no longer just a buzzword; it is reshaping how audits are conducted. Traditional sampling methods are giving way to analyzing 100% of transactions...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&q=80&w=2874&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Corporate Tax Planning Strategies for 2025",
-          excerpt:
-            "Effective strategies for optimizing corporate tax liabilities while ensuring full compliance with the latest Finance Act provisions.",
-          content:
-            "<p>With the new financial year approaching, efficient tax planning is crucial. Companies must look beyond simple deductions and focus on structural efficiencies...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&q=80&w=2926&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Understanding Direct vs. Indirect Tax",
-          excerpt:
-            "A fundamental guide for students and professionals to understand the nuances between direct taxes like Income Tax and indirect taxes like GST.",
-          content:
-            "<p>Taxation is the backbone of any economy. While direct taxes are levied on income and profits, indirect taxes are levied on goods and services...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Financial Risk Management 101",
-          excerpt:
-            "Identifying, assessing, and prioritizing risks is essential for any business. Learn the basics of financial risk management.",
-          content:
-            "<p>Risk is inherent in business. However, financial risk management allows organizations to minimize protection and maximize value...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426&ixlib=rb-4.0.3",
-        },
-        {
-          title: "The Future of Chartered Accountancy",
-          excerpt:
-            "As the global economy evolves, so does the role of a CA. From compliance officers to strategic business advisors.",
-          content:
-            "<p>The role of a Chartered Accountant is expanding. It is no longer limited to just signing balance sheets but involves strategic decision-making...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Forensic Accounting: Uncovering Fraud",
-          excerpt:
-            "Exploring the investigative nature of forensic accounting and its importance in modern corporate governance.",
-          content:
-            "<p>Forensic accounting combines accounting, auditing, and investigative skills. It provides an analysis suitable to the court which will form the basis for discussion...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Navigating International Taxation",
-          excerpt:
-            "A look at transfer pricing, double taxation avoidance agreements, and the complexities of cross-border transactions.",
-          content:
-            "<p>In a globalized world, businesses often operate across borders. This brings into play international taxation laws which are complex and dynamic...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Strategic Financial Management",
-          excerpt:
-            "How to plan, manage, direct, and control the financial resources of an enterprise to achieve its goals.",
-          content:
-            "<p>Strategic Financial Management refers to the planning, managing, directing, and controlling of financial activity such as procurement and utilization of funds...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
-        },
-        {
-          title: "Balance Sheet Analysis for Investors",
-          excerpt:
-            "Key ratios and indicators every investor should look for when analyzing a company's balance sheet.",
-          content:
-            "<p>A balance sheet provides a snapshot of a company's financial health. For investors, reading between the lines of assets and liabilities is key...</p>",
-          image_url:
-            "https://images.unsplash.com/photo-1543286386-713df548e9cc?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
-        },
+      // --- Content Generators ---
+
+      const topics = [
+        "The Future of Algorithmic Trading",
+        "Deep Dive into Corporate Forensic Accounting",
+        "Global Economic Shifts in 2026",
+        "The Architecture of Modern FinTech Applications",
+        "Sustainable Investing: ESG Frameworks Analysis",
+        "Blockchain's Role in Next-Gen Auditing",
       ];
 
-      async function seed() {
-        print("Starting seed process...");
+      const youtubeIds = [
+        "JjwxxL7C-8U", // Generic Tech
+        "oHGK85-r3Xo", // Audit proper
+        "CalculatedRisk", // Placeholder ID
+        "2e9rR-8g-4A", // Tax
+        "Ay-zJ6zO2oQ",
+        "ysz5S6PUM-U",
+      ];
 
-        for (const article of articles) {
-          // Generate a simple slug
-          const slug = article.title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/(^-|-$)/g, "");
+      const contentFiller = [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
+        "Analysis of the market trends suggests a significant shift in consumer behavior. This paradigm shift requires a robust re-evaluation of traditional business models.",
+      ];
 
-          print(`Inserting: ${article.title}...`);
-
-          const { data, error } = await sbClient.from("posts").insert([
-            {
-              title: article.title,
-              excerpt: article.excerpt,
-              content: article.content,
-              slug: slug,
-              image_url: article.image_url,
-              views: Math.floor(Math.random() * 100),
-            },
-          ]);
-
-          if (error) {
-            print(`Failed: ${error.message}`, "error");
-          } else {
-            print(`Success!`, "success");
-          }
-
-          // Small delay to prevent rate limiting if any
-          await new Promise((r) => setTimeout(r, 200));
-        }
-
-        print("Seeding complete!", "success");
+      function getRandomImage() {
+        const keywords = [
+          "finance",
+          "technology",
+          "office",
+          "meeting",
+          "chart",
+          "money",
+          "audit",
+          "code",
+        ];
+        const keyword = keywords[Math.floor(Math.random() * keywords.length)];
+        return `https://images.unsplash.com/photo-${Math.floor(Math.random() * 100000)}?auto=format&fit=crop&q=80&w=1200&h=600&keyword=${keyword}`; // Using a generic structure, but let's use reliable logical ones below
       }
 
-      seed();
+      const realImages = [
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200",
+        "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1200",
+        "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200",
+        "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200",
+        "https://images.unsplash.com/photo-1611974765270-ca1258634369?auto=format&fit=crop&w=1200",
+      ];
+
+      function generateHugeContent(title, index) {
+        let html = `<p class="lead">An extensive analysis of <strong>${title}</strong>, exploring its nuances, implications, and future outlook in the modern landscape.</p>`;
+        html += `<hr style="margin: 2rem 0;">`;
+
+        // Generate 5 main sections
+        for (let i = 1; i <= 5; i++) {
+          html += `<h2>${i}. Comprehensive Analysis: Section ${i}</h2>`;
+
+          // Paragraphs
+          for (let p = 0; p < 4; p++) {
+            html += `<p>${contentFiller[Math.floor(Math.random() * contentFiller.length)]} ${contentFiller[Math.floor(Math.random() * contentFiller.length)]}</p>`;
+          }
+
+          // Bullet points
+          html += `<ul>`;
+          for (let l = 0; l < 4; l++) {
+            html += `<li><strong>Key Point ${i}.${l + 1}:</strong> ${contentFiller[0].substring(0, 50)}...</li>`;
+          }
+          html += `</ul>`;
+
+          // Randomly insert Media (Video or Image) per section
+          if (i === 2 || i === 4) {
+            // Image
+            html += `<figure style="margin: 2rem 0;">
+                <img src="${realImages[(index + i) % realImages.length]}" alt="Section Image" style="width:100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                <figcaption style="text-align:center; color:#666; margin-top:0.5rem; font-style:italic;">Figure ${i}: Data Visualization and Market Trends</figcaption>
+             </figure>`;
+          }
+
+          if (i === 3) {
+            // Youtube
+            const vidId = youtubeIds[index % youtubeIds.length];
+            html += `<div style="margin: 2rem 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+              <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" 
+              src="https://www.youtube.com/embed/${vidId}" 
+              title="YouTube video player" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>`;
+          }
+
+          // More texgt
+          for (let p = 0; p < 3; p++) {
+            html += `<p>${contentFiller[Math.floor(Math.random() * contentFiller.length)]}</p>`;
+          }
+        }
+
+        // Conclusion
+        html += `<h3>Conclusion and Strategic Outlook</h3>`;
+        html += `<p>${contentFiller[4]} ${contentFiller[0]}</p>`;
+        html += `<blockquote style="border-left: 4px solid #000; padding-left: 1rem; margin: 2rem 0; font-style: italic;">"The future belongs to those who prepare for it today."</blockquote>`;
+
+        return html;
+      }
+
+      async function runSeeder() {
+        const btn = document.getElementById("seedBtn");
+        btn.disabled = true;
+        btn.textContent = "Running...";
+
+        try {
+          // 1. Delete All Existing
+          print("Step 1: Deleting ALL existing posts...");
+
+          // To delete all, we need a condition that matches all. ID > 0 is usually safe.
+          const { error: delError } = await sbClient
+            .from("posts")
+            .delete()
+            .gt("id", "00000000-0000-0000-0000-000000000000"); // Assuming UUID, but if INT use 0. Supabase "posts" usually UUID?
+
+          // If the above fails due to type mismatch (if id is int), try a different method or just list them first.
+          // Let's safe fetch list first to be sure.
+          const { data: existing, error: listError } = await sbClient
+            .from("posts")
+            .select("id");
+
+          if (existing && existing.length > 0) {
+            const ids = existing.map((x) => x.id);
+            const { error: batchDelError } = await sbClient
+              .from("posts")
+              .delete()
+              .in("id", ids);
+            if (batchDelError) throw batchDelError;
+          }
+
+          print("Deletion complete.", "success");
+
+          // 2. Insert New Posts
+          print("Step 2: Generating 6 Massive Posts...");
+
+          for (let i = 0; i < topics.length; i++) {
+            const title = topics[i];
+            const content = generateHugeContent(title, i);
+            const slug = title
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/(^-|-$)/g, "");
+
+            print(`Creating Post ${i + 1}: ${title}...`);
+
+            const { error: insError } = await sbClient.from("posts").insert([
+              {
+                title: title,
+                slug: slug,
+                excerpt: `An executive summary of ${title} regarding financial implications in the coming fiscal year.`,
+                content: content,
+                image_url: realImages[i],
+                views: Math.floor(Math.random() * 500) + 100, // Make them look popular
+                created_at: new Date(
+                  Date.now() - Math.floor(Math.random() * 1000000000),
+                ).toISOString(), // Random past date
+              },
+            ]);
+
+            if (insError) throw insError;
+          }
+
+          print("All 6 posts created successfully!", "success");
+          print("DONE. You can close this page.", "success");
+        } catch (err) {
+          print(`FATAL ERROR: ${err.message}`, "error");
+          console.error(err);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Run Seeder Again";
+        }
+      }
     </script>
   </body>
 </html>

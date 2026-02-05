@@ -1,5 +1,5 @@
 # Redirect /pulse/slug to viewer.html with slug parameter
-/pulse/:slug  /viewer.html?slug=:slug  200
+/pulse/:slug  /pulse/index.html?slug=:slug  200
 
 # 404 page
 /*  /404.html  404

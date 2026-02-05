@@ -14,11 +14,11 @@
       content="Finance, Economics, Tax, Audit, Khushaank Gupta, Blog, Insights, Market Volatility, CA"
     />
     <meta name="author" content="Khushaank Gupta" />
-    <link rel="canonical" href="https://khushaank.com/blog.html" />
+    <link rel="canonical" href="https://khushaank.netlify.app/blog.html" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://khushaank.com/blog.html" />
+    <meta property="og:url" content="https://khushaank.netlify.app/blog.html" />
     <meta
       property="og:title"
       content="Financial Chronicles - Insights by Khushaank Gupta"
@@ -29,12 +29,15 @@
     />
     <meta
       property="og:image"
-      content="https://khushaank.com/assets/images/blog-preview.jpg"
+      content="https://khushaank.netlify.app/assets/images/blog-preview.jpg"
     />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://khushaank.com/blog.html" />
+    <meta
+      property="twitter:url"
+      content="https://khushaank.netlify.app/blog.html"
+    />
     <meta
       property="twitter:title"
       content="Financial Chronicles - Insights by Khushaank Gupta"
@@ -111,18 +114,9 @@
 
     <main>
       <section class="container section-padding" style="padding-top: 150px">
-        <div style="text-align: center; margin-bottom: 4rem" class="fade-in">
-          <span class="badge">Blog</span>
-          <h1
-            style="
-              font-family: var(--font-heading);
-              font-size: 3rem;
-              margin-bottom: 1rem;
-            "
-          >
-            Financial Chronicles
-          </h1>
-          <p style="color: var(--text-muted)">
+        <div class="blog-hero fade-in">
+          <h1 class="blog-headline">Financial Chronicles</h1>
+          <p class="blog-subheadline">
             Decoding complex financial landscapes, one article at a time.
           </p>
 
@@ -138,16 +132,12 @@
         <div
           class="bento-grid"
           id="posts-grid"
-          style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))"
+          style="
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+          "
         >
-          <div
-            style="
-              grid-column: 1/-1;
-              text-align: center;
-              padding: 2rem;
-              color: #999;
-            "
-          >
+          <div class="no-results" style="border: none; background: transparent">
             Loading articles...
           </div>
         </div>

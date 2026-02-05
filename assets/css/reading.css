@@ -29,11 +29,16 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(10px);
   z-index: 100;
-  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
 }
 
-.floating-toc:hover,
+/* Always show on hover */
+.floating-toc:hover {
+  right: 24px;
+}
+
+/* Show when scrolling */
 .floating-toc.visible {
   right: 24px;
 }
@@ -79,9 +84,9 @@
 }
 
 .floating-toc-link.active {
-  color: var(--accent);
+  color: #3b82f6;
   background: rgba(59, 130, 246, 0.08);
-  border-left-color: var(--accent);
+  border-left-color: #3b82f6;
   font-weight: 500;
 }
 
@@ -123,7 +128,7 @@
   transition: all 0.3s ease;
 }
 
-.clap-action:hover {
+.clap-action:hover:not(:disabled) {
   transform: scale(1.05);
 }
 
@@ -131,9 +136,26 @@
   animation: clapPulse 0.6s ease-out;
 }
 
+/* Red heart when clapped */
+.clap-action.clapped svg {
+  color: #ef4444 !important;
+  fill: #ef4444 !important;
+  stroke: #ef4444 !important;
+}
+
+.clap-action:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
 .clap-action #clap-count {
   font-weight: 600;
   font-size: 0.95rem;
+}
+
+/* Red count when clapped */
+.clap-action.clapped #clap-count {
+  color: #ef4444;
 }
 
 @keyframes clapPulse {

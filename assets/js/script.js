@@ -1157,17 +1157,44 @@ function generateTOC() {
 
   headers.forEach((header) => observer.observe(header));
 
-  // Show TOC on scroll (desktop only)
+  // Show TOC on scroll (desktop only) - improved behavior
   let scrollTimeout;
+  let lastScrollY = window.scrollY;
+
   window.addEventListener("scroll", () => {
     if (window.innerWidth <= 1280) return; // Don't show on mobile/tablet
 
-    clearTimeout(scrollTimeout);
-    tocContainer.classList.add("visible");
+    const currentScrollY = window.scrollY;
 
-    scrollTimeout = setTimeout(() => {
+    // Only show if scrolling and past 300px
+    if (currentScrollY > 300) {
+      clearTimeout(scrollTimeout);
+      tocContainer.classList.add("visible");
+
+      // Hide after 2.5s of no scrolling
+      scrollTimeout = setTimeout(() => {
+        tocContainer.classList.remove("visible");
+      }, 2500);
+    } else {
+      // Hide if at top
       tocContainer.classList.remove("visible");
-    }, 3000); // Hide after 3s of no scrolling
+    }
+
+    lastScrollY = currentScrollY;
+  });
+
+  // Also show on mouse movement near right edge
+  document.addEventListener("mousemove", (e) => {
+    if (window.innerWidth <= 1280) return;
+
+    const windowWidth = window.innerWidth;
+    const distanceFromRight = windowWidth - e.clientX;
+
+    // Show when mouse is within 100px of right edge
+    if (distanceFromRight < 100 && window.scrollY > 300) {
+      clearTimeout(scrollTimeout);
+      tocContainer.classList.add("visible");
+    }
   });
 }
 

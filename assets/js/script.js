@@ -319,30 +319,47 @@ if (yearSpan) {
   yearSpan.textContent = new Date().getFullYear();
 }
 
-// --- Cookie Consent Logic ---
+// --- Cookie Consent Logic (JS-Only Injection) ---
 document.addEventListener("DOMContentLoaded", () => {
-  const banner = document.getElementById("cookie-banner");
-  const acceptBtn = document.getElementById("accept-cookies");
   const CONSENT_KEY = "cookie_consent_accepted";
 
-  if (!banner || !acceptBtn) return;
-
-  // Check if user has already accepted usage on this device
+  // Check if user has already consented
   const hasConsented = localStorage.getItem(CONSENT_KEY);
 
   if (!hasConsented) {
+    // Create banner dynamically
+    const banner = document.createElement("div");
+    banner.id = "cookie-banner";
+    banner.className = "cookie-banner";
+    banner.innerHTML = `
+      <div class="cookie-text">
+        <p>
+          I use cookies to enhance your experience. By continuing to visit this site you agree to my use of cookies.
+          <a href="/privacy.html">Learn more</a>.
+        </p>
+      </div>
+      <div class="cookie-actions">
+        <button id="accept-cookies" class="btn btn-primary" style="padding: 0.6rem 1.2rem; background: var(--text-main); color: #fff;">
+          Accept
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
     // Show banner after a short delay
     setTimeout(() => {
       banner.classList.add("visible");
-    }, 1000);
-  }
+    }, 1500);
 
-  acceptBtn.addEventListener("click", () => {
-    // Save consent to local storage
-    localStorage.setItem(CONSENT_KEY, "true");
-    // Hide banner
-    banner.classList.remove("visible");
-  });
+    // Handle accept
+    const acceptBtn = banner.querySelector("#accept-cookies");
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem(CONSENT_KEY, "true");
+      banner.classList.remove("visible");
+      setTimeout(() => banner.remove(), 400);
+    });
+  }
 });
 
 // --- SIP Calculator Logic ---

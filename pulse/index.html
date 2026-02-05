@@ -90,6 +90,31 @@
       <div class="progress-bar" id="reading-progress"></div>
     </div>
 
+    <!-- Custom Article Search Bar -->
+    <div id="article-search-bar" class="article-search-container">
+      <div class="search-inner">
+        <i data-lucide="search" size="18"></i>
+        <input
+          type="text"
+          id="article-search-input"
+          placeholder="Find in article..."
+          autocomplete="off"
+        />
+        <div class="search-controls">
+          <span id="search-results-count">0/0</span>
+          <button id="search-prev" title="Previous match">
+            <i data-lucide="chevron-up" size="18"></i>
+          </button>
+          <button id="search-next" title="Next match">
+            <i data-lucide="chevron-down" size="18"></i>
+          </button>
+          <button id="search-close" title="Close search (Esc)">
+            <i data-lucide="x" size="18"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Navigation -->
     <header class="navbar">
       <div class="container nav-container">
@@ -98,7 +123,7 @@
           <ul class="nav-links">
             <li><a href="/index.html#about" class="nav-link">About</a></li>
             <li><a href="/index.html#projects" class="nav-link">Work</a></li>
-            <li><a href="/blog.html" class="nav-link">Insights</a></li>
+            <li><a href="/blog.html" class="nav-link active">Insights</a></li>
             <li><a href="/tools.html" class="nav-link">Tools</a></li>
             <li><a href="/index.html#contact" class="nav-link">Contact</a></li>
           </ul>
@@ -182,15 +207,29 @@
               <i data-lucide="linkedin" size="16"></i> Share
             </button>
           </div>
+
+          <!-- Inline Article TOC -->
+          <div id="floating-toc" class="floating-toc">
+            <div class="floating-toc-header">Table of Contents</div>
+            <ul id="floating-toc-list" class="floating-toc-list"></ul>
+          </div>
         </header>
 
-        <!-- Notion-Style Floating TOC (Right Side on Hover) -->
-        <div id="floating-toc" class="floating-toc">
-          <div class="floating-toc-header">On this page</div>
-          <ul id="floating-toc-list" class="floating-toc-list"></ul>
-        </div>
-
         <div id="article-body" class="article-content"></div>
+
+        <!-- Related Reading Section -->
+        <section
+          id="related-reading"
+          class="related-reading"
+          style="display: none"
+        >
+          <h3 class="related-title">
+            <i data-lucide="book-open"></i> Related Reading
+          </h3>
+          <div id="related-posts-grid" class="related-posts-grid">
+            <!-- Injected via JS -->
+          </div>
+        </section>
 
         <!-- Comments Section -->
         <hr

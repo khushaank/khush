@@ -1,73 +1,3 @@
-// --- Active Navigation Link ---
-document.addEventListener("DOMContentLoaded", () => {
-  const currentPath = window.location.pathname;
-  const currentHash = window.location.hash;
-
-  // Get all nav links (desktop and mobile)
-  const navLinks = document.querySelectorAll(".nav-link, .mobile-link");
-
-  navLinks.forEach((link) => {
-    const href = link.getAttribute("href");
-
-    // Remove any existing active class
-    link.classList.remove("active");
-
-    // Check if link matches current page
-    if (href) {
-      // Handle hash links on index page
-      if (currentPath.includes("index.html") || currentPath === "/") {
-        if (href.startsWith("#") && href === currentHash) {
-          link.classList.add("active");
-        } else if (
-          href === "/index.html" ||
-          href === "index.html" ||
-          href === "/"
-        ) {
-          link.classList.add("active");
-        }
-      }
-      // Handle blog page
-      else if (
-        currentPath.includes("blog.html") &&
-        (href.includes("blog.html") || href === "#")
-      ) {
-        link.classList.add("active");
-      }
-      // Handle pulse/article pages
-      else if (currentPath.includes("pulse") && href.includes("blog.html")) {
-        link.classList.add("active");
-      }
-      // Handle tools page
-      else if (
-        currentPath.includes("tools.html") &&
-        href.includes("tools.html")
-      ) {
-        link.classList.add("active");
-      }
-      // Handle privacy page
-      else if (
-        currentPath.includes("privacy.html") &&
-        href.includes("privacy.html")
-      ) {
-        link.classList.add("active");
-      }
-      // Handle terms page
-      else if (
-        currentPath.includes("terms.html") &&
-        href.includes("terms.html")
-      ) {
-        link.classList.add("active");
-      }
-    }
-  });
-
-  // Update year in footer
-  const yearSpan = document.getElementById("current-year");
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
-});
-
 // --- Mobile Menu ---
 const mobileToggles = document.querySelectorAll(".mobile-toggle");
 const mobileMenu = document.querySelector(".mobile-menu");
@@ -1143,7 +1073,8 @@ async function loadArticle(slug) {
     });
     document.getElementById("article-views").textContent =
       (data.views || 0) + 1;
-    document.getElementById("article-body").innerHTML = data.content;
+    const testLink = `<p style="margin-top: 2rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border: 1px dashed var(--accent);"><strong>Feature Test:</strong> Hover over this link to see the new preview card: <a href="/pulse/?slug=the-architecture-of-modern-fintech-applications">The Architecture of Modern FinTech Applications</a></p>`;
+    document.getElementById("article-body").innerHTML = data.content + testLink;
 
     // Increment View
     window.supabaseClient.rpc("increment_views", { post_id: data.id });
@@ -1153,6 +1084,12 @@ async function loadArticle(slug) {
     generateTOC();
     initReadingProgress();
     initInteractions(data); // Claps, Newsletter, JSON-LD
+    initArticleSearch();
+    initArticleNavigation(data);
+    initImageLightbox();
+    initFocusMode();
+    initLinkPreview();
+    loadRelatedPosts(data);
 
     // Re-run icons for new elements
     lucide.createIcons();
@@ -1244,37 +1181,6 @@ function generateTOC() {
   );
 
   headers.forEach((header) => observer.observe(header));
-
-  // TOC visibility: hover to expand, auto-show on scroll
-  let tocTimeout;
-
-  // Auto-show on scroll past 300px
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      clearTimeout(tocTimeout);
-      tocContainer.classList.add("visible");
-
-      tocTimeout = setTimeout(() => {
-        if (!tocContainer.matches(":hover")) {
-          tocContainer.classList.remove("visible");
-        }
-      }, 2000);
-    } else {
-      tocContainer.classList.remove("visible");
-    }
-  });
-
-  // Keep visible on hover
-  tocContainer.addEventListener("mouseenter", () => {
-    clearTimeout(tocTimeout);
-    tocContainer.classList.add("visible");
-  });
-
-  tocContainer.addEventListener("mouseleave", () => {
-    tocTimeout = setTimeout(() => {
-      tocContainer.classList.remove("visible");
-    }, 500);
-  });
 }
 
 function initReadingProgress() {
@@ -1413,23 +1319,463 @@ async function handleCommentSubmit(e) {
   btn.disabled = false;
 }
 
-// Initialize article page features
-if (document.getElementById("article-body")) {
-  // Wait for DOM to be fully loaded
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-      generateTOC();
-      initReadingProgress();
-    });
-  } else {
-    // DOM already loaded
-    generateTOC();
-    initReadingProgress();
+// --- Custom Article Search (Ctrl+F Override) ---
+function initArticleSearch() {
+  const searchBar = document.getElementById("article-search-bar");
+  const input = document.getElementById("article-search-input");
+  const closeBtn = document.getElementById("search-close");
+  const prevBtn = document.getElementById("search-prev");
+  const nextBtn = document.getElementById("search-next");
+  const countDisplay = document.getElementById("search-results-count");
+  const articleBody = document.getElementById("article-body");
+
+  if (!searchBar || !input || !articleBody) return;
+
+  let currentMatch = -1;
+  let matches = [];
+  let isSearching = false;
+
+  // Intercept Ctrl+F / Cmd+F
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "f") {
+      e.preventDefault();
+      articleOpenSearch();
+    }
+    if (e.key === "Escape" && searchBar.classList.contains("active")) {
+      articleCloseSearch();
+    }
+  });
+
+  function articleOpenSearch() {
+    searchBar.classList.add("active");
+    setTimeout(() => {
+      input.focus();
+      if (input.value) input.select();
+    }, 100);
+    isSearching = true;
   }
 
-  // Also try after a short delay in case content loads dynamically
-  setTimeout(() => {
-    generateTOC();
-    initReadingProgress();
-  }, 500);
+  function articleCloseSearch() {
+    searchBar.classList.remove("active");
+    clearHighlights();
+    input.value = "";
+    countDisplay.textContent = "0/0";
+    isSearching = false;
+  }
+
+  closeBtn.addEventListener("click", articleCloseSearch);
+
+  input.addEventListener("input", () => {
+    articlePerformSearch(input.value);
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      if (e.shiftKey) prevMatch();
+      else nextMatch();
+    }
+  });
+
+  if (prevBtn) prevBtn.addEventListener("click", prevMatch);
+  if (nextBtn) nextBtn.addEventListener("click", nextMatch);
+
+  function articlePerformSearch(query) {
+    clearHighlights();
+    matches = [];
+    currentMatch = -1;
+
+    if (!query || query.trim().length < 2) {
+      countDisplay.textContent = "0/0";
+      return;
+    }
+
+    highlightMatches(articleBody, query.trim());
+    matches = Array.from(articleBody.querySelectorAll("mark.search-highlight"));
+
+    if (matches.length > 0) {
+      currentMatch = 0;
+      updateStatus();
+      scrollToMatch();
+    } else {
+      countDisplay.textContent = "0/0";
+    }
+  }
+
+  function highlightMatches(root, query) {
+    const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+    const regex = new RegExp(`(${escapedQuery})`, "gi");
+
+    const walk = (node) => {
+      if (node.nodeType === 3) {
+        // Text node
+        const val = node.nodeValue;
+        const queryMatches = val.match(regex);
+        if (queryMatches) {
+          const frag = document.createDocumentFragment();
+          let lastIdx = 0;
+          regex.lastIndex = 0; // Reset
+          val.replace(regex, (match, p1, offset) => {
+            // Text before match
+            frag.appendChild(
+              document.createTextNode(val.slice(lastIdx, offset)),
+            );
+            // The mark element
+            const mark = document.createElement("mark");
+            mark.className = "search-highlight";
+            mark.textContent = match;
+            frag.appendChild(mark);
+            lastIdx = offset + match.length;
+            return match;
+          });
+          // Text after matches
+          frag.appendChild(document.createTextNode(val.slice(lastIdx)));
+          node.parentNode.replaceChild(frag, node);
+        }
+      } else if (
+        node.nodeType === 1 &&
+        node.childNodes &&
+        !/(script|style|mark|header|footer)/i.test(node.tagName)
+      ) {
+        Array.from(node.childNodes).forEach(walk);
+      }
+    };
+    walk(root);
+  }
+
+  function clearHighlights() {
+    const marks = articleBody.querySelectorAll("mark.search-highlight");
+    marks.forEach((mark) => {
+      const parent = mark.parentNode;
+      if (parent) {
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize(); // Merge text nodes back
+      }
+    });
+  }
+
+  function nextMatch() {
+    if (matches.length === 0) return;
+    currentMatch = (currentMatch + 1) % matches.length;
+    updateStatus();
+    scrollToMatch();
+  }
+
+  function prevMatch() {
+    if (matches.length === 0) return;
+    currentMatch = (currentMatch - 1 + matches.length) % matches.length;
+    updateStatus();
+    scrollToMatch();
+  }
+
+  function updateStatus() {
+    countDisplay.textContent = `${currentMatch + 1}/${matches.length}`;
+    matches.forEach((el, i) =>
+      el.classList.toggle("current", i === currentMatch),
+    );
+  }
+
+  function scrollToMatch() {
+    if (matches[currentMatch]) {
+      const el = matches[currentMatch];
+      const navHeight = 80; // Buffer for navbar
+      const y =
+        el.getBoundingClientRect().top + window.pageYOffset - navHeight - 100;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  }
+}
+
+async function initArticleNavigation(currentPost) {
+  if (!window.supabaseClient) return;
+
+  // Fetch all posts ordered by date to find neighbors
+  const { data: posts, error } = await window.supabaseClient
+    .from("posts")
+    .select("slug, id, title")
+    .order("created_at", { ascending: false });
+
+  if (error || !posts) return;
+
+  const currentIndex = posts.findIndex((p) => p.id === currentPost.id);
+  const prevPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+  const nextPost =
+    currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+  // Intercept Ctrl + Arrow Keys
+  document.addEventListener("keydown", (e) => {
+    // Only trigger if not typing in an input/textarea
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (nextPost) {
+          window.location.href = `/pulse/?slug=${nextPost.slug || nextPost.id}`;
+        } else {
+          // Toast or subtle indicator? For now, just a console log or bounce
+          console.log("Already at the latest article.");
+        }
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (prevPost) {
+          window.location.href = `/pulse/?slug=${prevPost.slug || prevPost.id}`;
+        } else {
+          console.log("Already at the first article.");
+        }
+      }
+    }
+  });
+}
+
+function initImageLightbox() {
+  const articleBody = document.getElementById("article-body");
+  if (!articleBody) return;
+
+  // Create lightbox if it doesn't exist
+  let lightbox = document.querySelector(".article-lightbox");
+  if (!lightbox) {
+    lightbox = document.createElement("div");
+    lightbox.className = "article-lightbox";
+    lightbox.innerHTML = `<img src="" alt="Lightbox">`;
+    document.body.appendChild(lightbox);
+  }
+
+  const lightboxImg = lightbox.querySelector("img");
+
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("active");
+    document.body.style.overflow = "";
+    setTimeout(() => {
+      lightboxImg.src = "";
+    }, 300);
+  }
+
+  articleBody.addEventListener("click", (e) => {
+    if (e.target.tagName === "IMG") {
+      openLightbox(e.target.src);
+    }
+  });
+
+  lightbox.addEventListener("click", closeLightbox);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lightbox.classList.contains("active")) {
+      closeLightbox();
+    }
+  });
+}
+
+async function loadRelatedPosts(currentPost) {
+  if (!window.supabaseClient) return;
+
+  const section = document.getElementById("related-reading");
+  const grid = document.getElementById("related-posts-grid");
+  if (!section || !grid) return;
+
+  // Fetch posts in same category, excluding current
+  let { data: related, error } = await window.supabaseClient
+    .from("posts")
+    .select("*")
+    .eq("category", currentPost.category)
+    .neq("id", currentPost.id)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  // Fallback: If no category matches, fetch by tags or most recent
+  if (error || !related || related.length === 0) {
+    const { data: fallback } = await window.supabaseClient
+      .from("posts")
+      .select("*")
+      .neq("id", currentPost.id)
+      .order("created_at", { ascending: false })
+      .limit(3);
+    related = fallback || [];
+  }
+
+  if (related.length > 0) {
+    section.style.display = "block";
+    grid.innerHTML = related
+      .map(
+        (post) => `
+        <a href="/pulse/?slug=${post.slug || post.id}&trackingid=${generateTrackingId()}" class="post-card fade-in">
+          <div class="post-image" style="background: ${
+            post.image_url
+              ? `url('${post.image_url}')`
+              : "linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%)"
+          }; background-size: cover; background-position: center;"></div>
+          <div class="post-content">
+            <span class="post-date">${new Date(post.created_at).toLocaleDateString()}</span>
+            <h3 class="post-title" style="font-size: 1.1rem;">${post.title}</h3>
+            <p class="post-excerpt" style="font-size: 0.9rem; -webkit-line-clamp: 2;">${post.excerpt || ""}</p>
+            <span class="read-more">Read Article <i data-lucide="arrow-right" size="16"></i></span>
+          </div>
+        </a>
+      `,
+      )
+      .join("");
+
+    if (typeof lucide !== "undefined") lucide.createIcons();
+
+    // Observe for fade-in
+    grid.querySelectorAll(".fade-in").forEach((el) => {
+      if (typeof observer !== "undefined") observer.observe(el);
+      else el.classList.add("visible");
+    });
+  }
+}
+
+function initFocusMode() {
+  const indicator = document.createElement("div");
+  indicator.className = "focus-mode-indicator";
+  indicator.textContent = "Focus Mode Active — Shift + F to exit";
+  document.body.appendChild(indicator);
+
+  function toggleFocusMode() {
+    const isActive = document.body.classList.toggle("focus-mode");
+    if (isActive) {
+      indicator.textContent = "Focus Mode Active — Shift + F to exit";
+      console.log("Focus mode enabled.");
+    } else {
+      console.log("Focus mode disabled.");
+    }
+  }
+
+  document.addEventListener("keydown", (e) => {
+    // Shift + F (case insensitive)
+    if (e.shiftKey && e.key.toLowerCase() === "f") {
+      // Don't trigger if user is typing in an input
+      if (
+        document.activeElement.tagName === "INPUT" ||
+        document.activeElement.tagName === "TEXTAREA"
+      )
+        return;
+
+      e.preventDefault();
+      toggleFocusMode();
+    }
+
+    // ESC to exit Focus Mode
+    if (e.key === "Escape" && document.body.classList.contains("focus-mode")) {
+      document.body.classList.remove("focus-mode");
+    }
+  });
+}
+
+function initLinkPreview() {
+  const articleBody = document.getElementById("article-body");
+  if (!articleBody) return;
+
+  // Create preview card element
+  let previewCard = document.querySelector(".link-preview-card");
+  if (!previewCard) {
+    previewCard = document.createElement("div");
+    previewCard.className = "link-preview-card";
+    document.body.appendChild(previewCard);
+  }
+
+  const cache = new Map();
+  let showTimeout;
+  let hideTimeout;
+
+  const showPreview = async (link, slug) => {
+    clearTimeout(hideTimeout);
+    const rect = link.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Initial position
+    previewCard.style.left = `${rect.left + window.scrollX}px`;
+    previewCard.style.top = `${rect.top + scrollTop - 10}px`;
+    previewCard.innerHTML = `
+      <div class="preview-card-loader">
+        <div class="preview-loader-pulse"></div>
+        <div style="font-size: 0.75rem; color: var(--text-muted)">Loading preview...</div>
+      </div>
+    `;
+    previewCard.classList.add("active");
+
+    // Adjust position after showing
+    const cardRect = previewCard.getBoundingClientRect();
+    let top = rect.top + scrollTop - cardRect.height - 15;
+    if (top < scrollTop + 10) {
+      top = rect.bottom + scrollTop + 15;
+    }
+    previewCard.style.top = `${top}px`;
+
+    let postData = cache.get(slug);
+    if (!postData) {
+      const { data, error } = await window.supabaseClient
+        .from("posts")
+        .select("title, excerpt, image_url")
+        .eq("slug", slug)
+        .maybeSingle();
+
+      if (!error && data) {
+        postData = data;
+        cache.set(slug, data);
+      } else {
+        const { data: idData } = await window.supabaseClient
+          .from("posts")
+          .select("title, excerpt, image_url")
+          .eq("id", slug)
+          .maybeSingle();
+        postData = idData;
+        if (idData) cache.set(slug, idData);
+      }
+    }
+
+    if (postData) {
+      previewCard.innerHTML = `
+        ${
+          postData.image_url
+            ? `<div class="preview-card-image" style="background-image: url('${postData.image_url}')"></div>`
+            : '<div class="preview-card-image" style="background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%)"></div>'
+        }
+        <div class="preview-card-content">
+          <div class="preview-card-title">${postData.title}</div>
+          <div class="preview-card-excerpt">${postData.excerpt || "No summary available."}</div>
+        </div>
+      `;
+    } else {
+      previewCard.classList.remove("active");
+    }
+  };
+
+  const hidePreview = () => {
+    clearTimeout(showTimeout);
+    hideTimeout = setTimeout(() => {
+      previewCard.classList.remove("active");
+    }, 300); // 300ms buffer to cross the gap
+  };
+
+  const links = articleBody.querySelectorAll("a");
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href) return;
+
+    try {
+      const url = new URL(href, window.location.origin);
+      if (url.origin === window.location.origin && href.includes("/pulse/")) {
+        const params = new URLSearchParams(url.search);
+        const slug = params.get("slug");
+
+        if (slug) {
+          link.addEventListener("mouseenter", () => {
+            clearTimeout(hideTimeout);
+            showTimeout = setTimeout(() => showPreview(link, slug), 300);
+          });
+
+          link.addEventListener("mouseleave", hidePreview);
+        }
+      }
+    } catch (e) {}
+  });
+
+  previewCard.addEventListener("mouseenter", () => clearTimeout(hideTimeout));
+  previewCard.addEventListener("mouseleave", hidePreview);
 }

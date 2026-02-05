@@ -24,6 +24,25 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 1921px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 2561px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 3841px) {
+  html {
+    font-size: 24px;
+  }
 }
 
 body {
@@ -58,13 +77,26 @@ h2 {
 }
 /* --- Utility --- */
 .container {
-  max-width: var(--max-width);
+  max-width: var(--max-width, 1200px);
   margin: 0 auto;
-  padding: 0 var(--spacing-container);
+  padding: 0 var(--spacing-container, 5%);
+  width: 100%;
+}
+
+@media (min-width: 2500px) {
+  :root {
+    --max-width: 1600px;
+  }
+}
+
+@media (min-width: 3800px) {
+  :root {
+    --max-width: 2000px;
+  }
 }
 
 .section-padding {
-  padding: 6rem 0;
+  padding: clamp(3rem, 10vh, 8rem) 0;
 }
 
 .fade-in {
@@ -627,28 +659,63 @@ footer {
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
     text-align: center;
   }
   .hero-img-box {
     order: -1;
     box-shadow: none;
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 320px;
   }
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 8vw, 3.5rem);
   }
 
   .bento-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   .card-lg,
   .card-tall {
     grid-column: span 1;
     grid-row: auto;
   }
+}
 
+@media (max-width: 480px) {
+  :root {
+    --spacing-container: 1.25rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .section-padding {
+    padding: 3rem 0;
+  }
+
+  .brand {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 340px) {
+  html {
+    font-size: 14px;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 900px) {
   /* Mobile Projects: Horizontal Reel */
   .project-layout {
     display: block;
@@ -910,10 +977,16 @@ footer {
 /* --- Financial Tools Page --- */
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
-  max-width: 1200px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1.5rem;
+  max-width: var(--max-width);
   margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .tools-grid {
+    gap: 1rem;
+  }
 }
 
 .tool-container {
@@ -1104,9 +1177,10 @@ footer {
 
 /* --- Viewer Page Styles --- */
 .article-container {
-  max-width: 740px; /* Optimal reading width */
+  max-width: 48rem; /* Optimal reading width, approx 768px */
   margin: 0 auto;
-  padding: 8rem 1.5rem 6rem 1.5rem;
+  padding: clamp(6rem, 15vh, 10rem) 1.5rem 6rem 1.5rem;
+  width: 100%;
 }
 
 .article-header {

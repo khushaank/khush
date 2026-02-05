@@ -946,13 +946,18 @@ function initInteractions(data) {
     });
   }
 
-  // 4. Newsletter Slide-in (One-Time: Dismiss OR Follow on LinkedIn)
+  // 4. Newsletter Slide-in (Only if cookies accepted)
   const NEWSLETTER_KEY = "newsletter_interacted";
+  const CONSENT_KEY = "cookie_consent_accepted";
   const nlSlidein = document.getElementById("newsletter-slidein");
   const nlClose = document.getElementById("nl-close");
   const linkedinBtn = document.getElementById("linkedin-follow-btn");
 
-  if (nlSlidein && !localStorage.getItem(NEWSLETTER_KEY)) {
+  // Only show if user has accepted cookies
+  const hasConsented = localStorage.getItem(CONSENT_KEY);
+  const hasInteracted = localStorage.getItem(NEWSLETTER_KEY);
+
+  if (nlSlidein && hasConsented && !hasInteracted) {
     let hasShown = false;
 
     window.addEventListener("scroll", () => {
@@ -978,11 +983,26 @@ function initInteractions(data) {
 
     // LinkedIn follow button
     if (linkedinBtn) {
-      linkedinBtn.addEventListener("click", () => {
+      linkedinBtn.addEventListener("click", async () => {
         // Mark as interacted
         localStorage.setItem(NEWSLETTER_KEY, "followed");
         nlSlidein.classList.remove("active");
-        // Link will open in new tab automatically
+
+        // Request notification permission
+        if ("Notification" in window && Notification.permission === "default") {
+          try {
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+              new Notification("Thanks for following! 🎉", {
+                body: "You'll get notified about new insights and articles.",
+                icon: "/assets/images/logo.png",
+                badge: "/assets/images/logo.png",
+              });
+            }
+          } catch (err) {
+            console.log("Notification permission:", err);
+          }
+        }
       });
     }
   }

@@ -3,8 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
     <title>Article - Khushaank Gupta</title>
     <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+    <link rel="canonical" href="https://khushaank.com/pulse/" />
     <meta name="robots" content="index, follow" />
     <meta
       name="description"
@@ -60,12 +62,27 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media = 'all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Preload Critical CSS -->
+    <link rel="preload" href="/assets/css/style.css" as="style" />
+    <link rel="preload" href="/assets/css/reading.css" as="style" />
+
     <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/reading.css" />
     <link rel="stylesheet" href="/assets/css/interactions.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <!-- Defer non-critical scripts -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
   </head>
   <body>
     <!-- Reading Progress Bar -->
@@ -358,9 +375,12 @@
         </a>
       </div>
     </div>
-    <script src="/assets/js/script.js"></script>
-    <script>
-      lucide.createIcons();
+    <script src="/assets/js/script.js" defer></script>
+    <script defer>
+      // Wait for lucide to load
+      if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+      }
       document.getElementById("current-year").textContent =
         new Date().getFullYear();
     </script>

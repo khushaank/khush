@@ -15,55 +15,63 @@
   transition: width 0.1s linear;
 }
 
-/* Notion-Style Floating TOC - White Theme Only */
+/* Notion-Style Floating TOC - Collapsed/Expanded States */
 .floating-toc {
   position: fixed;
-  top: 140px;
-  right: -260px;
-  width: 240px;
-  max-height: calc(100vh - 200px);
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-right: none;
-  border-radius: 8px 0 0 8px;
-  padding: 1rem;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
-  z-index: 100;
-  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-/* Peek tab (always visible on right edge) */
-.floating-toc::before {
-  content: "📑";
-  position: absolute;
-  left: -32px;
   top: 50%;
+  right: 0;
   transform: translateY(-50%);
-  width: 32px;
-  height: 48px;
+  width: 48px;
+  max-height: 80vh;
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-right: none;
-  border-radius: 8px 0 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease;
+  border-radius: 12px 0 0 12px;
+  padding: 1rem 0.75rem;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
-.floating-toc:hover::before {
-  background: #f9fafb;
+/* Collapsed state - show hamburger lines */
+.floating-toc::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 2px;
+  background: linear-gradient(
+    to bottom,
+    #9ca3af 0%,
+    #9ca3af 15%,
+    transparent 15%,
+    transparent 35%,
+    #9ca3af 35%,
+    #9ca3af 50%,
+    transparent 50%,
+    transparent 70%,
+    #9ca3af 70%,
+    #9ca3af 85%,
+    transparent 85%
+  );
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
-/* Show state */
+/* Expanded state */
 .floating-toc:hover,
 .floating-toc.visible {
-  right: 0;
+  width: 280px;
+  padding: 1.25rem;
+}
+
+.floating-toc:hover::before,
+.floating-toc.visible::before {
+  opacity: 0;
 }
 
 .floating-toc-header {
@@ -71,16 +79,31 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #6b7280;
-  margin-bottom: 0.75rem;
+  color: #9ca3af;
+  margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #f3f4f6;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.1s;
+  white-space: nowrap;
+}
+
+.floating-toc:hover .floating-toc-header,
+.floating-toc.visible .floating-toc-header {
+  opacity: 1;
 }
 
 .floating-toc-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.1s;
+}
+
+.floating-toc:hover .floating-toc-list,
+.floating-toc.visible .floating-toc-list {
+  opacity: 1;
 }
 
 .floating-toc-list li {
@@ -93,11 +116,11 @@
   text-decoration: none;
   font-size: 0.8125rem;
   line-height: 1.5;
-  padding: 0.35rem 0.5rem;
-  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
   transition: all 0.15s ease;
   border-left: 2px solid transparent;
-  margin-bottom: 1px;
+  margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -109,9 +132,9 @@
 }
 
 .floating-toc-link.active {
-  color: #2563eb;
+  color: #3b82f6;
   background: #eff6ff;
-  border-left-color: #2563eb;
+  border-left-color: #3b82f6;
   font-weight: 500;
 }
 
@@ -144,10 +167,82 @@
   background: #d1d5db;
 }
 
-/* Responsive - hide on tablet and mobile */
+/* Mobile - Bottom Drawer */
 @media (max-width: 1280px) {
   .floating-toc {
+    top: auto;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: none;
+    width: 100% !important;
+    max-height: 60vh;
+    border-radius: 16px 16px 0 0;
+    border: 1px solid #e5e7eb;
+    border-bottom: none;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+    transform: translateY(calc(100% - 56px));
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Mobile collapsed indicator */
+  .floating-toc::before {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: #d1d5db;
+    border-radius: 2px;
+    opacity: 1;
+  }
+
+  .floating-toc::after {
+    content: "ON THIS PAGE";
+    position: absolute;
+    top: 1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 0.5px;
+  }
+
+  .floating-toc.visible {
+    transform: translateY(0);
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .floating-toc.visible::after {
     display: none;
+  }
+
+  .floating-toc-header {
+    margin-top: 1rem;
+  }
+
+  /* Tap to expand on mobile */
+  .floating-toc.visible .floating-toc-header,
+  .floating-toc.visible .floating-toc-list {
+    opacity: 1;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1280px) {
+  .floating-toc {
+    max-width: 600px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(calc(100% - 56px));
+  }
+
+  .floating-toc.visible {
+    transform: translateX(-50%) translateY(0);
   }
 }
 

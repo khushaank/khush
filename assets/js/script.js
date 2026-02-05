@@ -1175,19 +1175,19 @@ function generateTOC() {
 
   headers.forEach((header) => observer.observe(header));
 
-  // Simple TOC visibility: always on hover, auto-show on scroll
+  // TOC visibility logic - Desktop: hover, Mobile: tap to expand
   let tocTimeout;
+  const isMobile = () => window.innerWidth <= 1280;
 
-  // Show on scroll (past 300px, hide after 2s)
+  // Desktop: Auto-show on scroll
   window.addEventListener("scroll", () => {
-    if (window.innerWidth <= 1280) return;
+    if (isMobile()) return;
 
     if (window.scrollY > 300) {
       clearTimeout(tocTimeout);
       tocContainer.classList.add("visible");
 
       tocTimeout = setTimeout(() => {
-        // Only hide if not hovering
         if (!tocContainer.matches(":hover")) {
           tocContainer.classList.remove("visible");
         }
@@ -1197,17 +1197,50 @@ function generateTOC() {
     }
   });
 
-  // Keep visible on hover
-  tocContainer.addEventListener("mouseenter", () => {
-    clearTimeout(tocTimeout);
-    tocContainer.classList.add("visible");
-  });
+  // Desktop: Keep visible on hover
+  if (!isMobile()) {
+    tocContainer.addEventListener("mouseenter", () => {
+      clearTimeout(tocTimeout);
+      tocContainer.classList.add("visible");
+    });
 
-  tocContainer.addEventListener("mouseleave", () => {
-    tocTimeout = setTimeout(() => {
-      tocContainer.classList.remove("visible");
-    }, 500);
-  });
+    tocContainer.addEventListener("mouseleave", () => {
+      tocTimeout = setTimeout(() => {
+        tocContainer.classList.remove("visible");
+      }, 500);
+    });
+  }
+
+  // Mobile: Tap to toggle
+  if (isMobile()) {
+    let lastTap = 0;
+
+    tocContainer.addEventListener("click", (e) => {
+      // Ignore clicks on links
+      if (e.target.tagName === "A") return;
+
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+
+      // Toggle on single tap (prevent double-tap zoom)
+      if (tapLength < 500 && tapLength > 0) {
+        tocContainer.classList.toggle("visible");
+      } else {
+        tocContainer.classList.toggle("visible");
+      }
+
+      lastTap = currentTime;
+    });
+
+    // Close when clicking a link
+    tocContainer.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        setTimeout(() => {
+          tocContainer.classList.remove("visible");
+        }, 300);
+      });
+    });
+  }
 }
 
 function initReadingProgress() {

@@ -1112,7 +1112,9 @@ function initReadingProgress() {
   });
 }
 
-// 5. Page Transitions (Global)
+// 5. Page Transitions (Global) - DISABLED due to conflicts
+// TODO: Re-enable after fixing opacity issues
+/*
 document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("fade-in");
 
@@ -1135,6 +1137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+*/
 
 async function loadComments(postId) {
   const list = document.getElementById("comments-list");

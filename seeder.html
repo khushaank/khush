@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Database Seeder</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 2rem;
+        line-height: 1.5;
+      }
+      .log {
+        background: #f4f4f4;
+        padding: 1rem;
+        border-radius: 8px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        height: 300px;
+        overflow-y: auto;
+      }
+      .success {
+        color: green;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Seeding Database...</h1>
+    <div id="log" class="log">Initializing...</div>
+
+    <script>
+      const log = document.getElementById("log");
+      function print(msg, type = "info") {
+        const div = document.createElement("div");
+        div.textContent = msg;
+        if (type === "error") div.className = "error";
+        if (type === "success") div.className = "success";
+        log.appendChild(div);
+        log.scrollTop = log.scrollHeight;
+      }
+
+      const SUPABASE_URL = "https://hzxwqxmldlncrhqxlnlq.supabase.co";
+      const SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6eHdxeG1sZGxuY3JocXhsbmxxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxODIwMDEsImV4cCI6MjA4NTc1ODAwMX0.pP3i8KquZmqhiUkaTw3ROi86mslTyzK5ysD2va1JI10";
+
+      // Renamed to avoid usage of global 'supabase' variable from library
+      const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      const articles = [
+        {
+          title: "The Impact of GST on Small Businesses",
+          excerpt:
+            "An in-depth analysis of how Goods and Services Tax affects the operational capabilities and compliance costs of MSMEs in India.",
+          content:
+            "<p>The Goods and Services Tax (GST) has been a watershed moment in India's taxation history. For small businesses, it brought both opportunities and challenges...</p><p>Key areas of impact include input tax credit, compliance burden, and the shift to digital record-keeping.</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=2936&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Auditing in the Age of AI",
+          excerpt:
+            "How Artificial Intelligence is transforming the auditing landscape, from automated data extraction to predictive risk assessment.",
+          content:
+            "<p>Artificial Intelligence is no longer just a buzzword; it is reshaping how audits are conducted. Traditional sampling methods are giving way to analyzing 100% of transactions...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&q=80&w=2874&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Corporate Tax Planning Strategies for 2025",
+          excerpt:
+            "Effective strategies for optimizing corporate tax liabilities while ensuring full compliance with the latest Finance Act provisions.",
+          content:
+            "<p>With the new financial year approaching, efficient tax planning is crucial. Companies must look beyond simple deductions and focus on structural efficiencies...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&q=80&w=2926&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Understanding Direct vs. Indirect Tax",
+          excerpt:
+            "A fundamental guide for students and professionals to understand the nuances between direct taxes like Income Tax and indirect taxes like GST.",
+          content:
+            "<p>Taxation is the backbone of any economy. While direct taxes are levied on income and profits, indirect taxes are levied on goods and services...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Financial Risk Management 101",
+          excerpt:
+            "Identifying, assessing, and prioritizing risks is essential for any business. Learn the basics of financial risk management.",
+          content:
+            "<p>Risk is inherent in business. However, financial risk management allows organizations to minimize protection and maximize value...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426&ixlib=rb-4.0.3",
+        },
+        {
+          title: "The Future of Chartered Accountancy",
+          excerpt:
+            "As the global economy evolves, so does the role of a CA. From compliance officers to strategic business advisors.",
+          content:
+            "<p>The role of a Chartered Accountant is expanding. It is no longer limited to just signing balance sheets but involves strategic decision-making...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Forensic Accounting: Uncovering Fraud",
+          excerpt:
+            "Exploring the investigative nature of forensic accounting and its importance in modern corporate governance.",
+          content:
+            "<p>Forensic accounting combines accounting, auditing, and investigative skills. It provides an analysis suitable to the court which will form the basis for discussion...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Navigating International Taxation",
+          excerpt:
+            "A look at transfer pricing, double taxation avoidance agreements, and the complexities of cross-border transactions.",
+          content:
+            "<p>In a globalized world, businesses often operate across borders. This brings into play international taxation laws which are complex and dynamic...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1526304640152-d4619684e484?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Strategic Financial Management",
+          excerpt:
+            "How to plan, manage, direct, and control the financial resources of an enterprise to achieve its goals.",
+          content:
+            "<p>Strategic Financial Management refers to the planning, managing, directing, and controlling of financial activity such as procurement and utilization of funds...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
+        },
+        {
+          title: "Balance Sheet Analysis for Investors",
+          excerpt:
+            "Key ratios and indicators every investor should look for when analyzing a company's balance sheet.",
+          content:
+            "<p>A balance sheet provides a snapshot of a company's financial health. For investors, reading between the lines of assets and liabilities is key...</p>",
+          image_url:
+            "https://images.unsplash.com/photo-1543286386-713df548e9cc?auto=format&fit=crop&q=80&w=2940&ixlib=rb-4.0.3",
+        },
+      ];
+
+      async function seed() {
+        print("Starting seed process...");
+
+        for (const article of articles) {
+          // Generate a simple slug
+          const slug = article.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+
+          print(`Inserting: ${article.title}...`);
+
+          const { data, error } = await sbClient.from("posts").insert([
+            {
+              title: article.title,
+              excerpt: article.excerpt,
+              content: article.content,
+              slug: slug,
+              image_url: article.image_url,
+              views: Math.floor(Math.random() * 100),
+            },
+          ]);
+
+          if (error) {
+            print(`Failed: ${error.message}`, "error");
+          } else {
+            print(`Success!`, "success");
+          }
+
+          // Small delay to prevent rate limiting if any
+          await new Promise((r) => setTimeout(r, 200));
+        }
+
+        print("Seeding complete!", "success");
+      }
+
+      seed();
+    </script>
+  </body>
+</html>

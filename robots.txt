@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /seeder.html
+Disallow: /assets/
+Sitemap: https://khushaank.com/sitemap.xml

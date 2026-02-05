@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Tools - Khushaank Gupta</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <meta
+      name="description"
+      content="Free financial calculators for SIP and investment planning."
+    />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="loader-bar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="index.html" class="brand">KG.</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html#about" class="nav-link">About</a></li>
+            <li><a href="index.html#projects" class="nav-link">Work</a></li>
+            <li><a href="blog.html" class="nav-link">Insights</a></li>
+            <li><a href="tools.html" class="nav-link active">Tools</a></li>
+            <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-toggle"><i data-lucide="menu"></i></button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <button
+        class="mobile-toggle"
+        style="align-self: flex-end; margin-bottom: 2rem"
+      >
+        <i data-lucide="x"></i>
+      </button>
+      <a href="index.html#about" class="mobile-link">About</a>
+      <a href="index.html#projects" class="mobile-link">Work</a>
+      <a href="blog.html" class="mobile-link">Insights</a>
+      <a href="tools.html" class="mobile-link">Tools</a>
+      <a href="index.html#contact" class="mobile-link">Contact</a>
+    </div>
+
+    <main>
+      <section class="container section-padding" style="padding-top: 150px">
+        <div style="text-align: center; margin-bottom: 4rem" class="fade-in">
+          <span class="badge">Toolkit</span>
+          <h1
+            style="
+              font-family: var(--font-heading);
+              font-size: 3rem;
+              margin-bottom: 1rem;
+            "
+          >
+            Wealth Check
+          </h1>
+          <p style="color: var(--text-muted)">
+            Project your financial growth with precision.
+          </p>
+        </div>
+
+        <!-- SIP Calculator -->
+        <div class="tool-container fade-in">
+          <h2
+            style="
+              font-family: var(&quot;font-heading&quot;);
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            SIP Calculator
+          </h2>
+
+          <div class="calc-group">
+            <label class="calc-label">Monthly Investment (₹)</label>
+            <div class="range-container">
+              <input
+                type="number"
+                id="sip-amount"
+                class="calc-input"
+                value="5000"
+                min="500"
+              />
+            </div>
+            <input
+              type="range"
+              id="sip-amount-range"
+              class="calc-range"
+              min="500"
+              max="100000"
+              step="500"
+              value="5000"
+              style="width: 100%; margin-top: 10px"
+            />
+          </div>
+
+          <div class="calc-group">
+            <label class="calc-label">Expected Return Rate (p.a) %</label>
+            <div class="range-container">
+              <input
+                type="number"
+                id="sip-rate"
+                class="calc-input"
+                value="12"
+                min="1"
+                max="30"
+              />
+            </div>
+            <input
+              type="range"
+              id="sip-rate-range"
+              class="calc-range"
+              min="1"
+              max="30"
+              step="0.5"
+              value="12"
+              style="width: 100%; margin-top: 10px"
+            />
+          </div>
+
+          <div class="calc-group">
+            <label class="calc-label">Time Period (Years)</label>
+            <div class="range-container">
+              <input
+                type="number"
+                id="sip-years"
+                class="calc-input"
+                value="10"
+                min="1"
+                max="50"
+              />
+            </div>
+            <input
+              type="range"
+              id="sip-years-range"
+              class="calc-range"
+              min="1"
+              max="50"
+              step="1"
+              value="10"
+              style="width: 100%; margin-top: 10px"
+            />
+          </div>
+
+          <div class="calc-results">
+            <div class="result-item">
+              <h4>Invested Amount</h4>
+              <div class="result-val" id="res-invested">₹6,00,000</div>
+            </div>
+            <div class="result-item">
+              <h4>Est. Returns</h4>
+              <div class="result-val" id="res-returns">₹5,61,695</div>
+            </div>
+            <div
+              class="result-item"
+              style="grid-column: span 2; text-align: center; margin-top: 1rem"
+            >
+              <h4>Total Value</h4>
+              <div class="result-val highlight-val" id="res-total">
+                ₹11,61,695
+              </div>
+            </div>
+          </div>
+
+          <!-- Simple CSS Chart -->
+          <div
+            style="
+              margin-top: 1.5rem;
+              display: flex;
+              justify-content: space-between;
+              font-size: 0.8rem;
+              color: var(--text-muted);
+            "
+          >
+            <span>Invested (Gray)</span>
+            <span>Returns (Blue)</span>
+          </div>
+          <div class="chart-wrapper">
+            <div
+              class="chart-invested"
+              id="bar-invested"
+              style="width: 50%"
+            ></div>
+            <div
+              class="chart-returns"
+              id="bar-returns"
+              style="width: 50%"
+            ></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <h4>Khushaank Gupta.</h4>
+        </div>
+        <div>
+          <ul class="footer-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#projects">Work</a></li>
+            <li><a href="blog.html">Insights</a></li>
+            <li><a href="tools.html">Tools</a></li>
+          </ul>
+        </div>
+        <div>
+          <ul class="footer-links">
+            <li><a href="mailto:khushaank@example.com">Email Me</a></li>
+            <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="container"
+        style="margin-top: 3rem; font-size: 0.8rem; color: #999"
+      >
+        &copy; <span id="current-year"></span> Khushaank Gupta.
+        <span class="footer-legal" style="margin-left: 1rem">
+          &bull; <a href="privacy.html" target="_blank">Privacy</a> &bull;
+          <a href="terms.html" target="_blank">Terms</a>
+        </span>
+      </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+      <div class="cookie-text">
+        <p>
+          I use cookies to enhance your experience. By continuing to visit this
+          site you agree to my use of cookies.
+          <a href="privacy.html">Learn more</a>.
+        </p>
+      </div>
+      <div class="cookie-actions">
+        <button
+          id="accept-cookies"
+          class="btn btn-primary"
+          style="
+            padding: 0.6rem 1.2rem;
+            background: var(--text-main);
+            color: #fff;
+          "
+        >
+          Accept
+        </button>
+      </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

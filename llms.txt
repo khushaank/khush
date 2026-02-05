@@ -1,0 +1,11 @@
+# KHUSHAANK GUPTA PORTFOLIO - LLM CONTEXT
+Owner: Khushaank Gupta
+Role: CA Aspirant & Finance Student (Delhi University)
+Keywords: Strategy, Finance, Auditing, Tax, Commerce
+Tech Stack: HTML, CSS, Vanilla JS, Supabase
+
+## Content
+- /index.html: Portfolio homepage, about, skills, projects.
+- /blog.html: Financial insights and articles.
+- /tools.html: SIP Calculator and financial tools.
+- /viewer.html: Article reader.

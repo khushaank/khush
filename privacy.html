@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - Khushaank Gupta</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .policy-content {
+        max-width: 800px;
+        margin: 6rem auto 4rem;
+        padding: 0 1.5rem;
+      }
+      .policy-content h1 {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+      .policy-content h2 {
+        font-family: var(--font-heading);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      .policy-content p,
+      .policy-content li {
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+      .policy-content ul {
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="index.html" class="brand">KG.</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html#about" class="nav-link">About</a></li>
+            <li><a href="index.html#projects" class="nav-link">Work</a></li>
+            <li><a href="blog.html" class="nav-link">Insights</a></li>
+            <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-toggle"><i data-lucide="menu"></i></button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <button
+        class="mobile-toggle"
+        style="align-self: flex-end; margin-bottom: 2rem"
+      >
+        <i data-lucide="x"></i>
+      </button>
+      <a href="index.html#about" class="mobile-link">About</a>
+      <a href="index.html#projects" class="mobile-link">Work</a>
+      <a href="blog.html" class="mobile-link">Insights</a>
+      <a href="tools.html" class="mobile-link">Tools</a>
+      <a href="index.html#contact" class="mobile-link">Contact</a>
+    </div>
+
+    <main class="policy-content fade-in">
+      <h1>Privacy Policy</h1>
+      <p>Last updated: February 2026</p>
+
+      <p>
+        Your privacy is important to me. This Privacy Policy explains how
+        Khushaank Gupta ("I", "me", or "my") collects, uses, and protects your
+        information when you visit my portfolio website.
+      </p>
+
+      <h2>1. Information I Collect</h2>
+      <p>I may collect the following types of information:</p>
+      <ul>
+        <li>
+          <strong>Usage Data:</strong> Information about how you use the
+          website, such as your IP address, browser type, pages visited, and
+          time spent on pages. This is primarily used for analytics to improve
+          user experience.
+        </li>
+        <li>
+          <strong>Voluntary Information:</strong> If you contact me via email or
+          LinkedIn, I will receive the information you provide, such as your
+          name and email address.
+        </li>
+      </ul>
+
+      <h2>2. How I Use Your Information</h2>
+      <p>I use the collected information for the following purposes:</p>
+      <ul>
+        <li>To provide and maintain the website.</li>
+        <li>
+          To monitor usage and analyze trends to improve content and
+          functionality.
+        </li>
+        <li>To communicate with you if you have reached out to me.</li>
+      </ul>
+
+      <h2>3. Cookies</h2>
+      <p>
+        This website uses cookies to enhance your experience. You can choose to
+        disable cookies through your browser settings, but this may affect some
+        website features.
+      </p>
+
+      <h2>4. Third-Party Services</h2>
+      <p>
+        I may use third-party services like Google Analytics or Supabase which
+        may collect information sent by your browser as part of a web page
+        request.
+      </p>
+
+      <h2>5. Contact Me</h2>
+      <p>
+        If you have any questions about this Privacy Policy, please contact me
+        via email or LinkedIn.
+      </p>
+    </main>
+
+    <footer>
+      <div
+        class="container"
+        style="
+          text-align: center;
+          padding: 2rem 0;
+          color: #999;
+          font-size: 0.8rem;
+        "
+      >
+        &copy; <span id="current-year"></span> Khushaank Gupta.
+        <a href="privacy.html" target="_blank">Privacy</a> &bull;
+        <a href="terms.html" target="_blank">Terms</a>
+      </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+      <div class="cookie-text">
+        <p>
+          I use cookies to enhance your experience. By continuing to visit this
+          site you agree to my use of cookies.
+          <a href="privacy.html">Learn more</a>.
+        </p>
+      </div>
+      <div class="cookie-actions">
+        <button
+          id="accept-cookies"
+          class="btn btn-primary"
+          style="
+            padding: 0.6rem 1.2rem;
+            background: var(--text-main);
+            color: #fff;
+          "
+        >
+          Accept
+        </button>
+      </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+      lucide.createIcons();
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Chronicles - Insights by Khushaank Gupta</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <meta
+      name="description"
+      content="Explore expert insights on corporate tax structures, financial risk assessment, and market trends. Khushaank Gupta's blog regarding finance and economics."
+    />
+    <meta
+      name="keywords"
+      content="Finance, Economics, Tax, Audit, Khushaank Gupta, Blog, Insights, Market Volatility, CA"
+    />
+    <meta name="author" content="Khushaank Gupta" />
+    <link rel="canonical" href="https://khushaank.com/blog.html" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://khushaank.com/blog.html" />
+    <meta
+      property="og:title"
+      content="Financial Chronicles - Insights by Khushaank Gupta"
+    />
+    <meta
+      property="og:description"
+      content="Explore expert insights on corporate tax structures, financial risk assessment, and market trends."
+    />
+    <meta
+      property="og:image"
+      content="https://khushaank.com/assets/images/blog-preview.jpg"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://khushaank.com/blog.html" />
+    <meta
+      property="twitter:title"
+      content="Financial Chronicles - Insights by Khushaank Gupta"
+    />
+    <meta
+      property="twitter:description"
+      content="Explore expert insights on corporate tax structures, financial risk assessment, and market trends."
+    />
+    <meta
+      property="twitter:image"
+      content="https://khushaank.com/assets/images/blog-preview.jpg"
+    />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Financial Chronicles",
+        "url": "https://khushaank.com/blog.html",
+        "description": "Decoding complex financial landscapes, one article at a time.",
+        "publisher": {
+          "@type": "Person",
+          "name": "Khushaank Gupta"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="loader-bar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="/index.html" class="brand">KG.</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="/index.html#about" class="nav-link">About</a></li>
+            <li><a href="/index.html#projects" class="nav-link">Work</a></li>
+            <li><a href="#" class="nav-link active">Insights</a></li>
+            <li><a href="/tools.html" class="nav-link">Tools</a></li>
+            <li><a href="/index.html#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-toggle"><i data-lucide="menu"></i></button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <button
+        class="mobile-toggle"
+        style="align-self: flex-end; margin-bottom: 2rem"
+      >
+        <i data-lucide="x"></i>
+      </button>
+      <a href="/index.html#about" class="mobile-link">About</a>
+      <a href="/index.html#projects" class="mobile-link">Work</a>
+      <a href="#" class="mobile-link">Insights</a>
+      <a href="/tools.html" class="mobile-link">Tools</a>
+      <a href="/index.html#contact" class="mobile-link">Contact</a>
+    </div>
+
+    <main>
+      <section class="container section-padding" style="padding-top: 150px">
+        <div style="text-align: center; margin-bottom: 4rem" class="fade-in">
+          <span class="badge">Blog</span>
+          <h1
+            style="
+              font-family: var(--font-heading);
+              font-size: 3rem;
+              margin-bottom: 1rem;
+            "
+          >
+            Financial Chronicles
+          </h1>
+          <p style="color: var(--text-muted)">
+            Decoding complex financial landscapes, one article at a time.
+          </p>
+
+          <div class="inline-search-wrapper" style="margin-top: 2.5rem">
+            <div class="search-box-visible" onclick="openSearch()">
+              <i data-lucide="search" class="search-icon-vis"></i>
+              <span class="search-placeholder">Search insights...</span>
+              <span class="search-shortcut">Ctrl K</span>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bento-grid"
+          id="posts-grid"
+          style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))"
+        >
+          <div
+            style="
+              grid-column: 1/-1;
+              text-align: center;
+              padding: 2rem;
+              color: #999;
+            "
+          >
+            Loading articles...
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <h4>Khushaank Gupta.</h4>
+        </div>
+        <div>
+          <ul class="footer-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#projects">Work</a></li>
+            <li><a href="#">Insights</a></li>
+          </ul>
+        </div>
+        <div>
+          <ul class="footer-links">
+            <li><a href="mailto:khushaank@example.com">Email Me</a></li>
+            <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="container"
+        style="margin-top: 3rem; font-size: 0.8rem; color: #999"
+      >
+        &copy; <span id="current-year"></span> Khushaank Gupta.
+        <span class="footer-legal" style="margin-left: 1rem">
+          &bull; <a href="privacy.html" target="_blank">Privacy</a> &bull;
+          <a href="terms.html" target="_blank">Terms</a>
+        </span>
+      </div>
+    </footer>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay">
+      <button class="close-search">&times;</button>
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Type to search..."
+          autofocus
+        />
+        <div class="search-suggestions"></div>
+        <div class="search-hints">
+          <span>Press <span class="kbd">Enter</span> to search</span>
+          <span><span class="kbd">ESC</span> to close</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+      <div class="cookie-text">
+        <p>
+          I use cookies to enhance your experience. By continuing to visit this
+          site you agree to my use of cookies.
+          <a href="privacy.html">Learn more</a>.
+        </p>
+      </div>
+      <div class="cookie-actions">
+        <button
+          id="accept-cookies"
+          class="btn btn-primary"
+          style="
+            padding: 0.6rem 1.2rem;
+            background: var(--text-main);
+            color: #fff;
+          "
+        >
+          Accept
+        </button>
+      </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

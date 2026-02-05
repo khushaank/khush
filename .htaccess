@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Rewrite /pulse/slug to viewer.html?slug=slug (preserving query string like trackingid)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^pulse/([a-zA-Z0-9-]+)$ viewer.html?slug=$1 [L,QSA]
+
+# Generic rule for extensionless HTML files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+ErrorDocument 404 /404.html

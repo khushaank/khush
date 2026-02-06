@@ -74,10 +74,10 @@
 
     <!-- Preload Critical CSS -->
     <link rel="preload" href="/assets/css/style.css" as="style" />
-    <link rel="preload" href="/assets/css/reading.css" as="style" />
+
 
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <link rel="stylesheet" href="/assets/css/reading.css" />
+
     <link rel="stylesheet" href="/assets/css/interactions.css" />
 
     <!-- Defer non-critical scripts -->
@@ -214,6 +214,9 @@
             <ul id="floating-toc-list" class="floating-toc-list"></ul>
           </div>
         </header>
+
+        </div>
+
 
         <div id="article-body" class="article-content"></div>
 
@@ -415,13 +418,6 @@
       </div>
     </div>
     <script src="/assets/js/script.js" defer></script>
-    <script defer>
-      // Wait for lucide to load
-      if (typeof lucide !== "undefined") {
-        lucide.createIcons();
-      }
-      document.getElementById("current-year").textContent =
-        new Date().getFullYear();
-    </script>
+
   </body>
 </html>

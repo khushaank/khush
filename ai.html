@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantitative Finance | Khushaank Gupta</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <meta
+      name="description"
+      content="Bridging traditional finance with modern data science. Quantitative modeling, automation, and algorithmic strategies by Khushaank Gupta."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="index.html" class="brand">KG.</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html#about" class="nav-link">About</a></li>
+            <li><a href="index.html#projects" class="nav-link">Work</a></li>
+            <li><a href="ai.html" class="nav-link active">Finance</a></li>
+            <li><a href="blog.html" class="nav-link">Insights</a></li>
+            <li><a href="tools.html" class="nav-link">Tools</a></li>
+            <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-toggle"><i data-lucide="menu"></i></button>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <button
+        class="mobile-toggle"
+        style="align-self: flex-end; margin-bottom: 2rem"
+      >
+        <i data-lucide="x"></i>
+      </button>
+      <a href="index.html#about" class="mobile-link">About</a>
+      <a href="index.html#projects" class="mobile-link">Work</a>
+      <a href="ai.html" class="mobile-link">Finance</a>
+      <a href="blog.html" class="mobile-link">Insights</a>
+      <a href="tools.html" class="mobile-link">Tools</a>
+      <a href="index.html#contact" class="mobile-link">Contact</a>
+    </div>
+
+    <main>
+      <!-- Hero Section (Matches Index Structure) -->
+      <section class="hero container">
+        <div class="hero-grid">
+          <div class="hero-content fade-in">
+            <span class="badge">Computational Finance</span>
+            <h1>The Algo <br /><em>Advantage.</em></h1>
+            <p>
+              Moving beyond spreadsheets. I leverage Python, LLMs, and data
+              engineering to build robust financial models and automated
+              valuation systems. Structure unstructured data to find alpha.
+            </p>
+            <div class="hero-actions">
+              <a href="#stack" class="btn"
+                >View The Stack
+                <i
+                  data-lucide="arrow-down"
+                  style="width: 1em; height: 1em; vertical-align: middle"
+                ></i
+              ></a>
+            </div>
+
+            <div
+              class="ai-stats-bar"
+              style="
+                justify-content: flex-start;
+                margin-top: 3rem;
+                border-top: none;
+                padding-top: 0;
+                gap: 3rem;
+              "
+            >
+              <div class="ai-stat" style="text-align: left">
+                <strong>50+</strong>
+                <span>Models Built</span>
+              </div>
+              <div class="ai-stat" style="text-align: left">
+                <strong>10GB+</strong>
+                <span>Data Processed</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-img-box fade-in">
+            <!-- Abstract Finance Visualization -->
+            <div
+              style="
+                width: 100%;
+                height: 100%;
+                min-height: 400px;
+                background: var(--bg-surface);
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  background: radial-gradient(
+                    circle at 30% 30%,
+                    rgba(37, 99, 235, 0.05),
+                    transparent 60%
+                  );
+                "
+              ></div>
+              <!-- Simple SVG visualization -->
+              <svg
+                width="300"
+                height="200"
+                viewBox="0 0 300 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style="opacity: 0.8"
+              >
+                <path
+                  d="M0 150 C 50 150, 50 100, 100 100 C 150 100, 150 50, 200 50 C 250 50, 250 20, 300 10"
+                  stroke="#2563eb"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <path
+                  d="M0 180 C 60 180, 80 140, 120 140 C 160 140, 180 90, 240 80 C 280 75, 290 60, 300 50"
+                  stroke="#cbd5e1"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-dasharray="4 4"
+                />
+                <circle cx="200" cy="50" r="4" fill="#2563eb" />
+                <circle cx="100" cy="100" r="4" fill="#2563eb" />
+                <circle cx="120" cy="140" r="4" fill="#cbd5e1" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Philosophy -->
+      <section class="section-padding container">
+        <div
+          class="project-layout"
+          style="grid-template-columns: 1fr 2fr; gap: 4rem"
+        >
+          <div>
+            <h2
+              style="
+                margin-left: 0;
+                font-family: var(--font-heading);
+                font-size: 2.5rem;
+                line-height: 1.2;
+              "
+            >
+              The Thesis.
+            </h2>
+          </div>
+          <div>
+            <p
+              style="
+                font-size: 1.25rem;
+                color: var(--text-main);
+                margin-bottom: 1.5rem;
+                font-family: var(--font-heading);
+              "
+            >
+              "Finance is no longer just about reading balance sheets. It's
+              about structuring unstructured data."
+            </p>
+            <p
+              style="
+                font-size: 1rem;
+                color: var(--text-muted);
+                margin-bottom: 1rem;
+                line-height: 1.6;
+              "
+            >
+              Traditional finance relies heavily on manual inputs and static
+              models in Excel. My approach integrates
+              <strong>data science</strong> into the core of analysis.
+            </p>
+            <p
+              style="
+                font-size: 1rem;
+                color: var(--text-muted);
+                line-height: 1.6;
+              "
+            >
+              By automating data collection (SEC filings, earnings calls) and
+              using AI for sentiment analysis, we can uncover alpha that manual
+              analysis misses.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Financial Tech Stack -->
+      <section
+        id="stack"
+        class="section-padding"
+        style="background: var(--bg-surface)"
+      >
+        <div class="container">
+          <div style="margin-bottom: 3rem">
+            <span class="badge">Tooling</span>
+            <h2 style="margin-left: 0; font-family: var(--font-heading)">
+              Financial Tech Stack
+            </h2>
+          </div>
+
+          <div class="bento-grid" style="grid-template-columns: repeat(3, 1fr)">
+            <!-- Card 1: Python -->
+            <div class="bento-card wide">
+              <div class="bento-icon"><i data-lucide="code-2"></i></div>
+              <h3>Python Ecosystem</h3>
+              <p>
+                Pandas for manipulation, NumPy for calculation, and SciPy for
+                optimization. The core engine for all quantitative work,
+                replacing brittle Excel macros with robust scripts.
+              </p>
+            </div>
+
+            <!-- Card 2: Excel + AI -->
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="table"></i></div>
+              <h3>Modern Excel</h3>
+              <p>
+                Advanced modeling with Power Query and Python integration. Best
+                for final presentation and sensitivity analysis.
+              </p>
+            </div>
+
+            <!-- Card 3: LLMs -->
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="brain-circuit"></i></div>
+              <h3>LLM Reasoning</h3>
+              <p>
+                Claude 3.5 & GPT-4o for earnings call summarization and
+                extracting risk factors from 10-Ks.
+              </p>
+            </div>
+
+            <!-- Card 4: Databases -->
+            <div class="bento-card wide">
+              <div class="bento-icon"><i data-lucide="database"></i></div>
+              <h3>High-Performance SQL</h3>
+              <p>
+                Supabase (PostgreSQL) for storing historical price data and
+                fundamental metrics. Clean, structured data is the foundation of
+                any good model.
+              </p>
+            </div>
+
+            <!-- Card 5: Viz -->
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="pie-chart"></i></div>
+              <h3>Visualization</h3>
+              <p>
+                Tableau & Matplotlib for turning complex datasets into
+                actionable charts.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Current Experiments / Labs -->
+      <section class="section-padding container">
+        <h2 class="section-title" style="margin-left: 0; margin-bottom: 3rem">
+          Market Experiments
+        </h2>
+        <div class="lab-grid">
+          <!-- Experiment 1 -->
+          <div class="lab-card">
+            <div class="lab-info">
+              <div style="margin-bottom: 1rem">
+                <i data-lucide="layers" style="color: var(--accent)"></i>
+              </div>
+              <h4>Earnings Call Sentiment Bot</h4>
+              <p>
+                A pipeline that downloads transcripts, analyzes executive tone
+                using NLP, and correlates it with post-earnings price action.
+              </p>
+              <span class="lab-link">NLP + Python</span>
+            </div>
+          </div>
+          <!-- Experiment 2 -->
+          <div class="lab-card">
+            <div class="lab-info">
+              <div style="margin-bottom: 1rem">
+                <i data-lucide="trending-up" style="color: var(--accent)"></i>
+              </div>
+              <h4>Automated DCF Model</h4>
+              <p>
+                Script that pulls live financials from APIs, projects future
+                cash flows based on growth assumptions, and outputs intrinsic
+                value.
+              </p>
+              <span class="lab-link">Valuation</span>
+            </div>
+          </div>
+          <!-- Experiment 3 -->
+          <div class="lab-card">
+            <div class="lab-info">
+              <div style="margin-bottom: 1rem">
+                <i data-lucide="globe" style="color: var(--accent)"></i>
+              </div>
+              <h4>Macro-Economic Dashboard</h4>
+              <p>
+                Real-time tracker of interest rates, inflation data, and bond
+                yields to gauge market regime.
+              </p>
+              <span class="lab-link">Data Eng</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="ai-cta-clean">
+        <div class="container">
+          <h2
+            style="
+              font-family: var(--font-heading);
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+            "
+          >
+            Need Quantitative Insights?
+          </h2>
+          <p
+            style="
+              max-width: 600px;
+              margin: 0 auto 2rem;
+              color: var(--text-muted);
+            "
+          >
+            I help firms bridge the gap between traditional finance and modern
+            engineering. Whether it's automating reports or building custom
+            models.
+          </p>
+          <a href="mailto:contact@khushaank.com" class="btn-primary-outline">
+            Get in Touch
+            <i data-lucide="arrow-right" style="width: 1.2rem"></i>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div
+        class="container"
+        style="
+          text-align: center;
+          padding: 4rem 0;
+          color: #666;
+          font-size: 0.9rem;
+          border-top: 1px solid var(--border);
+        "
+      >
+        &copy; <span id="current-year"></span> Khushaank Gupta.
+        <span style="opacity: 0.7">Designed with Intelligence.</span>
+      </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+      // Update copyright year
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+
+      // Re-initialize Lucide icons
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

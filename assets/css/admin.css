@@ -430,3 +430,58 @@ tr:hover {
     transform: scale(1);
   }
 }
+
+/* --- Quill Tooltip Fixes --- */
+.ql-tooltip {
+  z-index: 10000 !important; /* Ensure above modal */
+  box-shadow: var(--shadow-md) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  background-color: white !important;
+  border: 1px solid var(--border) !important;
+}
+
+.ql-tooltip input[type="text"] {
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+  padding: 6px 10px !important;
+  font-family: var(--font-sans) !important;
+  width: 200px !important;
+  outline: none;
+  color: var(--text-main) !important;
+}
+.ql-tooltip input[type="text"]:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.ql-tooltip a.ql-action::before {
+  font-weight: 600 !important;
+  color: var(--accent) !important;
+}
+
+.ql-tooltip a.ql-remove::before {
+  color: var(--danger) !important;
+}
+
+/* Fix for Quill toolbar links needing better visibility */
+.ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+  border-right: 0px;
+  content: "Save";
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+/* Compact View (Settings) */
+.compact-view td,
+.compact-view th {
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.9rem;
+}
+.compact-view .icon-btn {
+  padding: 0.25rem;
+}
+.compact-view .btn {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}

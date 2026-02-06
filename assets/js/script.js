@@ -1074,10 +1074,40 @@ async function loadArticle(slug) {
     document.getElementById("article-views").textContent =
       (data.views || 0) + 1;
     const testLink = `<p style="margin-top: 2rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border: 1px dashed var(--accent);"><strong>Feature Test:</strong> Hover over this link to see the new preview card: <a href="/pulse/?slug=the-architecture-of-modern-fintech-applications">The Architecture of Modern FinTech Applications</a></p>`;
-    document.getElementById("article-body").innerHTML = data.content + testLink;
+    const bodyContainer = document.getElementById("article-body");
+    bodyContainer.innerHTML = data.content + testLink;
+
+    // --- Sanitize Links & Fix Styles ---
+    const allLinks = bodyContainer.querySelectorAll("a");
+    allLinks.forEach((link) => {
+      // 1. Enforce HTTPS (only if it looks like a domain but missing protocol)
+      let href = link.getAttribute("href");
+      if (
+        href &&
+        !href.startsWith("/") &&
+        !href.match(/^(https?:\/\/|mailto:|tel:|#)/)
+      ) {
+        // Simple heuristic: if it has a dot and no spaces, it's likely a URL
+        if (href.indexOf(".") > -1 && href.indexOf(" ") === -1) {
+          link.setAttribute("href", "https://" + href);
+        }
+      }
+
+      // 2. Unwrap from <code> tags (Fixes gray block issue)
+      // Often editors wrap links in code tags if pasted as code.
+      if (link.parentNode.tagName === "CODE") {
+        const codeTag = link.parentNode;
+        // Move link out
+        codeTag.parentNode.insertBefore(link, codeTag);
+        // If code tag is now empty, remove it
+        if (!codeTag.textContent.trim()) {
+          codeTag.remove();
+        }
+      }
+    });
 
     // Increment View
-    window.supabaseClient.rpc("increment_views", { post_id: data.id });
+    window.supabaseClient.rpc("increment_post_view", { p_id: data.id });
 
     // --- New Features Initialization ---
     calculateReadingTime(data.content);
@@ -1087,8 +1117,8 @@ async function loadArticle(slug) {
     initArticleSearch();
     initArticleNavigation(data);
     initImageLightbox();
+    initLinkPreview(); // Re-init previews for dynamic content
     initFocusMode();
-    initLinkPreview();
     loadRelatedPosts(data);
 
     // Re-run icons for new elements
@@ -1683,7 +1713,7 @@ function initLinkPreview() {
   let showTimeout;
   let hideTimeout;
 
-  const showPreview = async (link, slug) => {
+  const showPreview = async (link, identifier, type) => {
     clearTimeout(hideTimeout);
     const rect = link.getBoundingClientRect();
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -1707,42 +1737,65 @@ function initLinkPreview() {
     }
     previewCard.style.top = `${top}px`;
 
-    let postData = cache.get(slug);
-    if (!postData) {
-      const { data, error } = await window.supabaseClient
-        .from("posts")
-        .select("title, excerpt, image_url")
-        .eq("slug", slug)
-        .maybeSingle();
-
-      if (!error && data) {
-        postData = data;
-        cache.set(slug, data);
-      } else {
-        const { data: idData } = await window.supabaseClient
+    if (type === "internal") {
+      let postData = cache.get(identifier);
+      if (!postData) {
+        const { data, error } = await window.supabaseClient
           .from("posts")
           .select("title, excerpt, image_url")
-          .eq("id", slug)
+          .eq("slug", identifier)
           .maybeSingle();
-        postData = idData;
-        if (idData) cache.set(slug, idData);
-      }
-    }
 
-    if (postData) {
-      previewCard.innerHTML = `
-        ${
-          postData.image_url
-            ? `<div class="preview-card-image" style="background-image: url('${postData.image_url}')"></div>`
-            : '<div class="preview-card-image" style="background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%)"></div>'
+        if (!error && data) {
+          postData = data;
+          cache.set(identifier, data);
+        } else {
+          const { data: idData } = await window.supabaseClient
+            .from("posts")
+            .select("title, excerpt, image_url")
+            .eq("id", identifier)
+            .maybeSingle();
+          postData = idData;
+          if (idData) cache.set(identifier, idData);
         }
-        <div class="preview-card-content">
-          <div class="preview-card-title">${postData.title}</div>
-          <div class="preview-card-excerpt">${postData.excerpt || "No summary available."}</div>
-        </div>
-      `;
+      }
+
+      if (postData) {
+        previewCard.innerHTML = `
+            ${
+              postData.image_url
+                ? `<div class="preview-card-image" style="background-image: url('${postData.image_url}')"></div>`
+                : '<div class="preview-card-image" style="background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%)"></div>'
+            }
+            <div class="preview-card-content">
+            <div class="preview-card-title">${postData.title}</div>
+            <div class="preview-card-excerpt">${postData.excerpt || "No summary available."}</div>
+            </div>
+        `;
+      } else {
+        previewCard.classList.remove("active");
+      }
     } else {
-      previewCard.classList.remove("active");
+      // External Link Preview
+      try {
+        const urlObj = new URL(identifier);
+        const domain = urlObj.hostname;
+        const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+
+        previewCard.innerHTML = `
+                <div class="preview-card-content" style="padding: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <img src="${favicon}" alt="Favicon" style="width: 24px; height: 24px; border-radius: 4px;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">${domain}</span>
+                    </div>
+                    <div class="preview-card-title" style="font-size: 0.95rem; margin-bottom: 0.25rem; word-break: break-all;">${identifier}</div>
+                    <div class="preview-card-excerpt">Click to visit external site <i data-lucide="external-link" size="12" style="display: inline; vertical-align: middle;"></i></div>
+                </div>
+            `;
+        lucide.createIcons();
+      } catch (e) {
+        previewCard.classList.remove("active");
+      }
     }
   };
 
@@ -1760,6 +1813,8 @@ function initLinkPreview() {
 
     try {
       const url = new URL(href, window.location.origin);
+
+      // 1. Internal Pulse Links
       if (url.origin === window.location.origin && href.includes("/pulse/")) {
         const params = new URLSearchParams(url.search);
         const slug = params.get("slug");
@@ -1767,11 +1822,24 @@ function initLinkPreview() {
         if (slug) {
           link.addEventListener("mouseenter", () => {
             clearTimeout(hideTimeout);
-            showTimeout = setTimeout(() => showPreview(link, slug), 300);
+            showTimeout = setTimeout(
+              () => showPreview(link, slug, "internal"),
+              300,
+            );
           });
-
           link.addEventListener("mouseleave", hidePreview);
         }
+      }
+      // 2. External Links (Generic Preview)
+      else if (url.protocol.startsWith("http")) {
+        link.addEventListener("mouseenter", () => {
+          clearTimeout(hideTimeout);
+          showTimeout = setTimeout(
+            () => showPreview(link, href, "external"),
+            300,
+          );
+        });
+        link.addEventListener("mouseleave", hidePreview);
       }
     } catch (e) {}
   });
@@ -1779,3 +1847,60 @@ function initLinkPreview() {
   previewCard.addEventListener("mouseenter", () => clearTimeout(hideTimeout));
   previewCard.addEventListener("mouseleave", hidePreview);
 }
+
+/**
+ * AI Tool Cards Hover/Glow Effect
+ */
+function initAICardEffects() {
+  const cards = document.querySelectorAll(".ai-card");
+  cards.forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    });
+  });
+}
+
+// Call on load
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.querySelector(".ai-toolkit-grid")) {
+    initAICardEffects();
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  // Icons initialization
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+
+  // Update Copyright Year
+  const yearEl = document.getElementById("current-year");
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
+
+  // Index Page: Load Latest Posts
+  if (
+    document.getElementById("latest-posts-grid") &&
+    typeof loadLatestPosts === "function"
+  ) {
+    loadLatestPosts();
+  }
+
+  // AI Page: Initialize Card Effects
+  if (
+    document.querySelector(".ai-toolkit-grid") &&
+    typeof initAICardEffects === "function"
+  ) {
+    initAICardEffects();
+  }
+});
+
+// --- Load Navigation & Analytics Algorithm ---
+const navScript = document.createElement("script");
+navScript.src = "assets/js/nav-algorithm.js";
+document.body.appendChild(navScript);

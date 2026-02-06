@@ -1,9 +1,13 @@
 RewriteEngine On
 
-# Rewrite /pulse/slug to viewer.html?slug=slug (preserving query string like trackingid)
+# Force remove .html extension from external requests
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [L,R=301]
+
+# Rewrite /pulse/slug to pulse/index.html?slug=slug
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^pulse/([a-zA-Z0-9-]+)$ viewer.html?slug=$1 [L,QSA]
+RewriteRule ^pulse/([a-zA-Z0-9-]+)$ pulse/index.html?slug=$1 [L,QSA]
 
 # Generic rule for extensionless HTML files
 RewriteCond %{REQUEST_FILENAME} !-f

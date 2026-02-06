@@ -264,7 +264,7 @@ function renderTable(posts) {
     tr.innerHTML = `
             <td>
                 <div style="font-weight: 600; font-size: 1rem;">${post.title}</div>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">/pulse/?slug=${post.slug || ""}</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">/pulse/${post.slug || ""}</div>
             </td>
             <td>${new Date(post.created_at).toLocaleDateString()}</td>
             <td>${post.views || 0}</td>

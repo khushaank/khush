@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /admin.html
-Disallow: /seeder.html
+Disallow: /admin
+Disallow: /seeder
 Disallow: /assets/
 Sitemap: https://khushaankgupta.qzz.io/sitemap.xml

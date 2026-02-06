@@ -217,7 +217,7 @@ function performSearch(term) {
   if (!grid) {
     // If not on blog page, redirect (optional, currently just logs)
     console.log("Not on blog page, cannot render results.");
-    window.location.href = `blog.html?q=${encodeURIComponent(term)}`;
+    window.location.href = `blog?q=${encodeURIComponent(term)}`;
     return;
   }
 
@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="cookie-text">
         <p>
           I use cookies to enhance your experience. By continuing to visit this site you agree to my use of cookies.
-          <a href="/privacy.html">Learn more</a>.
+          <a href="/privacy">Learn more</a>.
         </p>
       </div>
       <div class="cookie-actions">
@@ -753,10 +753,10 @@ async function initViewerPage() {
     ) {
       // Allow for direct navigation if we want a gallery there?
       // For now, if no slug, redirect to main blog
-      window.location.href = "/blog.html";
+      window.location.href = "/blog";
       return;
     }
-    window.location.href = "/blog.html";
+    window.location.href = "/blog";
     return;
   }
 

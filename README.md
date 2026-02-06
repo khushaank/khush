@@ -4,7 +4,7 @@
 
 > **Strategy in Motion** - A Delhi University student and CA aspirant merging financial precision with strategic vision.
 
-🌐 **Live Site**: [khushaank.netlify.app](https://khushaank.netlify.app/)
+🌐 **Live Site**: [khushaankgupta.qzz.io](https://khushaankgupta.qzz.io/)
 
 ---
 
@@ -145,7 +145,7 @@ See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed technical documentat
 ## 🤝 Connect With Me
 
 - 💼 [LinkedIn](https://www.linkedin.com/in/khushaank)
-- 🌐 [Website](https://khushaank.netlify.app/)
+- 🌐 [Website](https://khushaankgupta.qzz.io/)
 - 📧 Email: [Contact form on website]
 
 ---

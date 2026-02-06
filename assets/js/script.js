@@ -1073,9 +1073,8 @@ async function loadArticle(slug) {
     });
     document.getElementById("article-views").textContent =
       (data.views || 0) + 1;
-    const testLink = `<p style="margin-top: 2rem; padding: 1rem; background: #f8fafc; border-radius: 8px; border: 1px dashed var(--accent);"><strong>Feature Test:</strong> Hover over this link to see the new preview card: <a href="/pulse/?slug=the-architecture-of-modern-fintech-applications">The Architecture of Modern FinTech Applications</a></p>`;
     const bodyContainer = document.getElementById("article-body");
-    bodyContainer.innerHTML = data.content + testLink;
+    bodyContainer.innerHTML = data.content;
 
     // --- Sanitize Links & Fix Styles ---
     const allLinks = bodyContainer.querySelectorAll("a");

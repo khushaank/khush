@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin.html
 Disallow: /seeder.html
 Disallow: /assets/
-Sitemap: https://khushaank.netlify.app/sitemap.xml
+Sitemap: https://khushaankgupta.qzz.io/sitemap.xml

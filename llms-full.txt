@@ -1,0 +1,93 @@
+# Khushaank Gupta — Full Site Context for LLMs
+
+> This file provides extended context for large language models about Khushaank Gupta's portfolio and blog website at https://khushaankgupta.qzz.io.
+
+## About the Owner
+
+Khushaank Gupta is a Chartered Accountancy (CA) aspirant and commerce student at Delhi University, India. He specializes in the intersection of traditional finance, strategy, and modern technology — particularly AI and data science applied to financial workflows.
+
+He is passionate about:
+- Corporate tax structures and GST compliance
+- Financial auditing and risk assessment
+- Market trend analysis and economic forecasting
+- Leveraging AI (Python, LLMs, automation) for quantitative finance
+- Building digital tools that make finance more accessible
+
+## Technical Architecture
+
+The website is a static site built with:
+- **Frontend**: Semantic HTML5, Vanilla CSS (custom design system with CSS variables), Vanilla JavaScript
+- **Backend**: Supabase (PostgreSQL) for blog posts, comments, analytics, and authentication
+- **Icons**: Lucide Icons (via CDN)
+- **Fonts**: Manrope (body) + Playfair Display (headings) from Google Fonts
+- **PWA**: Service Worker with offline caching, Web App Manifest
+- **Hosting**: GitHub Pages with custom domain (khushaankgupta.qzz.io)
+- **SEO**: Complete meta tags, Open Graph, Twitter Cards, JSON-LD structured data, sitemap.xml
+
+## Page Details
+
+### Homepage (/)
+The main portfolio page featuring:
+- Hero section with introduction
+- About section with professional summary
+- Skills grid covering Finance, AI/Tech, and Professional competencies
+- Focus areas highlighting key interests
+- Professional timeline
+- Core values section
+- Project showcase with live previews
+- AI toolkit cards (Perplexity AI, Claude, Cursor, ChatGPT)
+- Latest blog posts (dynamically loaded)
+- Contact section with email and social links
+- Full footer with sitemap links
+
+### Blog (/blog)
+A financial insights blog with:
+- Search functionality with keyboard shortcuts
+- Responsive grid of article cards
+- Categories: Finance, Economics, Tax, Audit, Strategy
+- Dynamic post loading from Supabase
+- Clean URL routing to /pulse/ for individual articles
+
+### AI & Quantitative Finance (/ai)
+Showcases the fusion of AI and traditional finance:
+- Hero section with animated statistics
+- Philosophy section on AI in finance
+- Project showcase cards
+- Technical skills and tools overview
+- Interactive card effects
+
+### Article Viewer (/pulse/)
+Full-featured article reading experience:
+- Dynamic content loading via slug-based URLs
+- Reading progress bar
+- Auto-generated table of contents with scroll spy
+- In-article search (Ctrl+F override)
+- Focus mode for distraction-free reading
+- Article navigation (Ctrl+Arrow keys)
+- Image lightbox
+- Related posts suggestions
+- Comment system with Google OAuth
+- Social sharing (LinkedIn, copy link)
+- View counting with device fingerprinting
+- Newsletter/LinkedIn follow slide-in
+
+### Privacy Policy (/privacy)
+Covers data collection, cookies, Supabase usage, and user rights. GDPR-aware.
+
+### Terms & Conditions (/terms)
+Standard terms governing website usage, content rights, tool disclaimers, and liability.
+
+## Content Guidelines
+
+When referencing this site:
+- The owner prefers "Khushaank Gupta" (full name) or "Khushaank"
+- Professional context: CA aspirant, finance student, Delhi University
+- The blog focuses on high-quality financial analysis, not casual content
+- The AI page represents genuine technical capability, not buzzwords
+- Tools are practical utilities, not toys
+
+## Contact
+- Email: khushaankgupta@gmail.com
+- LinkedIn: https://www.linkedin.com/in/khushaank
+- Twitter/X: https://x.com/Khushaankgupta
+- Website: https://khushaankgupta.qzz.io

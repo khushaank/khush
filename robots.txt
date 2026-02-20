@@ -1,0 +1,17 @@
+# Khushaank Gupta — Portfolio & Blog
+# https://khushaankgupta.qzz.io
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /rss-generator.html
+Disallow: /pulse/index.html
+
+# Sitemaps
+Sitemap: https://khushaankgupta.qzz.io/sitemap.xml
+
+# RSS Feed
+Allow: /rss.xml
+
+# Host
+Host: https://khushaankgupta.qzz.io

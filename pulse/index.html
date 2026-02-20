@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Article — Khushaank Gupta</title>
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/images/favicon.png" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Khushaank Gupta — Insights RSS Feed"
+      href="/rss.xml"
+    />
+    <link rel="author" href="/humans.txt" />
+    <meta name="robots" content="index, follow" />
+    <meta
+      name="description"
+      content="Read insightful articles on finance, economy, and strategy by Khushaank Gupta."
+    />
+    <meta
+      name="keywords"
+      content="Khushaank Gupta, Blog, Finance, Economy, Strategy, Articles"
+    />
+    <meta name="author" content="Khushaank Gupta" />
+    <script>
+      // Redirect if no ID or slug is present, and not an auth callback
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const hasId = params.has("id");
+        const hasSlug = params.has("slug");
+
+        // Check for Supabase auth parameters (PKCE flow uses code, implicit uses hash)
+        // We check hash for access_token, error, or error_description
+        const hash = window.location.hash;
+        const isAuthCallback =
+          params.has("code") ||
+          hash.includes("access_token") ||
+          hash.includes("error") ||
+          hash.includes("type=recovery");
+
+        // We only want to show this page if we are viewing an article (id/slug)
+        // or handling an auth callback.
+        if (!hasId && !hasSlug && !isAuthCallback) {
+          // Redirect to the insights page
+          window.location.replace("/blog");
+        }
+      })();
+    </script>
+
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://khushaankgupta.qzz.io/pulse/" />
+    <meta property="og:title" content="Article — Khushaank Gupta" />
+    <meta
+      property="og:description"
+      content="Read insightful articles on finance, economy, and strategy by Khushaank Gupta."
+    />
+    <meta
+      property="og:image"
+      content="https://khushaankgupta.qzz.io/assets/images/hero.png"
+    />
+    <meta property="og:site_name" content="Khushaank Gupta" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Khushaankgupta" />
+    <meta name="twitter:creator" content="@Khushaankgupta" />
+    <meta name="twitter:url" content="https://khushaankgupta.qzz.io/pulse/" />
+    <meta name="twitter:title" content="Article — Khushaank Gupta" />
+    <meta
+      name="twitter:description"
+      content="Read insightful articles on finance, economy, and strategy by Khushaank Gupta."
+    />
+    <meta
+      name="twitter:image"
+      content="https://khushaankgupta.qzz.io/assets/images/hero.png"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <link rel="preload" href="/assets/css/style.css" as="style" />
+
+    <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
+  </head>
+  <body>
+    <div id="reading-progress-container" class="reading-progress-container">
+      <div id="reading-progress" class="reading-progress-bar"></div>
+    </div>
+
+    <div id="article-search-bar" class="article-search-container">
+      <div class="search-inner">
+        <i data-lucide="search" size="18"></i>
+        <input
+          type="text"
+          id="article-search-input"
+          placeholder="Find in article..."
+          autocomplete="off"
+        />
+        <div class="search-controls">
+          <span id="search-results-count">0/0</span>
+          <button id="search-prev" title="Previous match">
+            <i data-lucide="chevron-up" size="18"></i>
+          </button>
+          <button id="search-next" title="Next match">
+            <i data-lucide="chevron-down" size="18"></i>
+          </button>
+          <button id="search-close" title="Close search (Esc)">
+            <i data-lucide="x" size="18"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="/" class="brand">KG.</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="/#about" class="nav-link">About</a></li>
+            <li><a href="/ai" class="nav-link">AI</a></li>
+            <li><a href="/blog" class="nav-link active">Insights</a></li>
+            <li><a href="/contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-toggle"><i data-lucide="menu"></i></button>
+      </div>
+    </header>
+
+    <div class="mobile-menu">
+      <button class="mobile-toggle">
+        <i data-lucide="x"></i>
+      </button>
+      <a href="/#about" class="mobile-link">About</a>
+      <a href="/ai" class="mobile-link">AI</a>
+      <a href="/blog" class="mobile-link">Insights</a>
+      <a href="/contact" class="mobile-link">Contact</a>
+    </div>
+
+    <main class="article-container fade-in">
+      <a href="/blog" class="back-link"
+        ><i data-lucide="arrow-left" size="16"></i> Back to Insights</a
+      >
+
+      <div id="article-loading" class="article-skeleton">
+        <div class="skeleton-meta-bar">
+          <div class="skeleton-line" style="width: 90px; height: 12px"></div>
+          <span style="color: var(--text-muted)">&bull;</span>
+          <div class="skeleton-line" style="width: 60px; height: 12px"></div>
+        </div>
+
+        <div
+          class="skeleton-line"
+          style="width: 85%; height: 36px; margin-bottom: 0.5rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 60%; height: 36px; margin-bottom: 1.5rem"
+        ></div>
+
+        <div
+          class="skeleton-line"
+          style="width: 110px; height: 14px; margin-bottom: 1.5rem"
+        ></div>
+
+        <div
+          class="skeleton-meta-bar"
+          style="gap: 0.75rem; margin-bottom: 2rem"
+        >
+          <div
+            class="skeleton-line"
+            style="width: 80px; height: 32px; border-radius: 999px"
+          ></div>
+          <div
+            class="skeleton-line"
+            style="width: 80px; height: 32px; border-radius: 999px"
+          ></div>
+          <div
+            class="skeleton-line"
+            style="width: 80px; height: 32px; border-radius: 999px"
+          ></div>
+        </div>
+
+        <div
+          class="skeleton-line"
+          style="
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            margin-bottom: 2.5rem;
+          "
+        ></div>
+
+        <div
+          class="skeleton-line"
+          style="width: 100%; height: 16px; margin-bottom: 0.6rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 100%; height: 16px; margin-bottom: 0.6rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 92%; height: 16px; margin-bottom: 0.6rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 100%; height: 16px; margin-bottom: 0.6rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 78%; height: 16px; margin-bottom: 1.5rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 100%; height: 16px; margin-bottom: 0.6rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 95%; height: 16px; margin-bottom: 0.6rem"
+        ></div>
+        <div
+          class="skeleton-line"
+          style="width: 70%; height: 16px; margin-bottom: 1.5rem"
+        ></div>
+      </div>
+
+      <article id="article-display" style="display: none">
+        <header class="article-header">
+          <div class="article-meta">
+            <span id="article-date"></span> &bull;
+            <span id="article-views"></span> Views
+          </div>
+
+          <h1 id="article-title"></h1>
+
+          <div class="meta-stats">
+            <div class="meta-item">
+              <i data-lucide="clock" size="14"></i>
+              <span id="reading-time"></span>
+            </div>
+          </div>
+
+          <div class="article-actions">
+            <button id="clap-btn" class="action-btn clap-action">
+              <i data-lucide="heart" size="16"></i>
+              <span id="clap-count">0</span>
+            </button>
+
+            <button id="btn-copy-link" class="action-btn">
+              <i data-lucide="link" size="16"></i> Copy Link
+            </button>
+            <button id="btn-share-linkedin" class="action-btn">
+              <i data-lucide="linkedin" size="16"></i> Share
+            </button>
+            <button id="btn-embed" class="action-btn">
+              <i data-lucide="code" size="16"></i> Embed
+            </button>
+          </div>
+
+          <div id="floating-toc" class="floating-toc">
+            <div class="floating-toc-header">Table of Contents</div>
+            <ul id="floating-toc-list" class="floating-toc-list"></ul>
+          </div>
+        </header>
+
+        <div id="article-body" class="article-content"></div>
+
+        <div style="margin-top: 3rem; text-align: center">
+          <a href="/blog" class="btn btn-outline">
+            <i
+              data-lucide="arrow-left"
+              size="16"
+              style="vertical-align: middle; margin-right: 0.5rem"
+            ></i>
+            Back to Insights
+          </a>
+        </div>
+
+        <section
+          id="related-reading"
+          class="related-reading"
+          style="display: none"
+        >
+          <h3 class="related-title">
+            <i data-lucide="book-open"></i> Related Reading
+          </h3>
+          <div id="related-posts-grid" class="related-posts-grid"></div>
+        </section>
+
+        <hr
+          style="border: 0; border-top: 1px solid var(--border); margin: 4rem 0"
+        />
+
+        <div class="comments-section">
+          <h3 style="font-family: var(--font-heading); margin-bottom: 2rem">
+            Conversation
+          </h3>
+
+          <div
+            id="auth-comment"
+            style="text-align: center; margin-bottom: 3rem; display: none"
+          >
+            <p style="color: var(--text-muted); margin-bottom: 1rem">
+              Join the conversation by signing in.
+            </p>
+            <button
+              id="google-login-btn"
+              class="btn btn-primary"
+              style="
+                background: #fff;
+                color: #333;
+                border: 1px solid var(--border);
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+              "
+            >
+              <svg
+                width="18"
+                height="18"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 48"
+              >
+                <path
+                  fill="#EA4335"
+                  d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+                />
+                <path
+                  fill="#4285F4"
+                  d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.79l7.97-6.2z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+                />
+                <path fill="none" d="M0 0h48v48H0z" />
+              </svg>
+              Sign in with Google
+            </button>
+          </div>
+
+          <form id="comment-form" style="margin-bottom: 3rem; display: none">
+            <div
+              style="
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 0.5rem">
+                <span
+                  style="font-size: 0.9rem; font-weight: 600"
+                  id="user-display-name"
+                ></span>
+                <button
+                  type="button"
+                  id="logout-btn"
+                  style="
+                    font-size: 0.8rem;
+                    text-decoration: underline;
+                    color: var(--text-muted);
+                  "
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+            <div
+              class="input-group"
+              style="
+                flex-direction: column;
+                width: 100%;
+                align-items: flex-start;
+              "
+            >
+              <textarea
+                id="comment-content"
+                placeholder="Share your thoughts..."
+                required
+                class="calc-input"
+                style="min-height: 100px; margin-bottom: 1rem; width: 100%"
+              ></textarea>
+              <button type="submit" class="btn">Post Comment</button>
+            </div>
+          </form>
+
+          <div id="comments-list">
+            <div class="comment-skeleton">
+              <div class="skeleton-meta-bar" style="margin-bottom: 0.5rem">
+                <div
+                  class="skeleton-line"
+                  style="width: 120px; height: 14px"
+                ></div>
+                <div
+                  class="skeleton-line"
+                  style="width: 80px; height: 12px"
+                ></div>
+              </div>
+              <div
+                class="skeleton-line"
+                style="width: 100%; height: 14px; margin-bottom: 0.4rem"
+              ></div>
+              <div class="skeleton-line" style="width: 85%; height: 14px"></div>
+            </div>
+            <div class="comment-skeleton">
+              <div class="skeleton-meta-bar" style="margin-bottom: 0.5rem">
+                <div
+                  class="skeleton-line"
+                  style="width: 100px; height: 14px"
+                ></div>
+                <div
+                  class="skeleton-line"
+                  style="width: 90px; height: 12px"
+                ></div>
+              </div>
+              <div
+                class="skeleton-line"
+                style="width: 95%; height: 14px; margin-bottom: 0.4rem"
+              ></div>
+              <div class="skeleton-line" style="width: 60%; height: 14px"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <div
+        class="container"
+        style="
+          text-align: center;
+          padding: 3rem 0;
+          color: #999;
+          font-size: 0.8rem;
+        "
+      >
+        &copy; <span id="current-year"></span> Khushaank Gupta.
+        <span class="footer-legal" style="margin-left: 1rem">
+          &bull; <a href="/privacy" target="_blank">Privacy</a> &bull;
+          <a href="/terms" target="_blank">Terms</a>
+        </span>
+      </div>
+    </footer>
+
+    <button
+      id="scroll-top-btn"
+      class="scroll-top-btn"
+      aria-label="Scroll to top"
+    >
+      <i data-lucide="arrow-up" size="24"></i>
+    </button>
+
+    <div id="newsletter-slidein" class="newsletter-slidein">
+      <span id="nl-close" class="nl-close">✕</span>
+      <div class="ns-content">
+        <h4>📬 Stay Updated!</h4>
+        <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #666">
+          Join the Inner Circle for exclusive insights, or follow on LinkedIn.
+        </p>
+
+        <form
+          id="newsletter-slidein-form"
+          style="display: flex; gap: 0.5rem; margin-bottom: 1rem"
+        >
+          <input
+            type="email"
+            placeholder="Your email"
+            required
+            style="
+              flex: 1;
+              padding: 0.5rem;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              font-size: 0.9rem;
+            "
+          />
+          <button
+            type="submit"
+            style="
+              padding: 0.5rem 1rem;
+              background: #000;
+              color: #fff;
+              border: none;
+              border-radius: 4px;
+              font-size: 0.8rem;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Join
+          </button>
+        </form>
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+          "
+        >
+          <span>OR</span>
+        </div>
+
+        <a
+          href="https://www.linkedin.com/in/khushaank/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ns-btn"
+          id="linkedin-follow-btn"
+          style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            width: 100%;
+            background: #0a66c2;
+            color: #fff;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+            />
+          </svg>
+          Follow on LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <div class="focus-mode-indicator">Focus Mode — Press Esc to exit</div>
+
+    <script src="/assets/js/script.js?v=3"></script>
+  </body>
+</html>

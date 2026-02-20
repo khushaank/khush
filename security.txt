@@ -1,0 +1,4 @@
+Contact: mailto:khushaankgupta@gmail.com
+Preferred-Languages: en
+Canonical: https://khushaankgupta.qzz.io/.well-known/security.txt
+Expires: 2027-02-13T00:00:00.000Z

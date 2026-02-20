@@ -1,0 +1,47 @@
+# Khushaank Gupta — Portfolio & Blog
+
+> Personal website of Khushaank Gupta, a CA aspirant and finance student at Delhi University. The site showcases financial strategy work, AI-integrated research, a blog on finance and economics, and interactive financial tools.
+
+## Owner
+- Name: Khushaank Gupta
+- Role: CA Aspirant & Finance Student, Delhi University
+- Email: khushaankgupta@gmail.com
+- LinkedIn: https://www.linkedin.com/in/khushaank
+- Twitter: https://x.com/Khushaankgupta
+
+## Site Information
+- URL: https://khushaankgupta.qzz.io
+- Tech Stack: HTML, CSS, Vanilla JavaScript, Supabase (backend), Lucide Icons
+- Hosting: GitHub Pages / Netlify
+
+## Pages
+
+### / (Homepage)
+Portfolio homepage with about section, skills overview, project showcase, AI toolkit, timeline, and contact. Serves as the primary landing page.
+
+### /blog (Financial Chronicles)
+Blog listing page featuring articles on corporate tax structures, financial risk assessment, market trends, and economic analysis. Posts are fetched dynamically from Supabase.
+
+### /ai (AI & Quantitative Finance)
+Dedicated page showcasing the intersection of AI and traditional finance — includes quantitative modeling philosophy, Python automation workflows, and AI tool usage.
+
+### /pulse/ (Article Viewer)
+Dynamic article reader with table of contents, reading progress bar, focus mode, in-article search, related posts, and a comment system with Google OAuth.
+
+### /privacy (Privacy Policy)
+Standard privacy policy covering data collection, cookies, analytics, and user rights.
+
+### /terms (Terms & Conditions)
+Terms of service governing use of the website and its tools.
+
+## Expertise Areas
+- Chartered Accountancy (CA) preparation
+- Corporate tax structures & GST
+- Financial risk assessment & auditing
+- Market volatility analysis
+- AI and data science in finance
+- Quantitative modeling with Python
+
+## Optional
+- Contact: khushaankgupta@gmail.com
+- Full context: https://khushaankgupta.qzz.io/llms-full.txt

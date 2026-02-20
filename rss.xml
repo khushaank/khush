@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Khushaank's Pulse</title>
+    <link>https://khushaankgupta.qzz.io/blog</link>
+    <atom:link href="https://khushaankgupta.qzz.io/rss.xml" rel="self" type="application/rss+xml"/>
+    <description>Insights on AI, Finance, and Technology by Khushaank Gupta</description>
+    <language>en-us</language>
+    <managingEditor>khushaank@example.com (Khushaank Gupta)</managingEditor>
+    <webMaster>khushaank@example.com (Khushaank Gupta)</webMaster>
+    <lastBuildDate>Thu, 06 Feb 2026 11:53:00 GMT</lastBuildDate>
+    <image>
+      <url>https://khushaankgupta.qzz.io/assets/images/profile.png</url>
+      <title>Khushaank's Pulse</title>
+      <link>https://khushaankgupta.qzz.io/blog</link>
+    </image>
+
+    <item>
+      <title>The Rise of Autonomous Financial Agents</title>
+      <link>https://khushaankgupta.qzz.io/pulse/?slug=rise-of-autonomous-financial-agents</link>
+      <guid isPermaLink="true">https://khushaankgupta.qzz.io/pulse/?slug=rise-of-autonomous-financial-agents</guid>
+      <description>How AI agents are moving beyond simple chatbots to fully autonomous financial decision-makers.</description>
+      <dc:creator>Khushaank Gupta</dc:creator>
+      <pubDate>Fri, 06 Feb 2026 11:53:00 GMT</pubDate>
+      <enclosure url="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&amp;fit=crop&amp;w=1200" type="image/jpeg"/>
+    </item>
+
+    <item>
+      <title>AI-Driven Predictive Analytics in Stock Markets</title>
+      <link>https://khushaankgupta.qzz.io/pulse/?slug=ai-predictive-analytics-stock-markets</link>
+      <guid isPermaLink="true">https://khushaankgupta.qzz.io/pulse/?slug=ai-predictive-analytics-stock-markets</guid>
+      <description>Machine learning models are now processing unstructured data at a scale previously impossible, changing how we predict market movements.</description>
+      <dc:creator>Khushaank Gupta</dc:creator>
+      <pubDate>Thu, 05 Feb 2026 11:53:00 GMT</pubDate>
+      <enclosure url="https://images.unsplash.com/photo-1770768061898-6d5c4f5d77a5?auto=format&amp;fit=crop&amp;w=1200" type="image/jpeg"/>
+    </item>
+
+    <item>
+      <title>The End of Traditional Auditing: How AI is Changing the Game</title>
+      <link>https://khushaankgupta.qzz.io/pulse/?slug=end-of-traditional-auditing-ai</link>
+      <guid isPermaLink="true">https://khushaankgupta.qzz.io/pulse/?slug=end-of-traditional-auditing-ai</guid>
+      <description>Why random sampling in auditing is becoming obsolete in the age of 100% transaction analysis.</description>
+      <dc:creator>Khushaank Gupta</dc:creator>
+      <pubDate>Wed, 04 Feb 2026 11:53:00 GMT</pubDate>
+      <enclosure url="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&amp;fit=crop&amp;w=1200" type="image/jpeg"/>
+    </item>
+
+    <item>
+      <title>Personalized Wealth Management via Generative AI</title>
+      <link>https://khushaankgupta.qzz.io/pulse/?slug=personalized-wealth-management-generative-ai</link>
+      <guid isPermaLink="true">https://khushaankgupta.qzz.io/pulse/?slug=personalized-wealth-management-generative-ai</guid>
+      <description>Hyper-personalization in banking is no longer a buzzword but a reality driven by generative AI models.</description>
+      <dc:creator>Khushaank Gupta</dc:creator>
+      <pubDate>Tue, 03 Feb 2026 11:53:00 GMT</pubDate>
+      <enclosure url="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&amp;fit=crop&amp;w=1200" type="image/jpeg"/>
+    </item>
+
+  </channel>
+</rss>

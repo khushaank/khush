@@ -1,0 +1,15 @@
+# Allow direct access to pulse/index.html (for OAuth callbacks)
+/pulse/index.html  /pulse/index.html  200
+
+# Redirect /pulse/slug to viewer.html with slug parameter
+/pulse/:slug  /pulse/index.html?slug=:slug  200
+
+# Clean URLs (no .html extension)
+/blog       /blog.html     200
+/ai         /ai.html       200
+/admin      /admin.html    200
+/privacy    /privacy.html  200
+/terms      /terms.html    200
+
+# 404 page
+/*  /404.html  404

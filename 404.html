@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 — Page Not Found | Khushaank Gupta</title>
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      // Attempt to handle client-side routing fallback
+      (function () {
+        const path = window.location.pathname;
+        if (path.includes("/pulse/")) {
+          // Extract slug
+          const parts = path.split("/pulse/");
+          if (parts.length > 1) {
+            const slugPart = parts[1].split("/")[0]; // Take segment after pulse
+            const search = window.location.search;
+            // Redirect to pulse index
+            window.location.replace(
+              "/pulse/?slug=" +
+                slugPart +
+                (search ? "&" + search.substring(1) : ""),
+            );
+          }
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="error-wrapper">
+      <div class="bg-circle c1"></div>
+      <div class="bg-circle c2"></div>
+
+      <div class="content-box fade-in">
+        <h1 class="e-code">4<span>0</span>4</h1>
+        <p class="e-msg">Lost in the digital void.</p>
+        <a href="/" class="btn-home">
+          <i data-lucide="arrow-left"></i> Return Home
+        </a>
+      </div>
+    </div>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>

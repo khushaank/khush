@@ -1,0 +1,29 @@
+{
+  "name": "Khushaank Gupta — AI, Strategy & Finance",
+  "short_name": "Khushaank",
+  "description": "Portfolio and blog of Khushaank Gupta — CA aspirant and finance student merging financial precision with AI-driven innovation.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "categories": ["finance", "education", "business"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "assets/images/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

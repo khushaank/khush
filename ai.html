@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI & Quantitative Finance | Khushaank Gupta</title>
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/images/favicon.png" />
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta
+      name="description"
+      content="Discover how Khushaank Gupta leverages Python, LLMs, and Data Science to revolutionize financial workflows, offering automated valuation, risk modeling, and strategic insights."
+    />
+    <meta
+      name="keywords"
+      content="AI in Finance, Quantitative Finance, Python for Finance, Algorithmic Trading, Financial Data Engineering, LLMs in Finance, Automated DCF, Khushaank Gupta, Financial Automation"
+    />
+    <meta name="author" content="Khushaank Gupta" />
+    <link rel="canonical" href="https://khushaankgupta.qzz.io/ai" />
+
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="AI & Quantitative Finance | Khushaank Gupta"
+    />
+    <meta
+      property="og:description"
+      content="How I use Python, LLMs and data engineering to build quantitative finance workflows, valuation systems and research tooling."
+    />
+    <meta property="og:url" content="https://khushaankgupta.qzz.io/ai" />
+    <meta
+      property="og:image"
+      content="https://khushaankgupta.qzz.io/assets/images/hero.png"
+    />
+    <meta property="og:site_name" content="Khushaank Gupta" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Khushaankgupta" />
+    <meta name="twitter:creator" content="@Khushaankgupta" />
+    <meta
+      name="twitter:title"
+      content="AI & Quantitative Finance | Khushaank Gupta"
+    />
+    <meta
+      name="twitter:description"
+      content="Bridging traditional finance with modern data science and AI‑driven workflows."
+    />
+    <meta
+      name="twitter:image"
+      content="https://khushaankgupta.qzz.io/assets/images/hero.png"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://khushaankgupta.qzz.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "AI & Quantitative Finance",
+            "item": "https://khushaankgupta.qzz.io/ai"
+          }
+        ]
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "AI & Quantitative Finance",
+        "url": "https://khushaankgupta.qzz.io/ai",
+        "description": "Bridging traditional finance with modern data science. Quantitative modeling, automation, and algorithmic strategies by Khushaank Gupta.",
+        "author": {
+          "@type": "Person",
+          "name": "Khushaank Gupta",
+          "url": "https://khushaankgupta.qzz.io"
+        }
+      }
+    </script>
+  </head>
+  <body class="ai-page">
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="/" class="brand">KG.</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="/#about" class="nav-link">About</a></li>
+            <li><a href="/ai" class="nav-link">AI</a></li>
+            <li><a href="/blog" class="nav-link">Insights</a></li>
+            <li><a href="/contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="mobile-toggle"><i data-lucide="menu"></i></button>
+      </div>
+    </header>
+
+    <div class="mobile-menu">
+      <button class="mobile-toggle">
+        <i data-lucide="x"></i>
+      </button>
+      <a href="/#about" class="mobile-link">About</a>
+      <a href="/ai" class="mobile-link">AI</a>
+      <a href="/blog" class="mobile-link">Insights</a>
+      <a href="/contact" class="mobile-link">Contact</a>
+    </div>
+
+    <main>
+      <section class="hero container ai-hero" id="about">
+        <div class="hero-grid">
+          <div class="hero-content fade-in">
+            <span class="badge">Computational Finance</span>
+            <h1>The Algo <br /><em>Advantage.</em></h1>
+            <p>
+              Moving beyond spreadsheets. I leverage Python, LLMs, and data
+              engineering to build robust financial models and automated
+              valuation systems. Structure unstructured data to find alpha.
+            </p>
+            <div class="hero-actions">
+              <a href="#stack" class="btn"
+                >View The Stack
+                <i data-lucide="check" class="lucide-align-middle"></i>
+              </a>
+            </div>
+
+            <div class="ai-stats-bar ai-hero-stats">
+              <div class="ai-stat">
+                <strong>50+</strong>
+                <span>Models Built</span>
+              </div>
+              <div class="ai-stat">
+                <strong>10GB+</strong>
+                <span>Data Processed</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-img-box fade-in">
+            <div class="hero-viz-container">
+              <div class="hero-viz-bg"></div>
+
+              <svg
+                class="hero-viz-svg"
+                viewBox="0 0 300 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 150 C 50 150, 50 100, 100 100 C 150 100, 150 50, 200 50 C 250 50, 250 20, 300 10"
+                  stroke="#2563eb"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <path
+                  d="M0 180 C 60 180, 80 140, 120 140 C 160 140, 180 90, 240 80 C 280 75, 290 60, 300 50"
+                  stroke="#cbd5e1"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-dasharray="4 4"
+                />
+                <circle cx="200" cy="50" r="4" fill="#2563eb" />
+                <circle cx="100" cy="100" r="4" fill="#2563eb" />
+                <circle cx="120" cy="140" r="4" fill="#cbd5e1" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-padding container">
+        <div class="project-layout ai-philosophy-layout">
+          <div class="ai-philosophy-thesis">
+            <h2>The Thesis.</h2>
+          </div>
+          <div class="ai-philosophy-content">
+            <p class="lead">
+              "Finance is no longer just about reading balance sheets. It's
+              about structuring unstructured data."
+            </p>
+            <p>
+              Traditional finance relies heavily on manual inputs and static
+              models in Excel. My approach integrates
+              <strong>data science</strong> into the core of analysis.
+            </p>
+            <p>
+              By automating data collection (SEC filings, earnings calls) and
+              using AI for sentiment analysis, we can uncover alpha that manual
+              analysis misses.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="stack" class="section-padding bg-surface">
+        <div class="container">
+          <div class="section-header center-mobile">
+            <span class="badge">Tooling</span>
+            <h2 class="section-title">Financial Tech Stack</h2>
+          </div>
+
+          <div class="bento-grid bento-grid-2col">
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="code-2"></i></div>
+              <h3>Python Ecosystem</h3>
+              <p>
+                Pandas for manipulation, NumPy for calculation, and SciPy for
+                optimization. The core engine for all quantitative work,
+                replacing brittle Excel macros with robust scripts.
+              </p>
+            </div>
+
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="table"></i></div>
+              <h3>Modern Excel</h3>
+              <p>
+                Advanced modeling with Power Query and Python integration. Best
+                for final presentation and sensitivity analysis.
+              </p>
+            </div>
+
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="brain-circuit"></i></div>
+              <h3>LLM Reasoning</h3>
+              <p>
+                Claude 3.5 & GPT-4o for earnings call summarization and
+                extracting risk factors from 10-Ks.
+              </p>
+            </div>
+
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="database"></i></div>
+              <h3>High-Performance SQL</h3>
+              <p>
+                Supabase (PostgreSQL) for storing historical price data and
+                fundamental metrics. Clean, structured data is the foundation of
+                any good model.
+              </p>
+            </div>
+
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="pie-chart"></i></div>
+              <h3>Visualization</h3>
+              <p>
+                Tableau & Matplotlib for turning complex datasets into
+                actionable charts.
+              </p>
+            </div>
+
+            <div class="bento-card">
+              <div class="bento-icon"><i data-lucide="network"></i></div>
+              <h3>API Integration</h3>
+              <p>
+                Seamlessly connecting to FRED, Alpaca, and SEC EDGAR. Automated
+                data pipelines ensure your models are always running on the
+                latest market pulse.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-padding container">
+        <div class="ai-section-header">
+          <h2 class="section-title ai-section-title">
+            What is Quantitative Finance?
+          </h2>
+          <p class="ai-section-desc">
+            A focused stack that helps me move from raw data to memos, models
+            and decisions faster—without outsourcing my own thinking.
+          </p>
+        </div>
+
+        <div class="bento-toolkit ai-toolkit-grid">
+          <div class="ai-card fade-in">
+            <div class="ai-icon"><i data-lucide="search"></i></div>
+            <span class="ai-badge">Research Surface</span>
+            <h3>Perplexity</h3>
+            <p>
+              For quickly mapping out a new sector, understanding regulatory
+              changes and discovering primary sources before I go deeper with
+              filings and numbers.
+            </p>
+          </div>
+
+          <div class="ai-card fade-in">
+            <div class="ai-icon"><i data-lucide="brain"></i></div>
+            <span class="ai-badge">Reasoning</span>
+            <h3>Claude / GPT</h3>
+            <p>
+              Used to summarise long transcripts, propose scenarios, and stress
+              test assumptions. Final calls are always human, but the
+              exploration is massively accelerated.
+            </p>
+          </div>
+
+          <div class="ai-card fade-in">
+            <div class="ai-icon"><i data-lucide="code"></i></div>
+            <span class="ai-badge">Build</span>
+            <h3>Cursor</h3>
+            <p>
+              My coding environment for Python backtests, data pipelines and
+              this very website—keeping finance and engineering in one place.
+            </p>
+          </div>
+
+          <div class="ai-card fade-in">
+            <div class="ai-icon"><i data-lucide="sparkles"></i></div>
+            <span class="ai-badge">Communication</span>
+            <h3>Notion + Templates</h3>
+            <p>
+              Structured research memos and checklists that I reuse across
+              companies so each idea is evaluated consistently over time.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-padding">
+        <div class="container">
+          <div class="ai-section-header">
+            <h2 class="section-title ai-section-title">My Approach</h2>
+            <p class="ai-section-desc">
+              Not “AI for the sake of it”, but concrete points in the research
+              and investing process where automation and LLMs actually change
+              the quality and speed of decisions.
+            </p>
+          </div>
+
+          <div class="workflows-grid">
+            <div class="workflow-item fade-in">
+              <div class="workflow-tag">01 · Idea Sourcing</div>
+              <h3>From Noise to Shortlist</h3>
+              <p class="text-muted mb-1">
+                Turning thousands of headlines and filings into a small,
+                high‑quality basket of ideas.
+              </p>
+              <ul class="workflow-steps">
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Use LLMs to cluster news and filings by themes (regulation,
+                  pricing power, disruption).
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Flag companies with repeated mentions of risks or accounting
+                  changes.
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Push the shortlist into Excel / Notion for deep fundamental
+                  work.
+                </li>
+              </ul>
+            </div>
+
+            <div class="workflow-item fade-in">
+              <div class="workflow-tag">02 · Deep Dive</div>
+              <h3>Augmenting Fundamental Research</h3>
+              <p>
+                Human judgment stays at the centre; AI cleans, summarizes and
+                cross‑checks.
+              </p>
+              <ul class="workflow-steps">
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Parse 5–10 years of annual reports into structured tables and
+                  key quotes.
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Compare management guidance vs. actual numbers using Python.
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Use LLMs to draft an initial thesis, then refine it manually.
+                </li>
+              </ul>
+            </div>
+
+            <div class="workflow-item fade-in">
+              <div class="workflow-tag">03 · Monitoring</div>
+              <h3>Always‑On Risk Radar</h3>
+              <p>
+                Once a thesis is live, the hard part is staying updated without
+                burning out.
+              </p>
+              <ul class="workflow-steps">
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Automate alerts for macro, regulatory and company‑specific
+                  events.
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Summarise every new filing into “what changed vs last time”.
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2"></i>
+                  Maintain a living “change log” for each position in the
+                  portfolio.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section-padding container">
+        <div class="section-header">
+          <h2 class="section-title">Market Experiments</h2>
+        </div>
+        <div class="lab-grid">
+          <div class="lab-card">
+            <div class="lab-info">
+              <div class="lab-icon-wrapper">
+                <i data-lucide="layers" class="lab-icon"></i>
+              </div>
+              <h4>Earnings Call Sentiment Bot</h4>
+              <p>
+                A pipeline that downloads transcripts, analyzes executive tone
+                using NLP, and correlates it with post-earnings price action.
+              </p>
+              <span class="lab-link">NLP + Python</span>
+            </div>
+          </div>
+
+          <div class="lab-card">
+            <div class="lab-info">
+              <div class="lab-icon-wrapper">
+                <i data-lucide="trending-up" class="lab-icon"></i>
+              </div>
+              <h4>Automated DCF Model</h4>
+              <p>
+                Script that pulls live financials from APIs, projects future
+                cash flows based on growth assumptions, and outputs intrinsic
+                value.
+              </p>
+              <span class="lab-link">Valuation</span>
+            </div>
+          </div>
+
+          <div class="lab-card">
+            <div class="lab-info">
+              <div class="lab-icon-wrapper">
+                <i data-lucide="globe" class="lab-icon"></i>
+              </div>
+              <h4>Macro-Economic Dashboard</h4>
+              <p>
+                Real-time tracker of interest rates, inflation data, and bond
+                yields to gauge market regime.
+              </p>
+              <span class="lab-link">Data Eng</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-padding bg-surface">
+        <div class="container faq-container">
+          <div class="section-header text-center">
+            <h2 class="section-title">Questions, Answered</h2>
+            <p class="section-desc">
+              A quick FAQ on how I think about AI in finance and what I can
+              realistically help with.
+            </p>
+          </div>
+
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                Do you replace analysts with AI?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                No. My goal is to remove the repetitive work (data cleaning,
+                formatting, first‑pass summaries) so human analysts can spend
+                their time on judgment, scenario analysis and risk thinking.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                What kind of projects are a good fit?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                Anything where there is recurring data to be processed:
+                recurring management reports, watchlists, screening workflows,
+                automated DCFs, or dashboards that need to be kept fresh with
+                minimal manual work.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                Can this work in small firms, not just large funds?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                Yes. Even solo practitioners and small teams can benefit from
+                simple automations: template‑driven client notes, standardised
+                checklists, and semi‑automated research packs.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                How do you handle data privacy and sensitive information?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                Privacy is paramount. I prioritize local-first solutions where
+                sensitive data stays on your infrastructure. When using LLMs, we
+                use enterprise-grade APIs with zero-data retention policies to
+                ensure your proprietary thesis never enters a training set.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                Is this meant for high-frequency trading (HFT)?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                No. My focus is on fundamental analysis and medium-to-long term
+                strategies. I build tools that help you think better and
+                research faster, not systems that compete on millisecond
+                execution speeds.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                Do I need a team of developers to maintain this?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                Not necessarily. I build these systems using stable,
+                well-documented libraries. Most workflows can be maintained by a
+                single operationally-focused analyst, or I can provide ongoing
+                support as your "fractional quant."
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                What asset classes do you specialize in?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                My core expertise is in Global Equities and Fixed Income.
+                However, the quantitative frameworks I build are asset-agnostic
+                and can be adapted for Commodities, Digital Assets, or Private
+                Equity benchmarking.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                Can you help with portfolio risk management?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                Yes. Beyond alpha generation, I design stress-testing
+                architectures and custom VaR (Value at Risk) dashboards that
+                help you understand how your portfolio might react to specific
+                market shocks or regime changes.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h4 class="ai-list-title">
+                Do you provide one-off consulting or recurring support?
+                <span class="faq-toggle"
+                  ><i data-lucide="plus"></i><i data-lucide="minus"></i
+                ></span>
+              </h4>
+              <p class="faq-answer">
+                I offer both. For some, a single "infrastructure sprint" to
+                automate a specific pain point is enough. For others, I provide
+                ongoing support to iterate on models and keep data pipelines
+                running smoothly as a "fractional quant."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="ai-cta-clean">
+        <div class="container">
+          <h2>Need Quantitative Insights?</h2>
+          <p>
+            I help firms bridge the gap between traditional finance and modern
+            engineering. Whether it's automating reports or building custom
+            models.
+          </p>
+          <a href="/contact.html" class="btn-primary-outline">
+            Get in Touch
+            <i data-lucide="arrow-right" class="icon-arrow-sm"></i>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // FAQ Expand/Collapse Logic
+      document.addEventListener("DOMContentLoaded", () => {
+        const farItems = document.querySelectorAll(".faq-item");
+        farItems.forEach((item) => {
+          const question = item.querySelector("h4");
+          if (question) {
+            question.addEventListener("click", () => {
+              item.classList.toggle("active");
+            });
+          }
+        });
+      });
+    </script>
+
+    <footer>
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <h4>Khushaank Gupta.</h4>
+          <p class="footer-desc">
+            Redefining the future of finance with clarity and innovation.
+          </p>
+        </div>
+        <div>
+          <ul class="footer-links">
+            <li><a href="/#about">About</a></li>
+            <li><a href="/ai">AI</a></li>
+            <li><a href="/blog">Insights</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <ul class="footer-links">
+            <li>
+              <a href="mailto:khushaankgupta@gmail.com"
+                >khushaankgupta@gmail.com</a
+              >
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/khushaank" target="_blank"
+                >LinkedIn</a
+              >
+            </li>
+            <li>
+              <a href="https://x.com/Khushaankgupta" target="_blank"
+                >Twitter / X</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        &copy; <span id="current-year"></span> Khushaank Gupta.
+        <span class="footer-legal">
+          &bull; <a href="/privacy" target="_blank">Privacy</a> &bull;
+          <a href="/terms" target="_blank">Terms</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+      // Update copyright year
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+
+      // Re-initialize Lucide icons
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

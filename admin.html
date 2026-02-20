@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Admin</title>
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/admin.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <style>
+      /* Quill Overrides for Dark/Admin Theme */
+      .ql-toolbar.ql-snow {
+        border-color: var(--border);
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        background: #f8f9fa;
+      }
+      .ql-container.ql-snow {
+        border-color: var(--border);
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+        font-family: "Manrope", sans-serif;
+        font-size: 1rem;
+      }
+      .ql-editor {
+        min-height: 200px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toast" class="toast">Action Successful</div>
+
+    <div id="auth-section" class="auth-wrapper">
+      <div class="auth-card fade-in">
+        <div class="brand-logo">KG.</div>
+        <h2
+          style="
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-family: &quot;Playfair Display&quot;, serif;
+          "
+        >
+          Welcome Back
+        </h2>
+        <p
+          style="
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+          "
+        >
+          Sign in to manage your portfolio.
+        </p>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              required
+              placeholder="admin@example.com"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              required
+              placeholder="••••••••"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: 100%; margin-top: 1rem"
+          >
+            Sign In
+          </button>
+        </form>
+        <p id="auth-error" class="error-msg"></p>
+      </div>
+    </div>
+
+    <div id="dashboard-section" class="admin-layout hidden">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          KG.
+          <span
+            style="
+              font-size: 0.8rem;
+              opacity: 0.5;
+              font-weight: normal;
+              font-family: &quot;Manrope&quot;, sans-serif;
+            "
+            >Admin</span
+          >
+        </div>
+        <nav>
+          <div
+            id="nav-dashboard"
+            class="nav-item active"
+            onclick="switchView('dashboard')"
+          >
+            <i data-lucide="layout-dashboard" size="18"></i> Dashboard
+          </div>
+          <div
+            id="nav-analytics"
+            class="nav-item"
+            onclick="switchView('analytics')"
+          >
+            <i data-lucide="bar-chart-3" size="18"></i> Analytics
+          </div>
+          <div
+            id="nav-subscribers"
+            class="nav-item"
+            onclick="switchView('subscribers')"
+          >
+            <i data-lucide="users" size="18"></i> Subscribers
+          </div>
+          <div
+            id="nav-messages"
+            class="nav-item"
+            onclick="switchView('messages')"
+          >
+            <i data-lucide="message-square" size="18"></i> Messages
+          </div>
+          <div
+            id="nav-comments"
+            class="nav-item"
+            onclick="switchView('comments')"
+          >
+            <i data-lucide="message-circle" size="18"></i> Comments
+          </div>
+          <div id="nav-files" class="nav-item" onclick="switchView('files')">
+            <i data-lucide="folder-open" size="18"></i> Files
+          </div>
+          <div
+            id="nav-settings"
+            class="nav-item"
+            onclick="switchView('settings')"
+          >
+            <i data-lucide="settings" size="18"></i> Settings
+          </div>
+          <div class="nav-item logout-btn" onclick="signOut()">
+            <i data-lucide="log-out" size="18"></i> Sign Out
+          </div>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <div id="view-dashboard">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Articles</h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Manage your blog posts and insights.
+              </p>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center">
+              <div class="input-group" style="margin-bottom: 0">
+                <input
+                  type="text"
+                  id="search-input"
+                  placeholder="Search articles..."
+                  class="form-input"
+                  style="padding: 0.5rem 1rem; font-size: 0.9rem; width: 250px"
+                />
+              </div>
+              <button class="btn btn-primary" onclick="openModal()">
+                <i data-lucide="plus" size="16"></i> Create New
+              </button>
+            </div>
+          </div>
+
+          <div class="stats-container">
+            <div class="stat-box">
+              <div class="stat-icon"><i data-lucide="file-text"></i></div>
+              <div>
+                <div class="stat-value" id="total-posts">0</div>
+                <div class="stat-label">Published Articles</div>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-icon"><i data-lucide="eye"></i></div>
+              <div>
+                <div class="stat-value" id="total-views">0</div>
+                <div class="stat-label">Article Views</div>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div
+                class="stat-icon"
+                style="background: rgba(37, 99, 235, 0.1); color: #2563eb"
+              >
+                <i data-lucide="activity"></i>
+              </div>
+              <div>
+                <div class="stat-value" id="site-views">0</div>
+                <div class="stat-label">Live Page Views</div>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-icon"><i data-lucide="users"></i></div>
+              <div>
+                <div class="stat-value" id="total-visitors">0</div>
+                <div class="stat-label">Unique Visitors</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <table id="posts-table">
+              <thead>
+                <tr>
+                  <th width="40%">Title</th>
+                  <th>Date</th>
+                  <th>Views</th>
+                  <th style="text-align: right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="posts-body"></tbody>
+            </table>
+            <div
+              id="empty-state"
+              style="
+                padding: 3rem;
+                text-align: center;
+                color: var(--text-muted);
+                display: none;
+              "
+            >
+              No articles found. Create your first one!
+            </div>
+          </div>
+        </div>
+
+        <div id="view-analytics" class="hidden">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Live Tracking</h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Real-time insights from your visitors.
+              </p>
+            </div>
+            <button class="btn btn-outline" onclick="fetchAnalytics()">
+              <i data-lucide="refresh-cw" size="14"></i> Refresh
+            </button>
+          </div>
+
+          <div id="analytics-dashboard">
+            <div
+              style="
+                text-align: center;
+                padding: 4rem;
+                color: var(--text-muted);
+              "
+            >
+              <i data-lucide="loader-2" class="animate-spin" size="32"></i>
+              <p style="margin-top: 1rem">Loading analytics...</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="view-subscribers" class="hidden">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Subscribers</h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Manage your newsletter audience.
+              </p>
+            </div>
+            <div style="display: flex; gap: 1rem">
+              <button class="btn btn-outline" onclick="fetchSubscribers()">
+                <i data-lucide="refresh-cw" size="14"></i> Refresh
+              </button>
+              <button class="btn btn-primary" onclick="exportSubscribers()">
+                <i data-lucide="download" size="14"></i> Export CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="stats-container" style="margin-bottom: 2rem">
+            <div class="stat-box">
+              <div class="stat-icon"><i data-lucide="mail"></i></div>
+              <div>
+                <div class="stat-value" id="total-subscribers">0</div>
+                <div class="stat-label">Total Subscribers</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <table id="subscribers-table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Joined Date</th>
+                  <th style="text-align: right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="subscribers-body">
+                <tr>
+                  <td
+                    colspan="3"
+                    style="
+                      text-align: center;
+                      padding: 3rem;
+                      color: var(--text-muted);
+                    "
+                  >
+                    Loading subscribers...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="view-messages" class="hidden">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Messages</h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Inbound inquiries from your contact form.
+              </p>
+            </div>
+            <button class="btn btn-outline" onclick="fetchMessages()">
+              <i data-lucide="refresh-cw" size="14"></i> Refresh
+            </button>
+          </div>
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th width="25%">Sender</th>
+                  <th width="50%">Message</th>
+                  <th>Date</th>
+                  <th style="text-align: right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messages-body"></tbody>
+            </table>
+            <div
+              id="messages-empty"
+              style="
+                padding: 3rem;
+                text-align: center;
+                color: var(--text-muted);
+              "
+            >
+              No messages found.
+            </div>
+          </div>
+        </div>
+
+        <div id="view-files" class="hidden">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Files</h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Manage your site assets and documents.
+              </p>
+            </div>
+            <button
+              class="btn btn-primary"
+              onclick="document.getElementById('file-upload').click()"
+            >
+              <i data-lucide="upload" size="16"></i> Upload File
+            </button>
+            <input
+              type="file"
+              id="file-upload"
+              style="display: none"
+              onchange="handleFileUpload(this)"
+            />
+          </div>
+          <div class="content-grid" id="files-grid">
+            <!-- Files will be loaded here -->
+            <div
+              id="files-empty"
+              style="
+                padding: 3rem;
+                text-align: center;
+                color: var(--text-muted);
+                grid-column: 1 / -1;
+              "
+            >
+              No files uploaded yet.
+            </div>
+          </div>
+        </div>
+
+        <div id="view-comments" class="hidden">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Comments</h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Manage user comments across your blog posts.
+              </p>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <table id="comments-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Comment</th>
+                  <th>Post</th>
+                  <th>Date</th>
+                  <th style="text-align: right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="comments-body">
+                <!-- Comments populated by JS -->
+              </tbody>
+            </table>
+            <div
+              id="comments-empty"
+              style="
+                padding: 3rem;
+                text-align: center;
+                color: var(--text-muted);
+              "
+            >
+              No comments found.
+            </div>
+          </div>
+        </div>
+
+        <div id="view-settings" class="hidden">
+          <div class="page-header">
+            <div>
+              <h2 class="page-title">Settings</h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Customize your admin experience and blog details.
+              </p>
+            </div>
+            <button class="btn btn-primary" onclick="saveSettings()">
+              Save Changes
+            </button>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              gap: 1.5rem;
+            "
+          >
+            <div class="table-card" style="padding: 1.5rem">
+              <h3
+                style="
+                  font-family: var(--font-serif);
+                  font-size: 1.25rem;
+                  margin-bottom: 1.5rem;
+                  border-bottom: 1px solid var(--border);
+                  padding-bottom: 0.5rem;
+                "
+              >
+                General Info
+              </h3>
+              <div class="form-group" style="margin-bottom: 1rem">
+                <label class="form-label">Blog Title</label>
+                <input
+                  type="text"
+                  id="set-blog-title"
+                  class="form-input"
+                  placeholder="Khushaank's Blog"
+                />
+              </div>
+              <div class="form-group" style="margin-bottom: 1rem">
+                <label class="form-label">Author Name</label>
+                <input
+                  type="text"
+                  id="set-author-name"
+                  class="form-input"
+                  placeholder="Khushaank"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tagline</label>
+                <textarea
+                  id="set-tagline"
+                  class="form-input"
+                  rows="2"
+                  placeholder="Thoughts on tech and design..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="table-card" style="padding: 1.5rem">
+              <h3
+                style="
+                  font-family: var(--font-serif);
+                  font-size: 1.25rem;
+                  margin-bottom: 1.5rem;
+                  border-bottom: 1px solid var(--border);
+                  padding-bottom: 0.5rem;
+                "
+              >
+                Interface
+              </h3>
+
+              <div
+                class="form-group"
+                style="
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                "
+              >
+                <div>
+                  <label class="form-label" style="margin-bottom: 0"
+                    >Compact Table View</label
+                  >
+                  <div style="font-size: 0.8rem; color: var(--text-muted)">
+                    Show more rows per page
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  id="set-compact-view"
+                  style="width: 1.2rem; height: 1.2rem"
+                />
+              </div>
+
+              <div class="form-group" style="margin-bottom: 1rem">
+                <label class="form-label">Editor Auto-save</label>
+                <select id="set-autosave" class="form-input">
+                  <option value="off">Off</option>
+                  <option value="30">Every 30 seconds</option>
+                  <option value="60">Every minute</option>
+                  <option value="300">Every 5 minutes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="post-modal" class="modal-overlay">
+      <div class="modal-box zoom-in" style="width: 800px; max-width: 95%">
+        <div class="modal-header">
+          <h3
+            id="modal-title"
+            style="font-family: &quot;Playfair Display&quot;, serif"
+          >
+            Create Article
+          </h3>
+          <button onclick="closeModal()" class="icon-btn">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <form id="post-form">
+          <input type="hidden" id="post-id" />
+
+          <div class="form-grid">
+            <div class="form-group" style="grid-column: span 2">
+              <label class="form-label">Title</label>
+              <input
+                type="text"
+                id="p-title"
+                class="form-input"
+                placeholder="e.g. The Future of Fintech"
+                required
+              />
+            </div>
+
+            <div class="form-group" style="grid-column: span 2">
+              <label class="form-label">Cover Image URL</label>
+              <input
+                type="url"
+                id="p-image"
+                class="form-input"
+                placeholder="https://..."
+              />
+              <img
+                id="image-preview"
+                src=""
+                alt="Preview"
+                style="
+                  display: none;
+                  width: 100%;
+                  height: 150px;
+                  object-fit: cover;
+                  border-radius: 6px;
+                  margin-top: 0.5rem;
+                  border: 1px solid var(--border);
+                "
+              />
+              <div
+                style="
+                  font-size: 0.75rem;
+                  color: var(--text-muted);
+                  margin-top: 0.3rem;
+                "
+              >
+                Leave empty for default gradient.
+              </div>
+            </div>
+
+            <div class="form-group" style="grid-column: span 2">
+              <label class="form-label">Attachment URL (PDF, DOCX, etc.)</label>
+              <div style="display: flex; gap: 0.5rem">
+                <input
+                  type="text"
+                  id="p-file"
+                  class="form-input"
+                  placeholder="Paste URL or upload..."
+                  style="flex: 1"
+                />
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  onclick="document.getElementById('p-file-upload').click()"
+                  style="padding: 0.5rem; white-space: nowrap"
+                >
+                  <i data-lucide="upload" size="14"></i> Upload
+                </button>
+                <input
+                  type="file"
+                  id="p-file-upload"
+                  style="display: none"
+                  onchange="handlePostFileUpload(this)"
+                />
+              </div>
+              <div
+                style="
+                  font-size: 0.75rem;
+                  color: var(--text-muted);
+                  margin-top: 0.3rem;
+                "
+              >
+                Linking a file will add a direct download/view button to the
+                post.
+              </div>
+            </div>
+
+            <div class="form-group" style="grid-column: span 2">
+              <label class="form-label">Excerpt</label>
+              <textarea
+                id="p-excerpt"
+                class="form-input"
+                rows="2"
+                placeholder="Brief summary for the card view..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group" style="grid-column: span 2">
+              <label class="form-label">Content</label>
+
+              <input type="hidden" id="p-content" />
+              <div id="editor-container"></div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeModal()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" id="save-btn">
+              Save & Publish
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="stats-modal" class="modal-overlay">
+      <div class="modal-box" style="max-width: 800px">
+        <div class="modal-header">
+          <h3 class="modal-title" id="stats-modal-title">Article Stats</h3>
+          <button class="icon-btn" onclick="closeStatsModal()">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="stats-container"
+            style="margin-bottom: 2rem; grid-template-columns: repeat(2, 1fr)"
+          >
+            <div class="stat-box">
+              <div class="stat-icon"><i data-lucide="eye"></i></div>
+              <div>
+                <div class="stat-value" id="stats-total-views">0</div>
+                <div class="stat-label">Total Views</div>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-icon"><i data-lucide="users"></i></div>
+              <div>
+                <div class="stat-value" id="stats-unique-visitors">0</div>
+                <div class="stat-label">Unique Readers</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height: 300px; width: 100%">
+            <canvas id="viewsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/admin.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

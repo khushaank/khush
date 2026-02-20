@@ -1,0 +1,20 @@
+/* TEAM */
+
+Name: Khushaank Gupta
+Role: Creator, Designer & Developer
+Contact: khushaankgupta@gmail.com
+Twitter: @Khushaankgupta
+LinkedIn: linkedin.com/in/khushaank
+From: Delhi, India
+
+/* SITE */
+
+Last update: 2026-02-13
+Standards: HTML5, CSS3, ES6+
+Language: English
+Doctype: HTML5
+IDE: Cursor (AI-first editor)
+Backend: Supabase
+Fonts: Manrope, Playfair Display (Google Fonts)
+Icons: Lucide Icons
+Software: Git, GitHub Pages

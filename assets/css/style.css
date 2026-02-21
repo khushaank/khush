@@ -5903,7 +5903,7 @@ button:focus-visible {
 
 @media (max-width: 768px) {
   .article-container {
-    padding: 1.5rem 1rem 3rem;
+    padding: calc(80px + 1.5rem) 1rem 3rem;
   }
 
   .article-header h1 {
@@ -8375,42 +8375,6 @@ textarea.lab-input {
   color: #000;
   font-weight: 600;
   padding: 0.8rem;
-}
-
-/* Viewer Page Desktop Sidebar Navbar */
-@media (min-width: 1200px) {
-  .viewer-page .navbar {
-    top: 50%;
-    left: 2rem;
-    transform: translateY(-50%);
-    width: auto;
-    max-width: none;
-    height: auto;
-    padding: 2.5rem 1.5rem;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .viewer-page .nav-container {
-    flex-direction: column;
-    gap: 3rem;
-  }
-  .viewer-page .nav-links {
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: center;
-  }
-  .viewer-page .brand {
-    margin: 0;
-  }
-}
-
-/* On smaller screens, prevent fixed header from covering top elements like back-link */
-@media (max-width: 1199px) {
-  .viewer-page .article-container {
-    padding-top: 130px;
-  }
 }
 
 .login-modal-icon {

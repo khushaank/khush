@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       quill.deleteText(range.index, "Uploading image...".length);
       quill.insertEmbed(range.index, "image", publicUrl);
     } catch (error) {
-      console.error("Upload failed:", error);
+      // console.error("Upload failed:", error);
       quill.deleteText(range.index, "Uploading image...".length);
       alert("Image upload failed: " + error.message);
     }
@@ -193,7 +193,7 @@ async function fetchPosts() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching posts:", error);
+    // console.error("Error fetching posts:", error);
     return;
   }
 
@@ -218,7 +218,7 @@ async function fetchAnalytics() {
     .limit(200);
 
   if (viewError) {
-    console.error("Analytics fetch error:", viewError);
+    // console.error("Analytics fetch error:", viewError);
     container.innerHTML = `<div class="error-msg">Error loading analytics: ${viewError.message}</div>`;
     return;
   }
@@ -516,7 +516,7 @@ async function openStatsModal(slug, title, totalViews) {
     .order("created_at", { ascending: true });
 
   if (error) {
-    console.error("Error fetching stats:", error);
+    // console.error("Error fetching stats:", error);
     document.getElementById("stats-unique-visitors").textContent = "N/A";
     return;
   }
@@ -838,7 +838,7 @@ async function fetchSubscribers() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching subscribers:", error);
+    // console.error("Error fetching subscribers:", error);
     tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: red;">Error: ${error.message}</td></tr>`;
     return;
   }

@@ -14,7 +14,7 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("Opened cache v3");
+      // console.log("Opened cache v3");
       return cache.addAll(ASSETS_TO_CACHE);
     }),
   );
@@ -27,7 +27,7 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log("Clearing old cache:", cache);
+            // console.log("Clearing old cache:", cache);
             return caches.delete(cache);
           }
         }),

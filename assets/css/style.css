@@ -1516,20 +1516,9 @@ footer {
   gap: 0.5rem;
   color: var(--text-muted);
   text-decoration: none;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   font-weight: 500;
   font-size: 0.9rem;
-  position: fixed;
-  top: 100px;
-  left: max(2rem, calc((100vw - 1200px) / 2));
-  z-index: 9999;
-}
-
-@media (max-width: 1200px) {
-  .back-link {
-    position: static;
-    margin-bottom: 2rem;
-  }
 }
 
 .back-link:hover {
@@ -5473,7 +5462,7 @@ button:focus-visible {
 .article-container {
   max-width: 780px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 15vh 1.5rem 4rem;
 }
 
 .article-header {
@@ -8379,4 +8368,15 @@ textarea.lab-input {
 
 .login-modal-icon {
   margin-right: 8px;
+}
+
+/* Fix viewer-page layout overlapping with fixed pill navbar */
+.viewer-page .article-container {
+  padding-top: max(140px, 15vh) !important;
+}
+
+@media (max-width: 768px) {
+  .viewer-page .article-container {
+    padding-top: max(110px, 12vh) !important;
+  }
 }

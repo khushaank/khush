@@ -1,10 +1,9 @@
-
 :root {
   --bg-body: #f8f9fa;
   --bg-card: #ffffff;
   --text-main: #111827;
   --text-muted: #6b7280;
-  --primary: #111827; 
+  --primary: #111827;
   --primary-hover: #374151;
   --accent: #2563eb;
   --danger: #ef4444;
@@ -35,7 +34,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-
 .auth-wrapper {
   min-height: 100vh;
   display: flex;
@@ -48,7 +46,6 @@ body {
   max-width: 400px;
   padding: 3rem 2rem;
   background: white;
-  
 }
 .brand-logo {
   font-family: var(--font-serif);
@@ -59,7 +56,6 @@ body {
   letter-spacing: -0.05em;
 }
 
-
 .admin-layout {
   display: flex;
   min-height: 100vh;
@@ -67,7 +63,7 @@ body {
 
 .sidebar {
   width: 260px;
-  background: #0f172a; 
+  background: #0f172a;
   color: white;
   display: flex;
   flex-direction: column;
@@ -112,13 +108,12 @@ body {
 
 .logout-btn {
   margin-top: auto;
-  color: #f87171; 
+  color: #f87171;
 }
 .logout-btn:hover {
   background: rgba(239, 68, 68, 0.1);
   color: #ef4444;
 }
-
 
 .main-content {
   flex: 1;
@@ -142,7 +137,6 @@ body {
   margin-bottom: 0.5rem;
   line-height: 1.1;
 }
-
 
 .stats-container {
   display: grid;
@@ -181,7 +175,6 @@ body {
   color: var(--text-muted);
   font-weight: 500;
 }
-
 
 .table-card {
   background: white;
@@ -223,7 +216,6 @@ tr:last-child td {
 tr:hover {
   background-color: #f9fafb;
 }
-
 
 .btn {
   display: inline-flex;
@@ -280,7 +272,6 @@ tr:hover {
   background: #f3f4f6;
 }
 
-
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -314,7 +305,6 @@ tr:hover {
   font-size: 0.9rem;
   line-height: 1.6;
 }
-
 
 .modal-overlay {
   position: fixed;
@@ -369,9 +359,8 @@ tr:hover {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  background: white; 
+  background: white;
 }
-
 
 .hidden {
   display: none !important;
@@ -382,7 +371,6 @@ tr:hover {
   margin-top: 0.5rem;
   text-align: center;
 }
-
 
 .toast {
   position: fixed;
@@ -401,7 +389,6 @@ tr:hover {
 .toast.visible {
   transform: translateY(0);
 }
-
 
 .fade-in {
   animation: fadeIn 0.4s ease-out forwards;
@@ -431,9 +418,8 @@ tr:hover {
   }
 }
 
-
 .ql-tooltip {
-  z-index: 10000 !important; 
+  z-index: 10000 !important;
   box-shadow: var(--shadow-md) !important;
   border-radius: 6px !important;
   padding: 8px 12px !important;
@@ -464,14 +450,12 @@ tr:hover {
   color: var(--danger) !important;
 }
 
-
 .ql-snow .ql-tooltip.ql-editing a.ql-action::after {
   border-right: 0px;
   content: "Save";
   padding-left: 0px;
   padding-right: 0px;
 }
-
 
 .compact-view td,
 .compact-view th {
@@ -485,7 +469,6 @@ tr:hover {
   padding: 0.3rem 0.6rem;
   font-size: 0.8rem;
 }
-
 
 .analytics-dashboard {
   display: flex;
@@ -532,7 +515,7 @@ tr:hover {
   font-weight: 600;
   margin-bottom: 0.5rem;
   line-height: 1.4;
-  flex: 1; 
+  flex: 1;
 }
 
 .tile-stats {
@@ -589,7 +572,7 @@ tr:hover {
   left: 0;
   top: 0;
   height: 100%;
-  background: rgba(37, 99, 235, 0.05); 
+  background: rgba(37, 99, 235, 0.05);
   z-index: 0;
   transition: width 0.5s ease;
 }

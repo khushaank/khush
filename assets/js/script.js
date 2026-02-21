@@ -501,7 +501,6 @@ async function navigateTo(url) {
       window.location.href = url;
     }
   } catch (err) {
-    console.error("Navigation error:", err);
     window.location.href = url;
   }
 }
@@ -600,7 +599,7 @@ window.allSearchablePosts = [];
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch((e) => console.log(e));
+    navigator.serviceWorker.register("/sw.js").catch((e) => {});
   });
 }
 
@@ -990,7 +989,7 @@ async function initViewerPage() {
         });
 
         if (error) {
-          console.error("OAuth error:", error);
+          // console.error("OAuth error:", error);
           alert("Sign-in failed: " + error.message);
         }
       });
@@ -1236,7 +1235,7 @@ function initInteractions(data) {
           post_id: data.id,
         });
       } catch (err) {
-        console.error("Error clapping:", err);
+        // console.error("Error clapping:", err);
 
         claps--;
         clapCount.textContent = claps;
@@ -1309,7 +1308,7 @@ function initInteractions(data) {
               });
             }
           } catch (err) {
-            console.log("Notification permission:", err);
+            // console.log("Notification permission:", err);
           }
         }
       });
@@ -1332,7 +1331,7 @@ async function loadArticle(slug) {
   if (error || !data) {
     const loadingEl = document.getElementById("article-loading");
     if (loadingEl) loadingEl.textContent = "Article not found.";
-    console.error(error);
+    // console.error(error);
   } else {
     document.getElementById("article-loading").style.display = "none";
     document.getElementById("article-loading").style.display = "none";
@@ -1594,7 +1593,7 @@ function initNewsletter() {
           }
         }
       } catch (err) {
-        console.error("Newsletter error:", err);
+        // console.error("Newsletter error:", err);
         alert("Something went wrong. Please try again.");
         if (btn) {
           btn.disabled = false;
@@ -1669,7 +1668,7 @@ function initContactForm() {
         throw new Error("Form submission failed");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       alert("Something went wrong. Please try again later.");
       if (btn) {
         btn.disabled = false;
@@ -1700,7 +1699,7 @@ async function loadComments(postId, retries = 0) {
     .order("created_at", { ascending: true });
 
   if (error) {
-    console.error("Error loading comments:", error);
+    // console.error("Error loading comments:", error);
     list.innerHTML = "<p>Could not load comments.</p>";
     return;
   }
@@ -1743,7 +1742,7 @@ async function checkAuth(retries = 0) {
     } else {
       const loginSection = document.getElementById("auth-comment");
       if (loginSection) loginSection.style.display = "block";
-      console.warn("Supabase client not available after retries");
+      // console.warn("Supabase client not available after retries");
     }
     return;
   }
@@ -1783,7 +1782,7 @@ async function checkAuth(retries = 0) {
       updateUI(session);
     });
   } catch (err) {
-    console.error("checkAuth error:", err);
+    // console.error("checkAuth error:", err);
 
     const loginSection = document.getElementById("auth-comment");
     if (loginSection) loginSection.style.display = "block";
@@ -2018,14 +2017,14 @@ async function initArticleNavigation(currentPost) {
         if (nextPost) {
           window.location.href = `/pulse/?slug=${nextPost.slug || nextPost.id}`;
         } else {
-          console.log("Already at the latest article.");
+          // console.log("Already at the latest article.");
         }
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         if (prevPost) {
           window.location.href = `/pulse/?slug=${prevPost.slug || prevPost.id}`;
         } else {
-          console.log("Already at the first article.");
+          // console.log("Already at the first article.");
         }
       }
     }

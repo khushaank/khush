@@ -1,9 +1,9 @@
-const CACHE_NAME = "khushaank-v3";
+const CACHE_NAME = "khushaank-v5";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
-  "/assets/css/index.css",
-  "/assets/js/script.js?v=3",
+  "/assets/css/style.css?v=5",
+  "/assets/js/script.js?v=5",
   "/assets/js/nav-algorithm.js",
   "/manifest.json",
   "/assets/images/favicon.png",
@@ -11,7 +11,7 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener("install", (event) => {
-  self.skipWaiting(); 
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Opened cache v3");
@@ -21,7 +21,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(clients.claim()); 
+  event.waitUntil(clients.claim());
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -37,7 +37,6 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  
   const url = new URL(event.request.url);
 
   if (
@@ -48,7 +47,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  
   if (event.request.headers.get("accept").includes("text/html")) {
     event.respondWith(
       fetch(event.request)
@@ -66,7 +64,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  
   event.respondWith(
     caches.match(event.request).then((cached) => {
       return (

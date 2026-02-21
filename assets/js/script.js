@@ -1,27 +1,25 @@
 function initMobileMenu() {
-  const mobileToggles = document.querySelectorAll(".mobile-toggle");
+  const checkbox = document.getElementById("hamburger");
   const mobileMenu = document.querySelector(".mobile-menu");
   const mobileLinks = document.querySelectorAll(".mobile-link");
 
-  if (!mobileMenu) return;
+  if (!mobileMenu || !checkbox) return;
 
-  mobileToggles.forEach((btn) => {
-    btn.onclick = () => {
-      const isOpen = mobileMenu.classList.contains("open");
-      if (isOpen) {
-        mobileMenu.classList.remove("open");
-        document.body.style.overflow = "";
-      } else {
-        mobileMenu.classList.add("open");
-        document.body.style.overflow = "hidden";
-      }
-    };
+  checkbox.addEventListener("change", (e) => {
+    if (e.target.checked) {
+      mobileMenu.classList.add("open");
+      document.body.style.overflow = "hidden";
+    } else {
+      mobileMenu.classList.remove("open");
+      document.body.style.overflow = "";
+    }
   });
 
   mobileLinks.forEach((link) => {
     link.onclick = () => {
       mobileMenu.classList.remove("open");
       document.body.style.overflow = "";
+      checkbox.checked = false;
     };
   });
 }
@@ -805,17 +803,30 @@ async function loadLatestPosts() {
   const grid = document.getElementById("latest-posts-grid");
   if (!grid || !window.supabaseClient) return;
 
+  const cached = sessionStorage.getItem("latest_posts_cache");
+  if (cached) {
+    const posts = JSON.parse(cached);
+    if (posts && posts.length > 0) {
+      grid.innerHTML = posts.map(createPostCardHtml).join("");
+      initIcons();
+      initObservers();
+    }
+  }
+
   const { data: posts } = await window.supabaseClient
     .from("posts")
-    .select("*")
+    .select("id, title, excerpt, created_at, slug, category, image_url")
     .order("created_at", { ascending: false })
     .limit(3);
 
   if (posts && posts.length > 0) {
-    grid.innerHTML = posts.map(createPostCardHtml).join("");
-    initIcons();
-    initObservers();
-  } else {
+    sessionStorage.setItem("latest_posts_cache", JSON.stringify(posts));
+    if (!cached || JSON.stringify(posts) !== cached) {
+      grid.innerHTML = posts.map(createPostCardHtml).join("");
+      initIcons();
+      initObservers();
+    }
+  } else if (!cached) {
     grid.innerHTML = "<p>No articles found.</p>";
   }
 }
@@ -827,16 +838,25 @@ async function loadPosts() {
   const params = new URLSearchParams(window.location.search);
   const q = params.get("q");
 
+  const cached = sessionStorage.getItem("all_posts_cache");
+  if (cached && !q) {
+    const posts = JSON.parse(cached);
+    window.allSearchablePosts = posts;
+    renderBlogGrid(posts, grid);
+  }
+
   const { data: posts } = await window.supabaseClient
     .from("posts")
-    .select("*")
+    .select("id, title, excerpt, created_at, slug, category, image_url")
     .order("created_at", { ascending: false });
 
   if (posts) {
+    sessionStorage.setItem("all_posts_cache", JSON.stringify(posts));
     window.allSearchablePosts = posts;
-    if (q) {
-      performSearch(q);
-    } else {
+    if (!cached || q) {
+      if (q) performSearch(q);
+      else renderBlogGrid(posts, grid);
+    } else if (JSON.stringify(posts) !== cached && !q) {
       renderBlogGrid(posts, grid);
     }
   }
@@ -953,24 +973,39 @@ async function initViewerPage() {
 
   loadArticle(slug);
 
-  const loginBtn = document.getElementById("google-login-btn");
-  if (loginBtn) {
-    loginBtn.addEventListener("click", async () => {
-      const origin = window.location.origin;
-      let redirectUrl = `${origin}/pulse/index.html?slug=${encodeURIComponent(slug)}`;
+  const loginBtnIds = ["google-login-btn", "modal-google-login-btn"];
+  loginBtnIds.forEach((id) => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener("click", async () => {
+        const origin = window.location.origin;
+        let redirectUrl = `${origin}/pulse/index.html?slug=${encodeURIComponent(slug)}`;
+        localStorage.setItem("pending_auth_slug", slug);
 
-      localStorage.setItem("pending_auth_slug", slug);
+        const { error } = await window.supabaseClient.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: redirectUrl,
+          },
+        });
 
-      const { error } = await window.supabaseClient.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: redirectUrl,
-        },
+        if (error) {
+          console.error("OAuth error:", error);
+          alert("Sign-in failed: " + error.message);
+        }
       });
+    }
+  });
 
-      if (error) {
-        console.error("OAuth error:", error);
-        alert("Sign-in failed: " + error.message);
+  const loginModal = document.getElementById("login-modal");
+  const closeLoginModal = document.getElementById("close-login-modal");
+  if (loginModal && closeLoginModal) {
+    closeLoginModal.addEventListener("click", () => {
+      loginModal.classList.remove("active");
+    });
+    loginModal.addEventListener("click", (e) => {
+      if (e.target === loginModal) {
+        loginModal.classList.remove("active");
       }
     });
   }
@@ -1006,30 +1041,86 @@ async function initViewerPage() {
     });
   }
 
-  const shareBtn = document.getElementById("btn-share-linkedin");
-  if (shareBtn) {
-    shareBtn.addEventListener("click", () => {
-      const title =
-        document.getElementById("article-title")?.textContent.trim() ||
-        document.title;
-      const excerpt =
-        document.querySelector('meta[name="description"]')?.content || "";
+  const shareMenuBtn = document.getElementById("btn-share-menu");
+  const shareModal = document.getElementById("yt-share-modal");
+  const closeShareModal = document.getElementById("close-share-modal");
 
-      const articleBodyText =
-        document.getElementById("article-body")?.innerText || "";
-      const contentSnippet = articleBodyText.substring(0, 300) + "...";
+  if (shareModal) {
+    document.body.addEventListener("click", (e) => {
+      const shareBtn = e.target.closest("#btn-share-menu");
+      if (shareBtn) {
+        const title =
+          document.getElementById("article-title")?.textContent.trim() ||
+          document.title;
+        const origin = window.location.origin;
+        const shareUrl = `${origin}/pulse/?slug=${slug}&trackingid=${generateTrackingId()}`;
 
-      const origin = window.location.origin;
-      const shareUrl = `${origin}/pulse/?slug=${slug}&trackingid=${generateTrackingId()}`;
+        const articleBodyText =
+          document.getElementById("article-body")?.innerText || "";
+        const contentSnippet = articleBodyText.substring(0, 300) + "...";
+        const text = `I just read this post by Khushaank Gupta: "${title}"\n\n${contentSnippet}\n\nRead on the link: ${shareUrl}`;
 
-      const text = `I just read this post by Khushaank Gupta: "${title}"\n\n${contentSnippet}\n\nRead on the link: ${shareUrl}`;
+        // Update social links
+        document.getElementById("share-whatsapp").href =
+          `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+        document.getElementById("share-twitter").href =
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+        document.getElementById("share-linkedin").href =
+          `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(text)}`;
+        document.getElementById("share-email").href =
+          `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text)}`;
 
-      const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(
-        text,
-      )}`;
+        // Update copy link box
+        const linkInput = document.getElementById("share-link-input");
+        linkInput.value = shareUrl;
 
-      window.open(linkedinUrl, "_blank");
+        shareModal.classList.add("active");
+      }
     });
+
+    closeShareModal.addEventListener("click", () => {
+      shareModal.classList.remove("active");
+    });
+
+    // Close modal when clicking outside
+    shareModal.addEventListener("click", (e) => {
+      if (e.target === shareModal) {
+        shareModal.classList.remove("active");
+      }
+    });
+
+    // Copy button inside modal
+    const modalCopyBtn = document.getElementById("share-copy-btn");
+    if (modalCopyBtn) {
+      modalCopyBtn.addEventListener("click", () => {
+        const linkInput = document.getElementById("share-link-input");
+        navigator.clipboard.writeText(linkInput.value).then(() => {
+          const originalText = modalCopyBtn.innerHTML;
+          modalCopyBtn.innerHTML = "Copied!";
+          setTimeout(() => {
+            modalCopyBtn.innerHTML = originalText;
+          }, 2000);
+        });
+      });
+    }
+
+    // icon copy button inside modal grid
+    const iconCopyBtn = document.querySelector(
+      ".share-icons-grid .copy-action",
+    );
+    if (iconCopyBtn) {
+      iconCopyBtn.addEventListener("click", () => {
+        const linkInput = document.getElementById("share-link-input");
+        navigator.clipboard.writeText(linkInput.value).then(() => {
+          const span = iconCopyBtn.querySelector("span");
+          const originalText = span.innerText;
+          span.innerText = "Copied!";
+          setTimeout(() => {
+            span.innerText = originalText;
+          }, 2000);
+        });
+      });
+    }
   }
 
   const embedBtn = document.getElementById("btn-embed");
@@ -1058,7 +1149,7 @@ async function initViewerPage() {
 
       navigator.clipboard.writeText(embedHtml).then(() => {
         const originalText = embedBtn.innerHTML;
-        embedBtn.innerHTML = `<i data-lucide="check" size="16"></i> Copied Code`;
+        embedBtn.innerHTML = `<i data-lucide="check" size="16"></i> Copied!`;
         lucide.createIcons();
         setTimeout(() => {
           embedBtn.innerHTML = originalText;
@@ -1114,11 +1205,16 @@ function initInteractions(data) {
       } = await window.supabaseClient.auth.getSession();
 
       if (!session) {
-        alert("Please sign in to like this article");
-        const loginBtn = document.getElementById("google-login-btn");
-        if (loginBtn) {
-          loginBtn.scrollIntoView({ behavior: "smooth", block: "center" });
-          loginBtn.focus();
+        const loginModal = document.getElementById("login-modal");
+        if (loginModal) {
+          loginModal.classList.add("active");
+        } else {
+          alert("Please sign in to like this article");
+          const loginBtn = document.getElementById("google-login-btn");
+          if (loginBtn) {
+            loginBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+            loginBtn.focus();
+          }
         }
         return;
       }

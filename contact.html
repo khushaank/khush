@@ -1,49 +1,29 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Khushaank Gupta</title>
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
-    <link rel="apple-touch-icon" href="/assets/images/favicon.png" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta
-      name="description"
-      content="Connect with Khushaank Gupta for financial consulting, AI strategy collaborations, or speaking inquiries. Reach out via email or social media."
-    />
-    <meta
-      name="keywords"
-      content="Contact Khushaank Gupta, Financial Consulting, AI Collaboration, Hire CA Student, Finance Speaker, Delhi University Student, Business Inquiry"
-    />
-    <link rel="canonical" href="https://khushaankgupta.qzz.io/contact" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/favicon.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Get in touch with Khushaank Gupta for collaboration on AI &amp; Finance projects.">
+    <meta name="keywords" content="Khushaank Gupta, CA Aspirant, AI in Finance, Python for Finance, Financial Modeling, Quantitative Analysis, Strat Finance">
+    <link rel="canonical" href="https://khushaankgupta.qzz.io/contact">
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://khushaankgupta.qzz.io/contact" />
-    <meta property="og:title" content="Contact | Khushaank Gupta" />
-    <meta
-      property="og:description"
-      content="Get in touch with Khushaank Gupta for consulting, collaboration, or general inquiries."
-    />
-    <meta
-      property="og:image"
-      content="https://khushaankgupta.qzz.io/assets/images/hero.png"
-    />
-    <meta property="og:site_name" content="Khushaank Gupta" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://khushaankgupta.qzz.io/contact">
+    <meta property="og:title" content="Contact | Khushaank Gupta">
+    <meta property="og:description" content="Get in touch with Khushaank Gupta for collaboration on AI &amp; Finance projects.">
+    <meta property="og:image" content="https://khushaankgupta.qzz.io/assets/images/hero.png">
+    <meta property="og:site_name" content="Khushaank Gupta">
+    <meta property="og:locale" content="en_US">
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Khushaankgupta" />
-    <meta name="twitter:creator" content="@Khushaankgupta" />
-    <meta name="twitter:url" content="https://khushaankgupta.qzz.io/contact" />
-    <meta name="twitter:title" content="Contact | Khushaank Gupta" />
-    <meta
-      name="twitter:description"
-      content="Get in touch with Khushaank Gupta for consulting, collaboration, or general inquiries."
-    />
-    <meta
-      name="twitter:image"
-      content="https://khushaankgupta.qzz.io/assets/images/hero.png"
-    />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Khushaankgupta">
+    <meta name="twitter:creator" content="@Khushaankgupta">
+    <meta name="twitter:url" content="https://khushaankgupta.qzz.io/contact">
+    <meta name="twitter:title" content="Contact | Khushaank Gupta">
+    <meta name="twitter:description" content="Get in touch with Khushaank Gupta for collaboration on AI &amp; Finance projects.">
+    <meta name="twitter:image" content="https://khushaankgupta.qzz.io/assets/images/hero.png">
     <script type="application/ld+json">
       [
         {
@@ -79,13 +59,10 @@
         }
       ]
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -100,14 +77,19 @@
             <li><a href="/contact" class="nav-link active">Contact</a></li>
           </ul>
         </nav>
-        <button class="mobile-toggle"><i data-lucide="menu"></i></button>
+        <div class="row mobile-toggle">
+          <input type="checkbox" id="hamburger">
+          <label for="hamburger" class="hamburger">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+          </label>
+        </div>
       </div>
     </header>
 
     <div class="mobile-menu">
-      <button class="mobile-toggle">
-        <i data-lucide="x"></i>
-      </button>
+      <!-- No inner toggle needed anymore, header toggle becomes X -->
       <a href="/#about" class="mobile-link">About</a>
       <a href="/ai" class="mobile-link">AI</a>
       <a href="/blog" class="mobile-link">Insights</a>
@@ -138,44 +120,18 @@
 
           <div class="contact-right fade-in">
             <h3 class="contact-form-title">Send a Message</h3>
-            <form
-              id="contact-form"
-              class="modern-form"
-              action="https://formspree.io/f/mqakpejz"
-              method="POST"
-            >
+            <form id="contact-form" class="modern-form" action="https://formspree.io/f/mqakpejz" method="POST">
               <div class="form-group">
                 <label for="name">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  class="form-control"
-                  placeholder="John Doe"
-                  required
-                />
+                <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required="">
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="form-control"
-                  placeholder="john@example.com"
-                  required
-                />
+                <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required="">
               </div>
               <div class="form-group">
                 <label for="message">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  class="form-control"
-                  rows="4"
-                  placeholder="How can I help you?"
-                  required
-                ></textarea>
+                <textarea id="message" name="message" class="form-control" rows="4" placeholder="How can I help you?" required=""></textarea>
               </div>
               <button type="submit" class="modern-btn">
                 <span>Send Message</span>
@@ -207,27 +163,21 @@
         <div>
           <ul class="footer-links">
             <li>
-              <a href="mailto:khushaankgupta@gmail.com"
-                >khushaankgupta@gmail.com</a
-              >
+              <a href="mailto:khushaankgupta@gmail.com">khushaankgupta@gmail.com</a>
             </li>
             <li>
-              <a href="https://www.linkedin.com/in/khushaank" target="_blank"
-                >LinkedIn</a
-              >
+              <a href="https://www.linkedin.com/in/khushaank" target="_blank">LinkedIn</a>
             </li>
             <li>
-              <a href="https://x.com/Khushaankgupta" target="_blank"
-                >Twitter / X</a
-              >
+              <a href="https://x.com/Khushaankgupta" target="_blank">Twitter / X</a>
             </li>
           </ul>
         </div>
       </div>
       <div class="container footer-bottom">
-        &copy; <span id="current-year"></span> Khushaank Gupta.
-        <span class="footer-legal" style="margin-left: 1rem">
-          &bull; <a href="/privacy" target="_blank">Privacy</a> &bull;
+        © <span id="current-year"></span> Khushaank Gupta.
+        <span class="footer-legal inline-style-1798d0cd">
+          • <a href="/privacy" target="_blank">Privacy</a> •
           <a href="/terms" target="_blank">Terms</a>
         </span>
       </div>
@@ -299,5 +249,6 @@
         }
       });
     </script>
-  </body>
-</html>
+  
+
+</body></html>

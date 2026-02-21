@@ -1088,6 +1088,33 @@ async function initViewerPage() {
       }
     });
 
+    const rightScrollBtn = document.getElementById("share-scroll-right");
+    const iconsGrid = document.getElementById("share-icons-grid");
+    if (rightScrollBtn && iconsGrid) {
+      rightScrollBtn.addEventListener("click", () => {
+        iconsGrid.scrollBy({ left: 150, behavior: "smooth" });
+      });
+      iconsGrid.addEventListener("scroll", () => {
+        if (
+          Math.ceil(iconsGrid.scrollLeft + iconsGrid.clientWidth) >=
+          iconsGrid.scrollWidth
+        ) {
+          rightScrollBtn.style.opacity = "0";
+          rightScrollBtn.style.pointerEvents = "none";
+        } else {
+          rightScrollBtn.style.opacity = "1";
+          rightScrollBtn.style.pointerEvents = "auto";
+        }
+      });
+      // Initial check
+      setTimeout(() => {
+        if (iconsGrid.scrollWidth <= iconsGrid.clientWidth) {
+          rightScrollBtn.style.opacity = "0";
+          rightScrollBtn.style.pointerEvents = "none";
+        }
+      }, 300);
+    }
+
     // Copy button inside modal
     const modalCopyBtn = document.getElementById("share-copy-btn");
     if (modalCopyBtn) {
@@ -2441,6 +2468,86 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeSearch();
+    // Escape to close all dialogues
+    if (e.key === "Escape") {
+      closeSearch();
+      const shareModal = document.getElementById("yt-share-modal");
+      if (shareModal && shareModal.classList.contains("active")) {
+        shareModal.classList.remove("active");
+      }
+      const loginModal = document.getElementById("login-modal");
+      if (loginModal && loginModal.classList.contains("active")) {
+        loginModal.classList.remove("active");
+      }
+      const shortcutsModal = document.getElementById("shortcuts-modal-overlay");
+      if (shortcutsModal && shortcutsModal.classList.contains("active")) {
+        shortcutsModal.classList.remove("active");
+      }
+      const communityPopup = document.querySelector(".community-popup");
+      if (communityPopup && communityPopup.classList.contains("visible")) {
+        communityPopup.classList.remove("visible");
+        setTimeout(() => communityPopup.remove(), 400);
+      }
+    }
+
+    // Ctrl + ? or Ctrl + / for Help Modal
+    if (e.ctrlKey && (e.key === "?" || e.key === "/")) {
+      e.preventDefault();
+      toggleShortcutsModal();
+    }
+
+    // Ctrl + K for Search
+    if (e.ctrlKey && e.key === "k") {
+      e.preventDefault();
+      const searchOverlay = document.querySelector(".search-overlay");
+      if (searchOverlay) {
+        if (searchOverlay.classList.contains("active")) {
+          closeSearch();
+        } else {
+          openSearch();
+        }
+      }
+    }
   });
 });
+
+function toggleShortcutsModal() {
+  let modal = document.getElementById("shortcuts-modal-overlay");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "shortcuts-modal-overlay";
+    modal.className = "shortcuts-modal-overlay";
+    modal.innerHTML = `
+      <div class="shortcuts-modal">
+        <div class="shortcuts-modal-header">
+          <h3>Keyboard Shortcuts</h3>
+          <button class="btn-close-modal" id="close-shortcuts-modal">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="shortcuts-list">
+          <div class="shortcut-item"><span>Search</span><div class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd></div></div>
+          <div class="shortcut-item"><span>Help Modal</span><div class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>/</kbd></div></div>
+          <div class="shortcut-item"><span>Close Modals</span><div class="shortcut-keys"><kbd>Esc</kbd></div></div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    if (typeof lucide !== "undefined") lucide.createIcons();
+
+    document
+      .getElementById("close-shortcuts-modal")
+      .addEventListener("click", () => {
+        modal.classList.remove("active");
+      });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("active");
+    });
+  }
+
+  if (modal.classList.contains("active")) {
+    modal.classList.remove("active");
+  } else {
+    modal.classList.add("active");
+  }
+}

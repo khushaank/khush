@@ -481,61 +481,75 @@
           </button>
         </div>
         <div class="share-modal-body">
-          <div class="share-icons-grid">
-            <button class="share-icon-btn copy-action" title="Copy Link">
-              <div class="icon-circle inline-style-4abd38dd">
-                <i data-lucide="copy" size="24" color="#fff"></i>
-              </div>
-              <span>Copy</span>
-            </button>
-            <a
-              href="#"
-              id="share-whatsapp"
-              class="share-icon-btn"
-              target="_blank"
+          <div class="share-icons-container">
+            <div class="share-icons-grid" id="share-icons-grid">
+              <button class="share-icon-btn copy-action" title="Copy Link">
+                <div class="icon-circle inline-style-4abd38dd">
+                  <i data-lucide="copy" size="24" color="#fff"></i>
+                </div>
+                <span>Copy</span>
+              </button>
+              <a
+                href="#"
+                id="share-whatsapp"
+                class="share-icon-btn"
+                target="_blank"
+              >
+                <div class="icon-circle inline-style-22d7eaab">
+                  <i data-lucide="message-circle" size="24" color="#fff"></i>
+                </div>
+                <span>WhatsApp</span>
+              </a>
+              <a
+                href="#"
+                id="share-twitter"
+                class="share-icon-btn"
+                target="_blank"
+              >
+                <div class="icon-circle inline-style-28648558">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#fff">
+                    <path
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                    ></path>
+                  </svg>
+                </div>
+                <span>X</span>
+              </a>
+              <a
+                href="#"
+                id="share-linkedin"
+                class="share-icon-btn"
+                target="_blank"
+              >
+                <div class="icon-circle inline-style-f2b5d345">
+                  <i data-lucide="linkedin" size="24" color="#fff"></i>
+                </div>
+                <span>LinkedIn</span>
+              </a>
+              <a
+                href="#"
+                id="share-email"
+                class="share-icon-btn"
+                target="_blank"
+              >
+                <div class="icon-circle inline-style-cc69bf4d">
+                  <i data-lucide="mail" size="24" color="#fff"></i>
+                </div>
+                <span>Email</span>
+              </a>
+              <button id="btn-embed" class="share-icon-btn">
+                <div class="icon-circle inline-style-24e7e941">
+                  <i data-lucide="code" size="24" color="#fff"></i>
+                </div>
+                <span>Embed</span>
+              </button>
+            </div>
+            <button
+              class="share-scroll-btn right"
+              id="share-scroll-right"
+              aria-label="Scroll right"
             >
-              <div class="icon-circle inline-style-22d7eaab">
-                <i data-lucide="message-circle" size="24" color="#fff"></i>
-              </div>
-              <span>WhatsApp</span>
-            </a>
-            <a
-              href="#"
-              id="share-twitter"
-              class="share-icon-btn"
-              target="_blank"
-            >
-              <div class="icon-circle inline-style-28648558">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="#fff">
-                  <path
-                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                  ></path>
-                </svg>
-              </div>
-              <span>X</span>
-            </a>
-            <a
-              href="#"
-              id="share-linkedin"
-              class="share-icon-btn"
-              target="_blank"
-            >
-              <div class="icon-circle inline-style-f2b5d345">
-                <i data-lucide="linkedin" size="24" color="#fff"></i>
-              </div>
-              <span>LinkedIn</span>
-            </a>
-            <a href="#" id="share-email" class="share-icon-btn" target="_blank">
-              <div class="icon-circle inline-style-cc69bf4d">
-                <i data-lucide="mail" size="24" color="#fff"></i>
-              </div>
-              <span>Email</span>
-            </a>
-            <button id="btn-embed" class="share-icon-btn">
-              <div class="icon-circle inline-style-24e7e941">
-                <i data-lucide="code" size="24" color="#fff"></i>
-              </div>
-              <span>Embed</span>
+              <i data-lucide="chevron-right"></i>
             </button>
           </div>
           <div class="share-link-box">
@@ -546,6 +560,6 @@
       </div>
     </div>
 
-    <script src="/assets/js/script.js?v=3"></script>
+    <script src="/assets/js/script.js?v=4"></script>
   </body>
 </html>

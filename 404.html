@@ -3,219 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>404 Not Found - Khushaank Gupta</title>
-    <link rel="icon" type="image/png" href="/assets/images/favicon.webp" />
-    <link rel="apple-touch-icon" href="/assets/images/favicon.webp" />
+    <title>404 — Page Not Found | Khushaank Gupta</title>
+    <link rel="icon" type="image/webp" href="/assets/images/favicon.webp" />
     <meta name="theme-color" content="#1a1a1a" />
-    <link rel="author" href="/humans.txt" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/error_page.css" />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      // Attempt to handle client-side routing fallback
+      (function () {
+        const path = window.location.pathname;
+        if (path.includes("/pulse/")) {
+          // Extract slug
+          const parts = path.split("/pulse/");
+          if (parts.length > 1) {
+            const slugPart = parts[1].split("/")[0]; // Take segment after pulse
+            const search = window.location.search;
+            // Redirect to pulse index
+            window.location.replace(
+              "/pulse/?slug=" +
+                slugPart +
+                (search ? "&" + search.substring(1) : ""),
+            );
+          }
+        }
+      })();
+    </script>
+
     <meta
       name="description"
-      content="Khushaank Gupta's Portfolio: Merging CA expertise with AI &amp; Data Science."
+      content="Khushaank Gupta - AI Engineer & Developer Portfolio"
     />
     <meta
       name="keywords"
-      content="Khushaank Gupta, CA Aspirant, AI in Finance, Python for Finance, Financial Modeling, Quantitative Analysis, Strat Finance"
+      content="Khushaank Gupta, AI Engineer, Machine Learning, Web Developer, Portfolio"
     />
     <meta name="author" content="Khushaank Gupta" />
-    <link rel="canonical" href="https://khushaankgupta.qzz.io/" />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Khushaank's Pulse - RSS Feed"
-      href="https://khushaankgupta.qzz.io/rss.xml"
-    />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://khushaankgupta.qzz.io/" />
-    <meta
-      property="og:title"
-      content="Khushaank Gupta — AI, Strategy &amp; Finance"
-    />
+    <meta property="og:title" content="Khushaank Gupta Portfolio" />
     <meta
       property="og:description"
-      content="Khushaank Gupta's Portfolio: Merging CA expertise with AI &amp; Data Science."
+      content="Portfolio of Khushaank Gupta, specializing in AI, Development, and Finance."
     />
-    <meta
-      property="og:image"
-      content="https://khushaankgupta.qzz.io/assets/images/hero.webp"
-    />
-    <meta property="og:site_name" content="Khushaank Gupta" />
-    <meta property="og:locale" content="en_US" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Khushaankgupta" />
-    <meta name="twitter:creator" content="@Khushaankgupta" />
-    <meta name="twitter:url" content="https://khushaankgupta.qzz.io/" />
-    <meta
-      name="twitter:title"
-      content="Khushaank Gupta — AI, Strategy &amp; Finance"
-    />
-    <meta
-      name="twitter:description"
-      content="Khushaank Gupta's Portfolio: Merging CA expertise with AI &amp; Data Science."
-    />
-    <meta
-      name="twitter:image"
-      content="https://khushaankgupta.qzz.io/assets/images/hero.webp"
-    />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,600;1,600&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script type="application/ld+json">
-      [
-        {
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": "Khushaank Gupta Portfolio",
-          "url": "https://khushaankgupta.qzz.io/",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://khushaankgupta.qzz.io/blog?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
-        },
-        {
-          "@context": "https://schema.org",
-          "@type": "Person",
-          "name": "Khushaank Gupta",
-          "url": "https://khushaankgupta.qzz.io",
-          "image": "https://khushaankgupta.qzz.io/assets/images/hero.webp",
-          "jobTitle": "CA Aspirant & Finance Student",
-          "alumniOf": {
-            "@type": "CollegeOrUniversity",
-            "name": "Delhi University"
-          },
-          "description": "A Delhi University student and CA aspirant merging financial precision with strategic vision.",
-          "email": "khushaankgupta@gmail.com",
-          "sameAs": [
-            "https://www.linkedin.com/in/khushaank",
-            "https://x.com/Khushaankgupta"
-          ],
-          "knowsAbout": [
-            "Finance",
-            "Accounting",
-            "Artificial Intelligence",
-            "Strategic Planning",
-            "Data Analysis",
-            "Taxation"
-          ]
-        }
-      ]
-    </script>
-
-    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
   </head>
   <body>
-    <header class="navbar">
-      <div class="container nav-container">
-        <a href="/" class="brand">KG.</a>
-        <nav>
-          <ul class="nav-links">
-            <li><a href="#about" class="nav-link">About</a></li>
-            <li><a href="/ai" class="nav-link">AI</a></li>
-            <li><a href="/ai-lab" class="nav-link">AI Lab</a></li>
-            <li><a href="/resources" class="nav-link">Resources</a></li>
-            <li><a href="/blog" class="nav-link">Insights</a></li>
-            <li><a href="/contact" class="nav-link">Contact</a></li>
-          </ul>
-        </nav>
-
-    <!-- Main Content -->
-    <main class="page-transition fade-in fade-out">
-      <section class="section-padding bg-surface" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center;">
-        <div class="container fade-in" style="margin: 0 auto; text-align: center;">
-          <h1 style="font-size: 8rem; margin-bottom: 1rem; background: var(--gradient-primary); -webkit-background-clip: text; color: transparent; margin-left:auto; margin-right:auto; text-align:center;">
-            404
-          </h1>
-          <h2 style="font-size: 2rem; margin-bottom: 2rem; color: #fff;">Page Not Found</h2>
-          <p style="max-width: 500px; margin: 0 auto 3rem auto; color: var(--text-muted); font-size: 1.1rem; line-height: 1.6;">
-            The link you clicked may be broken or the page may have been removed. Let's get you back on track.
-          </p>
-          <div style="display:flex; justify-content:center; gap: 1rem;">
-             <a href="/" class="modern-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration:none;">
-               <i data-lucide="home" size="20"></i> Return Home
-             </a>
-             <a href="/pulse/" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration:none;">
-               <i data-lucide="newspaper" size="20"></i> Read Insights
-             </a>
-          </div>
-        </div>
-      </section>
-    </main>
-    
-<footer>
-      <div class="container footer-grid">
-        <div class="footer-brand">
-          <h4>Khushaank Gupta.</h4>
-          <p class="theme-w-31">
-            Redefining the future of finance with clarity and innovation.
-          </p>
-        </div>
-        <div>
-          <ul class="footer-links">
-            <li><a href="/#about">About</a></li>
-            <li><a href="/ai">AI</a></li>
-            <li><a href="/ai-lab">AI Lab</a></li>
-            <li><a href="/resources">Resources</a></li>
-            <li><a href="/blog">Insights</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <ul class="footer-links">
-            <li>
-              <a href="mailto:khushaankgupta@gmail.com"
-                >khushaankgupta@gmail.com</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://www.linkedin.com/in/khushaank"
-                target="_blank"
-                rel="noopener noreferrer"
-                >LinkedIn</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://x.com/Khushaankgupta"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Twitter / X</a
-              >
-            </li>
-          </ul>
-        </div>
+    <!-- 
+      Replaced old 404 block with custom error page markup provided by USER
+    -->
+    <div class="container fade-in">
+      <div class="gif">
+        <img src="https://i.postimg.cc/2yrFyxKv/giphy.gif" alt="gif_ing" />
       </div>
-      <div class="container theme-margin-32">
-        © <span id="current-year"></span> Khushaank Gupta.
-        <span class="footer-legal theme-33">
-          •
-          <a href="/privacy" target="_blank" rel="noopener noreferrer"
-            >Privacy</a
-          >
-          •
-          <a href="/terms" target="_blank" rel="noopener noreferrer">Terms</a>
-        </span>
+      <div class="content">
+        <h1 class="main-heading">This page is gone.</h1>
+        <p>
+          ...maybe the page you're looking for is not found or never existed.
+        </p>
+        <a href="/">
+          <button>Back to home <i data-lucide="arrow-right"></i></button>
+        </a>
       </div>
-    </footer>
+    </div>
 
-    <button
-      id="scroll-top-btn"
-      class="scroll-top-btn"
-      aria-label="Scroll to top"
-    >
-      <i data-lucide="arrow-up" size="24"></i>
-    </button>
-
-    <script src="assets/js/search.js"></script>
-    <script src="assets/js/script.js?v=3"></script>
+    <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/script.js"></script>
   </body>
 </html>

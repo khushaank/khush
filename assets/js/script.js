@@ -64,47 +64,6 @@ function initBlog() {
   if (document.getElementById("posts-grid")) {
     loadPosts();
   }
-
-  const searchInput = document.querySelector(".search-input");
-  const closeSearchBtn = document.querySelector(".close-search");
-
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      const term = e.target.value.toLowerCase();
-      const searchSuggestions = document.querySelector(".search-suggestions");
-      if (!term) {
-        searchSuggestions.innerHTML = "";
-        return;
-      }
-      const matches = (window.allSearchablePosts || [])
-        .filter((p) => p.title.toLowerCase().includes(term))
-        .slice(0, 5);
-
-      if (matches.length > 0) {
-        searchSuggestions.innerHTML = matches
-          .map(
-            (p) =>
-              `<div class="search-suggestion-item" data-title="${p.title}">${p.title}</div>`,
-          )
-          .join("");
-        document.querySelectorAll(".search-suggestion-item").forEach((item) => {
-          item.addEventListener("click", () => {
-            performSearch(item.getAttribute("data-title"));
-          });
-        });
-      } else {
-        searchSuggestions.innerHTML = `<div style="padding:0.8rem; color: #999;">No direct matches...</div>`;
-      }
-    });
-
-    searchInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") performSearch(searchInput.value);
-    });
-  }
-
-  if (closeSearchBtn) {
-    closeSearchBtn.addEventListener("click", closeSearch);
-  }
 }
 
 function initViewer() {
@@ -598,9 +557,14 @@ window.addEventListener("load", () => {
 window.allSearchablePosts = [];
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch((e) => {});
-  });
+  navigator.serviceWorker
+    .getRegistrations()
+    .then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister();
+      }
+    })
+    .catch((e) => {});
 }
 
 if (document.readyState === "complete") {
@@ -696,62 +660,6 @@ function updatePreview(index) {
       previewTitle.style.opacity = "1";
       if (previewDesc) previewDesc.style.opacity = "1";
     }, 200);
-  }
-}
-
-function openSearch() {
-  const searchOverlay = document.querySelector(".search-overlay");
-  const searchInput = document.querySelector(".search-input");
-  if (searchOverlay) {
-    searchOverlay.classList.add("active");
-    setTimeout(() => searchInput && searchInput.focus(), 100);
-    document.body.style.overflow = "hidden";
-  }
-}
-
-function closeSearch() {
-  const searchOverlay = document.querySelector(".search-overlay");
-  const searchInput = document.querySelector(".search-input");
-  const searchSuggestions = document.querySelector(".search-suggestions");
-
-  if (searchOverlay) {
-    searchOverlay.classList.remove("active");
-    document.body.style.overflow = "";
-    if (searchInput) searchInput.value = "";
-    if (searchSuggestions) searchSuggestions.innerHTML = "";
-  }
-}
-
-function performSearch(term) {
-  const grid = document.getElementById("posts-grid");
-  if (!grid) {
-    navigateTo(`/blog?q=${encodeURIComponent(term)}`);
-    return;
-  }
-  closeSearch();
-
-  const allPosts = window.allSearchablePosts || [];
-  const filtered = allPosts.filter((p) =>
-    p.title.toLowerCase().includes(term.toLowerCase()),
-  );
-
-  if (filtered.length > 0) {
-    renderBlogGrid(filtered.slice(0, 10), grid);
-  } else {
-    const randomRelated = allPosts.sort(() => 0.5 - Math.random()).slice(0, 3);
-    grid.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; margin-bottom: 2rem;">
-        <h3>No matches found for "${term}"</h3>
-        <p style="color: var(--text-muted);">But you might find these interesting:</p>
-      </div>
-    `;
-    const cardsHtml = randomRelated
-      .map((post) => createPostCardHtml(post))
-      .join("");
-    grid.innerHTML += cardsHtml;
-
-    initIcons();
-    initObservers();
   }
 }
 
@@ -860,14 +768,6 @@ async function loadPosts() {
     }
   }
 }
-
-document.addEventListener("keydown", (e) => {
-  if (e.ctrlKey && (e.key === "k" || e.key === "f")) {
-    e.preventDefault();
-    openSearch();
-  }
-  if (e.key === "Escape") closeSearch();
-});
 
 function initCookieConsent() {
   const CONSENT_KEY = "cookie_consent_accepted";
@@ -1192,7 +1092,7 @@ function initInteractions(data) {
     "@type": "Article",
     headline: data.title,
     image: [
-      data.image_url || "https://khushaankgupta.qzz.io/assets/images/hero.png",
+      data.image_url || "https://khushaankgupta.qzz.io/assets/images/hero.webp",
     ],
     datePublished: data.created_at,
     dateModified: data.created_at,
@@ -1330,8 +1230,8 @@ function initInteractions(data) {
             if (permission === "granted") {
               new Notification("Thanks for following! 🎉", {
                 body: "You'll get notified about new insights and articles.",
-                icon: "/assets/images/logo.png",
-                badge: "/assets/images/logo.png",
+                icon: "/assets/images/logo.webp",
+                badge: "/assets/images/logo.webp",
               });
             }
           } catch (err) {
@@ -1632,76 +1532,124 @@ function initNewsletter() {
 }
 
 function initContactForm() {
-  const form = document.querySelector(
-    'form[action="https://api.web3forms.com/submit"]',
-  );
-  if (!form) return;
+  const forms = document.querySelectorAll('form[action="https://api.web3forms.com/submit"]');
+  
+  forms.forEach(form => {
+    const btn = form.querySelector('button[type="submit"]');
+    const originalBtnText = btn ? btn.innerHTML : "Send Message";
 
-  const btn = form.querySelector('button[type="submit"]');
-  const originalBtnText = btn ? btn.innerHTML : "Send Message";
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (btn) {
-      btn.disabled = true;
-      btn.innerHTML = `<span class="loading-spinner"></span> Sending...`;
-    }
+      const formData = new FormData(form);
+      const dataObj = Object.fromEntries(formData.entries());
 
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const web3Promise = fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
-
-      let supabasePromise = Promise.resolve();
-      if (window.supabaseClient) {
-        supabasePromise = window.supabaseClient.from("messages").insert([
-          {
-            name: data.name,
-            email: data.email,
-            subject: data.subject || "Contact Form Submission",
-            message: data.message,
-          },
-        ]);
+      // Basic global validation
+      let status = form.parentElement.querySelector('.contact-status-message');
+      if (!status) {
+         // Create status element if it doesn't exist
+         status = document.createElement('div');
+         status.className = 'contact-status-message';
+         status.style.display = 'none';
+         status.style.marginTop = '1rem';
+         status.style.padding = '10px';
+         status.style.borderRadius = '5px';
+         form.appendChild(status);
       }
+      
+      let isValid = true;
+      let errorMessage = '';
 
-      const [response, supabaseResult] = await Promise.all([
-        web3Promise,
-        supabasePromise,
-      ]);
-
-      if (response.ok) {
-        const card = form.closest(".contact-form-card");
-        if (card) {
-          card.innerHTML = `
-            <div style="text-align: center; padding: 3rem 1rem; animation: fadeIn 0.5s ease;">
-              <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: #dcfce7; color: #16a34a; border-radius: 50%; margin-bottom: 1.5rem;">
-                <i data-lucide="check" size="32"></i>
-              </div>
-              <h3 style="margin-bottom: 0.5rem;">Message Sent!</h3>
-              <p style="color: var(--text-muted);">Thanks for reaching out. I'll get back to you shortly.</p>
-              <button class="btn btn-outline" style="margin-top: 1.5rem;" onclick="location.reload()">Send Another</button>
-            </div>
-          `;
-          if (typeof lucide !== "undefined") lucide.createIcons();
-        } else {
-          alert("Message sent successfully!");
-          form.reset();
+      if (dataObj.email) {
+        const emailRegex = /^[^s@]+@[^s@]+.[^s@]+$/;
+        if (!emailRegex.test(dataObj.email)) {
+            isValid = false;
+            errorMessage = 'Please enter a valid email address.';
         }
-      } else {
-        throw new Error("Form submission failed");
       }
-    } catch (error) {
-      // console.error(error);
-      alert("Something went wrong. Please try again later.");
+      
+      if (isValid && dataObj.message) {
+        if (dataObj.message.trim().length < 10) {
+            isValid = false;
+            errorMessage = 'Message is too short. Please provide more details.';
+        }
+      }
+
+      if (!isValid && errorMessage) {
+          form.classList.add('form-shake');
+          setTimeout(() => form.classList.remove('form-shake'), 400);
+          status.style.display = 'block';
+          status.style.color = '#ff4444';
+          status.innerText = errorMessage;
+          return;
+      }
+
       if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = originalBtnText;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Sending...';
       }
-    }
+
+      status.style.display = 'none';
+
+      try {
+        const web3Promise = fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json' // THIS FIXES THE 400 BAD REQUEST
+          }
+        });
+
+        let supabasePromise = Promise.resolve();
+        if (window.supabaseClient) {
+          supabasePromise = window.supabaseClient.from('messages').insert([{
+            name: dataObj.name || 'Unknown',
+            email: dataObj.email || 'Unknown',
+            subject: dataObj.subject || 'Contact Form Submission',
+            message: dataObj.message || 'No Message',
+          }]);
+        }
+
+        const [response] = await Promise.all([web3Promise, supabasePromise]);
+        
+        if (response.ok) {
+          const card = form.closest('.contact-form-card, .contact-right') || form.parentElement;
+          if (card && !form.id.includes('newsletter')) {
+            card.innerHTML = `
+              <div style="text-align: center; padding: 3rem 1rem; animation: fadeIn 0.5s ease;">
+                <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: #dcfce7; color: #16a34a; border-radius: 50%; margin-bottom: 1.5rem;">
+                  <i data-lucide="check" size="32"></i>
+                </div>
+                <h3 style="margin-bottom: 0.5rem;">Message Sent!</h3>
+                <p style="color: var(--text-muted);">Thanks for reaching out. I'll get back to you shortly.</p>
+                <button class="btn btn-outline" style="margin-top: 1.5rem;" onclick="location.reload()">Send Another</button>
+              </div>
+            `;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          } else {
+            status.style.display = 'block';
+            status.style.color = 'var(--success-color, green)';
+            status.innerText = 'Sent successfully!';
+            form.reset();
+            if (btn) {
+               btn.disabled = false;
+               btn.innerHTML = originalBtnText;
+            }
+          }
+        } else {
+          const errData = await response.json();
+          throw new Error(errData.message || 'Form submission failed');
+        }
+      } catch (error) {
+        status.style.display = 'block';
+        status.style.color = '#ff4444';
+        status.innerText = error.message.includes('failed') ? "Something went wrong. Please try again later." : error.message;
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalBtnText;
+        }
+      }
+    });
   });
 }
 
@@ -1856,168 +1804,6 @@ async function handleCommentSubmit(e) {
 
   btn.textContent = originalText;
   btn.disabled = false;
-}
-
-function initArticleSearch() {
-  const searchBar = document.getElementById("article-search-bar");
-  const input = document.getElementById("article-search-input");
-  const closeBtn = document.getElementById("search-close");
-  const prevBtn = document.getElementById("search-prev");
-  const nextBtn = document.getElementById("search-next");
-  const countDisplay = document.getElementById("search-results-count");
-  const articleBody = document.getElementById("article-body");
-
-  if (!searchBar || !input || !articleBody) return;
-
-  let currentMatch = -1;
-  let matches = [];
-  let isSearching = false;
-
-  document.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "f") {
-      e.preventDefault();
-      articleOpenSearch();
-    }
-    if (e.key === "Escape" && searchBar.classList.contains("active")) {
-      articleCloseSearch();
-    }
-  });
-
-  function articleOpenSearch() {
-    searchBar.classList.add("active");
-    setTimeout(() => {
-      input.focus();
-      if (input.value) input.select();
-    }, 100);
-    isSearching = true;
-  }
-
-  function articleCloseSearch() {
-    searchBar.classList.remove("active");
-    clearHighlights();
-    input.value = "";
-    countDisplay.textContent = "0/0";
-    isSearching = false;
-  }
-
-  closeBtn.addEventListener("click", articleCloseSearch);
-
-  input.addEventListener("input", () => {
-    articlePerformSearch(input.value);
-  });
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      if (e.shiftKey) prevMatch();
-      else nextMatch();
-    }
-  });
-
-  if (prevBtn) prevBtn.addEventListener("click", prevMatch);
-  if (nextBtn) nextBtn.addEventListener("click", nextMatch);
-
-  function articlePerformSearch(query) {
-    clearHighlights();
-    matches = [];
-    currentMatch = -1;
-
-    if (!query || query.trim().length < 2) {
-      countDisplay.textContent = "0/0";
-      return;
-    }
-
-    highlightMatches(articleBody, query.trim());
-    matches = Array.from(articleBody.querySelectorAll("mark.search-highlight"));
-
-    if (matches.length > 0) {
-      currentMatch = 0;
-      updateStatus();
-      scrollToMatch();
-    } else {
-      countDisplay.textContent = "0/0";
-    }
-  }
-
-  function highlightMatches(root, query) {
-    const escapedQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-    const regex = new RegExp(`(${escapedQuery})`, "gi");
-
-    const walk = (node) => {
-      if (node.nodeType === 3) {
-        const val = node.nodeValue;
-        const queryMatches = val.match(regex);
-        if (queryMatches) {
-          const frag = document.createDocumentFragment();
-          let lastIdx = 0;
-          regex.lastIndex = 0;
-          val.replace(regex, (match, p1, offset) => {
-            frag.appendChild(
-              document.createTextNode(val.slice(lastIdx, offset)),
-            );
-
-            const mark = document.createElement("mark");
-            mark.className = "search-highlight";
-            mark.textContent = match;
-            frag.appendChild(mark);
-            lastIdx = offset + match.length;
-            return match;
-          });
-
-          frag.appendChild(document.createTextNode(val.slice(lastIdx)));
-          node.parentNode.replaceChild(frag, node);
-        }
-      } else if (
-        node.nodeType === 1 &&
-        node.childNodes &&
-        !/(script|style|mark|header|footer)/i.test(node.tagName)
-      ) {
-        Array.from(node.childNodes).forEach(walk);
-      }
-    };
-    walk(root);
-  }
-
-  function clearHighlights() {
-    const marks = articleBody.querySelectorAll("mark.search-highlight");
-    marks.forEach((mark) => {
-      const parent = mark.parentNode;
-      if (parent) {
-        parent.replaceChild(document.createTextNode(mark.textContent), mark);
-        parent.normalize();
-      }
-    });
-  }
-
-  function nextMatch() {
-    if (matches.length === 0) return;
-    currentMatch = (currentMatch + 1) % matches.length;
-    updateStatus();
-    scrollToMatch();
-  }
-
-  function prevMatch() {
-    if (matches.length === 0) return;
-    currentMatch = (currentMatch - 1 + matches.length) % matches.length;
-    updateStatus();
-    scrollToMatch();
-  }
-
-  function updateStatus() {
-    countDisplay.textContent = `${currentMatch + 1}/${matches.length}`;
-    matches.forEach((el, i) =>
-      el.classList.toggle("current", i === currentMatch),
-    );
-  }
-
-  function scrollToMatch() {
-    if (matches[currentMatch]) {
-      const el = matches[currentMatch];
-      const navHeight = 80;
-      const y =
-        el.getBoundingClientRect().top + window.pageYOffset - navHeight - 100;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  }
 }
 
 async function initArticleNavigation(currentPost) {
@@ -2551,3 +2337,50 @@ function toggleShortcutsModal() {
     modal.classList.add("active");
   }
 }
+
+
+// --- Page Transitions ---
+function initPageTransitions() {
+  document.body.classList.add('page-transition');
+  
+  // Quick fade in on load
+  document.body.classList.add('fade-in');
+  requestAnimationFrame(() => {
+    document.body.classList.remove('fade-in');
+  });
+
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      const target = link.getAttribute('target');
+      
+      if (
+        href && 
+        !href.startsWith('#') &&
+        !href.startsWith('mailto:') &&
+        !href.startsWith('tel:') &&
+        !href.startsWith('javascript:') &&
+        target !== '_blank'
+      ) {
+        // Exclude current page anchors
+        if (href.startsWith(window.location.pathname + '#')) return;
+
+        e.preventDefault();
+        document.body.classList.add('fade-out');
+        setTimeout(() => {
+          window.location.href = href;
+        }, 300); // 300ms transition
+      }
+    });
+  });
+}
+
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    document.body.classList.remove('fade-out');
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  initPageTransitions();
+});

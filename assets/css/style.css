@@ -7933,77 +7933,77 @@ textarea.lab-input {
 }
 
 /* --- SEO & Inline Style Refactor --- */
-.inline-style-0372b694 {
+.theme-center-margin-1 {
   text-align: center;
   margin-bottom: 4rem;
 }
-.inline-style-3bc94ed8 {
+.theme-margin-2 {
   margin-left: 0;
   margin-bottom: 1rem;
 }
-.inline-style-72316d5d {
+.theme-w-muted-3 {
   color: var(--text-muted);
   max-width: 600px;
   margin: 0 auto;
 }
-.inline-style-4356aed8 {
+.theme-w-4 {
   width: 65%;
 }
-.inline-style-8e0008ec {
+.theme-w-5 {
   width: 40%;
 }
-.inline-style-65d017ce {
+.theme-w-6 {
   width: 30%;
 }
-.inline-style-26415a09 {
+.theme-w-muted-7 {
   color: var(--text-muted);
   max-width: 650px;
   margin: 0 auto;
 }
-.inline-style-c79af70c {
+.theme-margin-8 {
   margin-bottom: 1rem;
   margin-left: 0;
 }
-.inline-style-24d1223a {
+.theme-muted-9 {
   color: var(--text-muted);
 }
-.inline-style-ad67f16e {
+.theme-col-10 {
   display: flex;
   flex-direction: column;
 }
-.inline-style-213c9a66 {
+.theme-margin-11 {
   margin-bottom: 1rem;
   align-self: flex-start;
 }
-.inline-style-756a83f2 {
+.theme-margin-12 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
-.inline-style-1e3c4ea9 {
+.theme-margin-muted-13 {
   color: var(--text-muted);
   margin-bottom: 1.5rem;
   line-height: 1.6;
   flex: 1;
 }
-.inline-style-a1ae42c6 {
+.theme-14 {
   align-self: flex-start;
 }
-.inline-style-b003e0e1 {
+.theme-w-15 {
   margin-left: 0.5rem;
   width: 16px;
 }
-.inline-style-1608c7d4 {
+.theme-margin-16 {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
-.inline-style-e5529f80 {
+.theme-margin-muted-17 {
   color: var(--text-muted);
   margin-bottom: 1.5rem;
   line-height: 1.5;
   font-size: 0.95rem;
   flex: 1;
 }
-.inline-style-c30be380 {
+.theme-margin-18 {
   color: var(--accent);
   font-weight: 600;
   text-decoration: none;
@@ -8011,38 +8011,38 @@ textarea.lab-input {
   align-items: center;
   margin-top: auto;
 }
-.inline-style-c5148b0d {
+.theme-w-19 {
   width: 16px;
 }
-.inline-style-2c0c5851 {
+.theme-20 {
   transition-delay: 100ms;
 }
-.inline-style-6cab7d3d {
+.theme-21 {
   transition-delay: 200ms;
 }
-.inline-style-b15c6da0 {
+.theme-center-margin-22 {
   text-align: center;
   margin-top: 3rem;
 }
-.inline-style-e6a44be2 {
+.theme-23 {
   display: inline-block;
 }
-.inline-style-15265742 {
+.theme-center-24 {
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
   color: #fff;
   text-align: center;
 }
-.inline-style-f769c309 {
+.theme-margin-25 {
   margin-bottom: 1rem;
   font-size: 2.5rem;
   letter-spacing: -0.5px;
 }
-.inline-style-b92d56f4 {
+.theme-w-26 {
   color: #9ca3af;
   max-width: 500px;
   margin: 0 auto 2rem;
 }
-.inline-style-75bbb9d7 {
+.theme-w-27 {
   max-width: 400px;
   margin: 0 auto;
   display: flex;
@@ -8050,7 +8050,7 @@ textarea.lab-input {
   flex-wrap: wrap;
   justify-content: center;
 }
-.inline-style-402a764e {
+.theme-w-28 {
   flex: 1;
   padding: 12px 16px;
   border-radius: 8px;
@@ -8061,7 +8061,7 @@ textarea.lab-input {
   outline: none;
   min-width: 200px;
 }
-.inline-style-5bd9efb8 {
+.theme-29 {
   padding: 12px 24px;
   background: #fff;
   color: #000;
@@ -8071,46 +8071,46 @@ textarea.lab-input {
   cursor: pointer;
   transition: opacity 0.2s;
 }
-.inline-style-961b14b8 {
+.theme-margin-30 {
   margin-top: 1rem;
   font-size: 0.8rem;
   color: #525252;
 }
-.inline-style-36cb4aaa {
+.theme-w-31 {
   color: #666;
   max-width: 300px;
 }
-.inline-style-da1c3b6b {
+.theme-margin-32 {
   margin-top: 3rem;
   font-size: 0.8rem;
   color: #999;
 }
-.inline-style-1798d0cd {
+.theme-33 {
   margin-left: 1rem;
 }
-.inline-style-765a3e7d {
+.theme-w-34 {
   border-radius: 12px;
   box-shadow: 20px 20px 0 var(--bg-surface);
   width: 100%;
 }
-.inline-style-82954f4b {
+.theme-35 {
   padding-bottom: 0;
 }
-.inline-style-10630264 {
+.theme-margin-36 {
   margin-top: 5rem;
 }
-.inline-style-64c2661f {
+.theme-margin-37 {
   margin-top: 0.5rem;
 }
-.inline-style-d4b0a894 {
+.theme-38 {
   border: none;
   border-top: 1px solid var(--border);
   margin: 0 5%;
 }
-.inline-style-1899f99c {
+.theme-39 {
   padding-top: 4rem;
 }
-.inline-style-4557b701 {
+.theme-center-40 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -8118,102 +8118,102 @@ textarea.lab-input {
   gap: 0.5rem;
   text-align: center;
 }
-.inline-style-8668d5ed {
+.theme-41 {
   color: #999;
 }
-.inline-style-c9fc2b3f {
+.theme-w-42 {
   width: 90px;
   height: 12px;
 }
-.inline-style-08c2031b {
+.theme-w-43 {
   width: 60px;
   height: 12px;
 }
-.inline-style-ea9dda48 {
+.theme-margin-w-44 {
   width: 85%;
   height: 36px;
   margin-bottom: 0.5rem;
 }
-.inline-style-469e0b39 {
+.theme-margin-w-45 {
   width: 60%;
   height: 36px;
   margin-bottom: 1.5rem;
 }
-.inline-style-f6391bf6 {
+.theme-margin-w-46 {
   width: 110px;
   height: 14px;
   margin-bottom: 1.5rem;
 }
-.inline-style-18bfb514 {
+.theme-margin-47 {
   gap: 0.75rem;
   margin-bottom: 2rem;
 }
-.inline-style-53900b11 {
+.theme-w-48 {
   width: 80px;
   height: 32px;
   border-radius: 999px;
 }
-.inline-style-62053781 {
+.theme-margin-w-49 {
   width: 100%;
   height: 400px;
   border-radius: 12px;
   margin-bottom: 2.5rem;
 }
-.inline-style-dbdcbc11 {
+.theme-margin-w-50 {
   width: 100%;
   height: 16px;
   margin-bottom: 0.6rem;
 }
-.inline-style-41045a21 {
+.theme-margin-w-51 {
   width: 92%;
   height: 16px;
   margin-bottom: 0.6rem;
 }
-.inline-style-173aa119 {
+.theme-margin-w-52 {
   width: 78%;
   height: 16px;
   margin-bottom: 1.5rem;
 }
-.inline-style-14c93fd4 {
+.theme-margin-w-53 {
   width: 95%;
   height: 16px;
   margin-bottom: 0.6rem;
 }
-.inline-style-46781c9b {
+.theme-margin-w-54 {
   width: 70%;
   height: 16px;
   margin-bottom: 1.5rem;
 }
-.inline-style-9c766357 {
+.theme-55 {
   display: none;
 }
-.inline-style-697d9c5d {
+.theme-center-margin-56 {
   margin-top: 3rem;
   text-align: center;
 }
-.inline-style-3ae1ee59 {
+.theme-57 {
   vertical-align: middle;
   margin-right: 0.5rem;
 }
-.inline-style-13c72b19 {
+.theme-58 {
   border: 0;
   border-top: 1px solid var(--border);
   margin: 4rem 0;
 }
-.inline-style-716d3ce1 {
+.theme-margin-59 {
   font-family: var(--font-heading);
   margin-bottom: 2rem;
 }
-.inline-style-32a790bb {
+.theme-center-margin-60 {
   text-align: center;
   margin-bottom: 3rem;
   display: none;
 }
-.inline-style-aec5a721 {
+.theme-margin-muted-61 {
   color: var(--text-muted);
   margin-bottom: 1rem;
 }
-.inline-style-b4e9b227 {
+.theme-62 {
   background: #fff;
   color: #333;
   border: 1px solid var(--border);
@@ -8221,100 +8221,100 @@ textarea.lab-input {
   align-items: center;
   gap: 0.5rem;
 }
-.inline-style-700b3d9f {
+.theme-margin-63 {
   margin-bottom: 3rem;
   display: none;
 }
-.inline-style-bf80e1d3 {
+.theme-margin-64 {
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.inline-style-0a9f0e10 {
+.theme-65 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.inline-style-1c248c47 {
+.theme-66 {
   font-size: 0.9rem;
   font-weight: 600;
 }
-.inline-style-d38427f5 {
+.theme-muted-67 {
   font-size: 0.8rem;
   text-decoration: underline;
   color: var(--text-muted);
 }
-.inline-style-1c45205b {
+.theme-col-w-68 {
   flex-direction: column;
   width: 100%;
   align-items: flex-start;
 }
-.inline-style-0f183ccb {
+.theme-margin-w-69 {
   min-height: 100px;
   margin-bottom: 1rem;
   width: 100%;
 }
-.inline-style-a0db7fe1 {
+.theme-70 {
   align-self: center;
 }
-.inline-style-29ddfe07 {
+.theme-margin-71 {
   margin-bottom: 0.5rem;
 }
-.inline-style-e1f07ddd {
+.theme-w-72 {
   width: 120px;
   height: 14px;
 }
-.inline-style-f8f31e99 {
+.theme-w-73 {
   width: 80px;
   height: 12px;
 }
-.inline-style-ad4f13e1 {
+.theme-margin-w-74 {
   width: 100%;
   height: 14px;
   margin-bottom: 0.4rem;
 }
-.inline-style-8b20e599 {
+.theme-w-75 {
   width: 85%;
   height: 14px;
 }
-.inline-style-3a694817 {
+.theme-w-76 {
   width: 100px;
   height: 14px;
 }
-.inline-style-10e9f6ed {
+.theme-margin-w-77 {
   width: 95%;
   height: 14px;
   margin-bottom: 0.4rem;
 }
-.inline-style-c2a68840 {
+.theme-w-78 {
   width: 60%;
   height: 14px;
 }
-.inline-style-6cbf84dd {
+.theme-center-79 {
   text-align: center;
   padding: 3rem 0;
   color: #999;
   font-size: 0.8rem;
 }
-.inline-style-8d031771 {
+.theme-margin-80 {
   margin-bottom: 1rem;
   font-size: 0.9rem;
   color: #666;
 }
-.inline-style-e9b916c0 {
+.theme-margin-81 {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
-.inline-style-4fa64851 {
+.theme-82 {
   flex: 1;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 0.9rem;
 }
-.inline-style-829aa1c6 {
+.theme-83 {
   padding: 0.5rem 1rem;
   background: #000;
   color: #fff;
@@ -8324,7 +8324,7 @@ textarea.lab-input {
   font-weight: 600;
   cursor: pointer;
 }
-.inline-style-bc6c9613 {
+.theme-margin-84 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8333,7 +8333,7 @@ textarea.lab-input {
   color: #999;
   margin-bottom: 0.5rem;
 }
-.inline-style-0c9b630a {
+.theme-w-85 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -8348,22 +8348,22 @@ textarea.lab-input {
   font-size: 0.9rem;
   transition: all 0.3s ease;
 }
-.inline-style-4abd38dd {
+.theme-86 {
   background: #3f3f3f;
 }
-.inline-style-22d7eaab {
+.theme-87 {
   background: #25d366;
 }
-.inline-style-28648558 {
+.theme-88 {
   background: #000;
 }
-.inline-style-f2b5d345 {
+.theme-89 {
   background: #0077b5;
 }
-.inline-style-cc69bf4d {
+.theme-90 {
   background: #ea4335;
 }
-.inline-style-24e7e941 {
+.theme-91 {
   background: #4b5563;
 }
 
@@ -8476,4 +8476,33 @@ textarea.lab-input {
   .viewer-page .article-container {
     padding-top: max(110px, 12vh) !important;
   }
+}
+
+/* --- Page Transitions --- */
+body.page-transition {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+}
+body.fade-out,
+body.fade-in {
+  opacity: 0;
+}
+
+/* --- Form Shake Animation --- */
+@keyframes formShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+.form-shake {
+  animation: formShake 0.4s ease-in-out;
 }
